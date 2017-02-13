@@ -16,7 +16,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".RegisterAcivity" />
-        <activity android:name=".UserAcivity"></activity>
+        <activity android:name=".UserAcivity" />
+        <activity android:name=".Privacy"></activity>
     </application>
 
 </manifest>
