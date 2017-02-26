@@ -83,6 +83,9 @@ public class MenuActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
+            FragmentCammar Cammar = new FragmentCammar();
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.content_menu, Cammar).commit();
         } /*else if (id == R.id.nav_gallery) {
 
         } */else if (id == R.id.nav_slideshow) {
