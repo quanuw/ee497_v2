@@ -89,6 +89,9 @@ public class MenuActivity extends AppCompatActivity
         } /*else if (id == R.id.nav_gallery) {
 
         } */else if (id == R.id.nav_slideshow) {
+            FragmentGPS gps = new FragmentGPS();
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.content_menu, gps).commit();
 
         } else if (id == R.id.nav_manage) {
             BlankFragment mangageFrament = new BlankFragment();
