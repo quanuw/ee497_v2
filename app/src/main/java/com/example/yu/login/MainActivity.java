@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
+    DB_Controller rubDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
         final EditText etPassword = (EditText) findViewById(R.id.etPassword);
         final Button registerButton = (Button) findViewById(R.id.registerButton);
         final TextView signin = (TextView) findViewById(R.id.signin);
+        rubDb = new DB_Controller(this);
 
         signin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
