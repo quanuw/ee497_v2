@@ -1,11 +1,11 @@
 package com.example.yu.login;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,11 +19,6 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
-import android.Manifest;
-
-import java.io.File;
-
-import static com.example.yu.login.R.id.gpsButton;
 
 /**
  * Created by Quan on 2/26/2017.
@@ -42,8 +37,10 @@ public class FragmentGPS extends Fragment {
 
     private ToggleButton gpsButton;
     private TextView textView;
+    private TextView distance;
     private ImageView imageView;
     private BroadcastReceiver broadcastReceiver;
+    private double totalDistance = 0;
 
 //    @Override
 //    public void onCreate(Bundle savedInstanceState) {
@@ -58,6 +55,7 @@ public class FragmentGPS extends Fragment {
                              Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.fragment_gps, container, false);
         textView = (TextView) rootview.findViewById(R.id.textView);
+        distance = (TextView) rootview.findViewById(R.id.distance);
         imageView = (ImageView) rootview.findViewById(R.id.imageView6);
         gpsButton = (ToggleButton) rootview.findViewById(R.id.gpsButton);
         Log.d("1", "onCreateView");
@@ -78,7 +76,10 @@ public class FragmentGPS extends Fragment {
             broadcastReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
-                    textView.append("\n"+intent.getExtras().get("coordinates"));
+//                    textView.append("\n"+intent.getExtras().get("coordinates"));
+                    //textView.setText((CharSequence) intent.getExtras().get("coordinates"));
+                    totalDistance += (double) intent.getExtras().get("distance");
+                    distance.setText(String.valueOf(totalDistance));
                 }
             };
         }
