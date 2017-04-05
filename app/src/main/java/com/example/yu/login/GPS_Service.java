@@ -56,7 +56,6 @@ public class GPS_Service extends Service {
             double a = Math.pow(Math.sin(x / 2),2) + Math.pow(Math.sin(y / 2),2) * Math.cos(prevX) * Math.cos(nextX);
             double c = 2 * Math.asin(Math.sqrt(a));
             return M * c;
-
     }
 
     // pre:
