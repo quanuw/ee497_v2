@@ -19,7 +19,8 @@ import android.util.Log;
 // this case, get location coordinates.
 public class GPS_Service extends Service {
 
-    private int count = 0;
+    private int pointCount = 0;
+
     private double prevX = 0;
     private double prevY = 0;
     private double nextX = 0;
@@ -29,6 +30,11 @@ public class GPS_Service extends Service {
 
     private static final int TWO_MINUTES = 1000 * 60 * 2;
 
+    // for distance calculation with Haversine formula.
+    public static final double R = 6372.8; // kilometers
+    public static final double M = 3959.9;// miles
+    public static final int minPointCount = 2;
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -36,9 +42,21 @@ public class GPS_Service extends Service {
     }
 
     // pre: Takes 2 coordinate points as parameters.
-    // post: Returns the distance between two points.
+    // post: Returns the distance between two coordinate points as km using the Haversine formula.
+    // References:
+    // https://en.wikipedia.org/wiki/Haversine_formula
+    // https://rosettacode.org/wiki/Haversine_formula#Java
     public double getDistance(double prevX, double prevY, double nextX, double nextY) {
-        return Math.sqrt(Math.pow((nextX - prevX), 2) + Math.pow((nextY - prevY), 2));
+            double x = Math.toRadians(nextX - prevX);
+            double y = Math.toRadians(nextY - prevY);
+
+            prevX = Math.toRadians(prevX);
+            nextX = Math.toRadians(nextX);
+
+            double a = Math.pow(Math.sin(x / 2),2) + Math.pow(Math.sin(y / 2),2) * Math.cos(prevX) * Math.cos(nextX);
+            double c = 2 * Math.asin(Math.sqrt(a));
+            return M * c;
+
     }
 
     // pre:
@@ -52,14 +70,22 @@ public class GPS_Service extends Service {
             @Override
             public void onLocationChanged(Location location) {
                 Intent i = new Intent("location_update");
-                    // update distance travelled.
-                    prevX = nextX;
-                    prevY = nextY;
-                    nextX = location.getLongitude();
-                    nextY = location.getLatitude();
+                // update distance.
+                prevX = nextX;
+                prevY = nextY;
+                nextX = location.getLongitude();
+                nextY = location.getLatitude();
+                // need at least 2 coordinates to begin calculation.
+                if (pointCount >= minPointCount) {
                     double dist = getDistance(prevX, prevY, nextX, nextY);
                     i.putExtra("distance", dist);
                     sendBroadcast(i);
+                }
+                pointCount++;
+                // incase of overflow (very rare)
+                if (pointCount == 128) {
+                    pointCount = 2;
+                }
             }
 
             @Override
@@ -159,4 +185,3 @@ public class GPS_Service extends Service {
         return provider1.equals(provider2);
     }
 }
-
