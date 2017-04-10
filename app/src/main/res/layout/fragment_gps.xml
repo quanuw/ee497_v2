@@ -58,4 +58,15 @@
         android:layout_alignParentStart="true"
         android:layout_marginBottom="26dp" />
     <!-- TODO: shouldn't be using hardcode strings. -->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="Speed:"
+        android:id="@+id/speed"
+        android:layout_below="@+id/distance"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="26dp" />
 </RelativeLayout>

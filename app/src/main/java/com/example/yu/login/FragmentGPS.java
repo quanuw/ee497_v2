@@ -38,6 +38,7 @@ public class FragmentGPS extends Fragment {
     private ToggleButton gpsButton;
     private TextView textView;
     private TextView distance;
+    private TextView speed;
     private ImageView imageView;
     private BroadcastReceiver broadcastReceiver;
     private double totalDistance = 0;
@@ -56,6 +57,7 @@ public class FragmentGPS extends Fragment {
         View rootview = inflater.inflate(R.layout.fragment_gps, container, false);
         textView = (TextView) rootview.findViewById(R.id.textView);
         distance = (TextView) rootview.findViewById(R.id.distance);
+        speed = (TextView) rootview.findViewById(R.id.speed);
         imageView = (ImageView) rootview.findViewById(R.id.imageView6);
         gpsButton = (ToggleButton) rootview.findViewById(R.id.gpsButton);
         Log.d("1", "onCreateView");
@@ -78,8 +80,12 @@ public class FragmentGPS extends Fragment {
                 public void onReceive(Context context, Intent intent) {
 //                    textView.append("\n"+intent.getExtras().get("coordinates"));
                     //textView.setText((CharSequence) intent.getExtras().get("coordinates"));
-                    totalDistance += (double) intent.getExtras().get("distance");
-                    distance.setText(String.valueOf(totalDistance));
+                    if (intent != null && intent.getExtras().get("distance") != null &&
+                            intent.getExtras().get("speed") != null) {
+                        totalDistance += (double) intent.getExtras().get("distance");
+                        distance.setText(String.valueOf(totalDistance));
+                        speed.setText(intent.getExtras().get("speed") + " mph");
+                    }
                 }
             };
         }
@@ -101,14 +107,16 @@ public class FragmentGPS extends Fragment {
     private void enable_buttons() {
         gpsButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked){
+                Intent gpsService = new Intent(getActivity(), GPS_Service.class);
                 if (isChecked) {
-                    Log.d("", "onCheckedChanged: checked");
-                    Intent start = new Intent(getActivity(), GPS_Service.class);
-                    getActivity().startService(start);
+                    Log.d("", "isChecked: " + isChecked);
+                    //Intent start = new Intent(getActivity(), GPS_Service.class);
+                    getActivity().startService(gpsService);
+//              TODO: Don't think stopService() is working.
                 } else {
-                    Log.d("", "onCheckedChanged: unchecked");
-                    Intent stop = new Intent(getActivity(), GPS_Service.class);
-                    getActivity().stopService(stop);
+                    Log.d("", "isChecked: " + isChecked);
+                    //Intent stop = new Intent(getActivity(), GPS_Service.class);
+                    getActivity().stopService(gpsService);
                 }
             }
         });

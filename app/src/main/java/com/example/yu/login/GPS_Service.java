@@ -109,8 +109,13 @@ public class GPS_Service extends Service implements LocationListener {
         if (pointCount >= minPointCount) {
             double dist = getDistance(prevX, prevY, nextX, nextY);
             i.putExtra("distance", dist);
-            sendBroadcast(i);
+
+
         }
+        // send speed data
+        float sp = location.getSpeed() * (float) 2.24; // convert m/s to mi/h
+        i.putExtra("speed", sp);
+        sendBroadcast(i);
         pointCount++;
         // incase of overflow (very rare)
         if (pointCount == 128) {
@@ -125,6 +130,8 @@ public class GPS_Service extends Service implements LocationListener {
         super.onStartCommand(intent, flags, startId);
         return START_STICKY;
     }
+
+
 
     // Request updates at startup *
 //    @SuppressWarnings({"MissingPermission"})
