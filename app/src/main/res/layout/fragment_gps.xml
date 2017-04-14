@@ -35,6 +35,15 @@
         android:textOff="GPS OFF"
         android:id="@+id/gpsButton" />
 
+    <Button
+        android:id="@+id/add_geofences_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gpsButton"
+        android:layout_centerHorizontal="true"
+        android:onClick="addGeofencesButtonHandler"
+        android:text="Add GeoFences" />
+
 
     <TextView
         android:layout_width="wrap_content"

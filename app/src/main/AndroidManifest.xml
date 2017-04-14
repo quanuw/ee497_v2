@@ -29,6 +29,7 @@
             android:label="@string/title_activity_menu"
             android:theme="@style/AppTheme.NoActionBar" />
         <service android:name=".GPS_Service" />
+        <service android:name=".GeofenceTransitionsIntentService" android:exported="true" />
         <!--register the gps service-->
     </application>
 

@@ -61,6 +61,17 @@
         android:layout_marginTop="50dp"
         android:id="@+id/registerButton" />
 
+    <Button
+        android:id="@+id/add_geofences_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/registerButton"
+        android:layout_centerHorizontal="true"
+        android:onClick="addGeofencesButtonHandler"
+        android:text="Add GeoFences" />
+
+
+
     <TextView
         android:text="Signin"
         android:layout_width="wrap_content"

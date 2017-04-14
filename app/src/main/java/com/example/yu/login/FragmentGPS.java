@@ -1,6 +1,7 @@
 package com.example.yu.login;
 
 import android.Manifest;
+import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +20,8 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
+
+import static com.google.android.gms.wearable.DataMap.TAG;
 
 /**
  * Created by Quan on 2/26/2017.
@@ -66,8 +69,21 @@ public class FragmentGPS extends Fragment {
             Log.d("2", "Ask for permissions");
             enable_buttons();
         }
+        //The heart and mind of headless fragment is below line. It will keep the fragment alive during configuration change when activities and   //subsequent fragments are "put to death" and recreated
+        setRetainInstance(true);
+
         return rootview;
     }
+//
+//    @Override
+//    public void onSaveInstanceState(Bundle savedInstanceState) {
+//
+//    }
+//
+//    @Override
+//    public void onRestoreInstanceState(Bundle savedInstanceState) {
+//
+//    }
 
     // pre:
     // post: Creates broadcastReceiver that accepts intents with string "location_update".
@@ -107,16 +123,22 @@ public class FragmentGPS extends Fragment {
     private void enable_buttons() {
         gpsButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked){
-                Intent gpsService = new Intent(getActivity(), GPS_Service.class);
+//                Intent gpsService = new Intent(getActivity(), GPS_Service.class);
                 if (isChecked) {
                     Log.d("", "isChecked: " + isChecked);
-                    //Intent start = new Intent(getActivity(), GPS_Service.class);
-                    getActivity().startService(gpsService);
+                    Intent start = new Intent(getActivity(), GPS_Service.class);
+                    getActivity().startService(start);
+                    if (isServiceRunning(GPS_Service.class)) {
+                        Log.d(TAG, "GPS Service started");
+                    }
 //              TODO: Don't think stopService() is working.
                 } else {
                     Log.d("", "isChecked: " + isChecked);
-                    //Intent stop = new Intent(getActivity(), GPS_Service.class);
-                    getActivity().stopService(gpsService);
+                    Intent stop = new Intent(getActivity(), GPS_Service.class);
+                    getActivity().stopService(stop);
+                    if (!isServiceRunning(GPS_Service.class)) {
+                        Log.d(TAG, "GPS Service stopped");
+                    }
                 }
             }
         });
@@ -152,6 +174,23 @@ public class FragmentGPS extends Fragment {
                 runtime_permissions();
             }
         }
+    }
+
+    // pre: Takes a service class as a paramter
+    // post: Custom method to determine whether a service is running
+    private boolean isServiceRunning(Class<?> serviceClass){
+        ActivityManager activityManager = (ActivityManager) getContext().getSystemService(Context.ACTIVITY_SERVICE);
+
+        // Loop through the running services
+        for(ActivityManager.RunningServiceInfo service : activityManager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                // If the service is running then return true
+                Log.d(TAG, "GPS Service is running!");
+                return true;
+            }
+        }
+        Log.d(TAG, "GPS Service is NOT running!");
+        return false;
     }
 }
 

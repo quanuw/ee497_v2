@@ -81,7 +81,7 @@ public class GPS_Service extends Service implements LocationListener {
         Criteria criteria = new Criteria();
         provider = locationManager.getBestProvider(criteria, false);
         //noinspection MissingPermission
-        locationManager.requestLocationUpdates(provider, 400, 0, this);
+        locationManager.requestLocationUpdates(provider, 1500, 0, this);
         @SuppressWarnings({"MissingPermission"})
         Location location = locationManager.getLastKnownLocation(provider);
         if (location != null) {
