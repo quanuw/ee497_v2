@@ -3,6 +3,8 @@
     package="com.example.yu.login">
 
     <!-- To access Google+ APIs: -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-feature android:name="android.hardware.camera2"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
@@ -25,6 +27,10 @@
             android:name=".MenuActivity"
             android:label="@string/title_activity_menu"
             android:theme="@style/AppTheme.NoActionBar" />
+        <service android:name=".GPS_Service" />
+        <service android:name=".GeofenceTransitionsIntentService" android:exported="true" />
+        <!--register the gps service-->
     </application>
+
 
 </manifest>
