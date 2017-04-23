@@ -147,7 +147,7 @@ public class FragmentGPS extends Fragment {
     // pre:
     // post: Check runtime permissions. Return true if runtime permissions are needed. Else, return
     // false.
-    private boolean runtime_permissions() {
+    public boolean runtime_permissions() {
         Log.d("3", "runtime_permissions");
         if (Build.VERSION.SDK_INT >= 23 &&
                 ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) !=

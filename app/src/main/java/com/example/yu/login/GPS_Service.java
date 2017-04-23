@@ -3,14 +3,17 @@ package com.example.yu.login;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -30,6 +33,8 @@ public class GPS_Service extends Service implements LocationListener {
     private double nextY = 0;
     private LocationManager locationManager;
     private String provider;
+
+    private Location currentLocation;
 
     private static final int TWO_MINUTES = 1000 * 60 * 2;
 
@@ -81,11 +86,15 @@ public class GPS_Service extends Service implements LocationListener {
         Criteria criteria = new Criteria();
         provider = locationManager.getBestProvider(criteria, false);
         //noinspection MissingPermission
-        locationManager.requestLocationUpdates(provider, 1500, 0, this);
-        @SuppressWarnings({"MissingPermission"})
-        Location location = locationManager.getLastKnownLocation(provider);
-        if (location != null) {
-            onLocationChanged(location);
+        locationManager.requestLocationUpdates(provider, 5000, 100, this);
+        if ( Build.VERSION.SDK_INT >= 23 &&
+                ContextCompat.checkSelfPermission( getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission( getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        currentLocation = locationManager.getLastKnownLocation(provider);
+        if (currentLocation != null) {
+            onLocationChanged(currentLocation);
             Log.d("GPS location manager", "Location is available");
         } else {
             Log.d("GPS location manager", "Location not available");
@@ -99,27 +108,37 @@ public class GPS_Service extends Service implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
         Log.v("TAG", "" + pointCount);
-        Intent i = new Intent("location_update");
-        // update distance.
-        prevX = nextX;
-        prevY = nextY;
-        nextX = location.getLongitude();
-        nextY = location.getLatitude();
-        // need at least 2 coordinates to begin calculation.
-        if (pointCount >= minPointCount) {
-            double dist = getDistance(prevX, prevY, nextX, nextY);
-            i.putExtra("distance", dist);
+        // Want 68% chance that the current location estmate is within 200m of the radius.
+        float accuracy = location.getAccuracy();
+        float speed = location.getSpeed() * (float) 2.24;
+        if (accuracy < 200){
+            Intent i = new Intent("location_update");
+            // update distance.
+            prevX = nextX;
+            prevY = nextY;
+            nextX = location.getLongitude();
+            nextY = location.getLatitude();
+            // need at least 2 coordinates to begin calculation.
+            if (pointCount >= minPointCount) {
+                // double dist = getDistance(prevX, prevY, nextX, nextY);
+                // Try android built-in static function.
+                float results[] = new float[1];
+                // Stores the resulting distance in results[0].
+                Location.distanceBetween(prevX, prevY, nextX, nextY, results);
+                float androidDist = results[0];
+                i.putExtra("distance", androidDist);
 
 
-        }
-        // send speed data
-        float sp = location.getSpeed() * (float) 2.24; // convert m/s to mi/h
-        i.putExtra("speed", sp);
-        sendBroadcast(i);
-        pointCount++;
-        // incase of overflow (very rare)
-        if (pointCount == 128) {
-            pointCount = 2;
+            }
+            // send speed data
+            float sp = location.getSpeed() * (float) 2.24; // convert m/s to mi/h
+            i.putExtra("speed", sp);
+            sendBroadcast(i);
+            pointCount++;
+            // incase of overflow (very rare)
+            if (pointCount == 128) {
+                pointCount = 2;
+            }
         }
     }
 
@@ -224,4 +243,5 @@ public class GPS_Service extends Service implements LocationListener {
         }
         return provider1.equals(provider2);
     }
+
 }
