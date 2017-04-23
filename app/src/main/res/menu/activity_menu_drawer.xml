@@ -5,24 +5,25 @@
         <item
             android:id="@+id/nav_camera"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Cammar" />
+            android:title="Camera" />
 
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_gps"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="GPS" />
         <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"
             android:title="Setting" />
+        <item
+            android:id="@+id/nav_add_vehicle"
+            android:icon="@drawable/ic_menu_share"
+            android:title="Add Vehicle" />
     </group>
 
     <item android:title="Communicate">
         <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+
             <item
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_menu_send"

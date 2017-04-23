@@ -14,6 +14,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import layout.AddVehicleFragment;
+
 public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -79,32 +81,40 @@ public class MenuActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-            FragmentCammar Cammar = new FragmentCammar();
-            FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction().replace(R.id.content_menu, Cammar).commit();
-        } /*else if (id == R.id.nav_gallery) {
-
-        } */else if (id == R.id.nav_slideshow) {
-            FragmentGPS gps = new FragmentGPS();
-            FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction().replace(R.id.content_menu, gps).commit();
-
-        } else if (id == R.id.nav_manage) {
-            BlankFragment mangageFrament = new BlankFragment();
-            FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction().replace(R.id.content_menu, mangageFrament).commit();
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        switch (id) {
+            case R.id.nav_camera:
+                // Handle the camera action
+                FragmentCammar Cammar = new FragmentCammar();
+                FragmentManager manager = getSupportFragmentManager();
+                manager.beginTransaction().replace(R.id.content_menu, Cammar).commit();
+                drawer.closeDrawer(GravityCompat.START);
+                return true;
+            case R.id.nav_gps:
+                FragmentGPS gps = new FragmentGPS();
+                FragmentManager gpsManager = getSupportFragmentManager();
+                gpsManager.beginTransaction().replace(R.id.content_menu, gps).commit();
+                drawer.closeDrawer(GravityCompat.START);
+                return true;
+            case R.id.nav_manage:
+                BlankFragment mangageFrament = new BlankFragment();
+                FragmentManager navManager = getSupportFragmentManager();
+                navManager.beginTransaction().replace(R.id.content_menu, mangageFrament).commit();
+                drawer.closeDrawer(GravityCompat.START);
+                return true;
+            case R.id.nav_add_vehicle:
+                AddVehicleFragment addVehicleFragment = AddVehicleFragment.newInstance();
+                FragmentManager addVehicleManager = getSupportFragmentManager();
+                addVehicleManager.beginTransaction().replace(R.id.content_menu, addVehicleFragment).commit();
+                drawer.closeDrawer(GravityCompat.START);
+                return true;
+            case R.id.nav_send:
+                return true;
+            default:
+                drawer.closeDrawer(GravityCompat.START);
+                return false;
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 }
