@@ -1,0 +1,617 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.android.support\palette-v7\24.0.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="734e80dffea7bd76c18ae256822a124c30d85850">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-palette-v7-24.0.0_e7e1dbdb5a3804aac4f1b05f33181aa47f66289a\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\25.3.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="efb8cb62d47d157c29d1521daac7eefd4cb881ee">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-25.3.1_b358eb665ecd0e3947c74d674a5906d7e04261bc\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.firebase\firebase-iid\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3d6951cb416ebf8c66a32b9480808ca247b68344">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-iid-10.2.0_d1ace6618d4bd60e3233ab8e08a46c639a2b5163\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-tasks\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="bd75f9f0296fe220da6d0ad961831b04541c4452">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-tasks-10.2.0_323ce900b50ed496dbe9b9165a399df90a0892f5\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads-lite\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="4ef2d91da513c4d7e773ae438fe04d0e4c135957">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-ads-lite-10.2.0_64c00bd96995d8691abf1f74217d4e9880957320\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.android.support\support-compat\25.3.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="da27a32db6af8954ee8061537c7d476fcb1df46f">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-compat-25.3.1_f124d92576da210494636120bff870716b03ca51\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-drive\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="90270132a5f1a33584f453c571257dd35e728201">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-drive-10.2.0_3ab538cc48c0a8dabec92de5fa6b412a76ee75ae\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.firebase\firebase-config\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="74c5a91d6510ad42410e8a047d90d2ea6721a0e0">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-config-10.2.0_3ef3fbd3f2c3d596694cff3c08d93028453533e0\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c7ed93fc1aa8935b2b8f76c71012f750c249a9a6">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_19ac8008d5939bc474a645ead46de743ae8e7bec\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.firebase\firebase-database-connection\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0e301f24b283f14b564f660c9abe863af6be5896">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-database-connection-10.2.0_eea583181d112aff637a03e46895d3d09eb6fdd3\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.firebase\firebase-analytics-impl\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="ce9112e08a027c8620ae693983e38cdbb9f6371b">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-analytics-impl-10.2.0_770693782600fc6f70843bac86e39e862807641f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.firebase\firebase-common\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0d5cbbbfe040201c7569478b70a13b58fd11aab4">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-common-10.2.0_f5a086dacb7ffa515d7fa41dd59aed0d9ba7c094\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-nearby\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="7d14fe9bd2283b2eb7fcab08458aa0357917e138">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-nearby-10.2.0_3e5c5527f9937fab627ce6ffb4ffa18fab34be8a\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="6da05b7498da036b5b37c3beb861cd2060929dcd">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-maps-10.2.0_fdf0e0be4059811db34a46264d140b4ae9f4b578\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-cast\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a3f7595ca32e614b454ceb7b7e241bb037a28e86">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-cast-10.2.0_45cc42ea94c7f5e8723ba1f3082f6e62b5ee2675\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-identity\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="db48dfabe8ecc46681ceca418d6bd61a5339f818">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-identity-10.2.0_21340f691c72340209e1ab599e0423dc19f77d84\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\25.3.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="6ef31f1555bb4cc513ec8d52711365a8b89f3600">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-utils-25.3.1_843ee8119b2662b9c4739b62ad95aae6c8d81462\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.firebase\firebase-storage\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="8e1d31656bc9f1889283836e025e6cb703acd38a">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-storage-10.2.0_e1e82d9ebe0b708f0e1b9fbdbe53922857405cb1\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.firebase\firebase-analytics\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a61e7010aa7be5da53cd1bc5279630510c9a4912">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-analytics-10.2.0_7b39296162bec50d65ba717f001e4392f73c8b6d\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-wearable\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="101393e975eaf36e3ff40b277ee9a019e077afef">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-wearable-10.2.0_5abe4a78d2fc1ce7bd75ea10446d8b35e6c869d5\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\25.3.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="45f697922e6f072daa12f8a2995dc77ab03c11da">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-media-compat-25.3.1_9e0c1dd2bcc5b76d7fb96011401d6ba4d19a81ce\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-tagmanager\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a9493f008850469ed3fab9b28658919562882aed">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-tagmanager-10.2.0_73d87f5bee0c8e8890a2fad3031741eacbaada18\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\25.3.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="052f5f840f21174a3ecf6544130194e2652cbb73">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-ui-25.3.1_0ca90e5dd4ae337282c9889c0d642643e648a047\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-auth\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="b831d3902674d096189451d46fce219e2c2904b7">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-auth-10.2.0_acc61520909fa5e6162b06f222fa582a6f4dbe71\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.android.support\design\25.3.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="38789e20ace9ab7dbd00554bd2673ab424478d3b">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-design-25.3.1_f13d2e5c24d3a131d675972c56b52763721add7f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.android.volley\volley\1.0.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="2cd4b982617e544728de0782d718a58ce1b06e3f">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.volley-volley-1.0.0_c32c926e114545744f4012a786c0849fec38ad95\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="68485f21eeb5d6c9ed82c445d520b9fc81c87108">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-analytics-10.2.0_a7f3fa754a803f9230f1444cacced0452099c357\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-cast-framework\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="8fd2e9eadc9d214966ee7f60d6c5a17a335d7533">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-cast-framework-10.2.0_656b558d41bba414781ccb9dd09a7547c0d6f63b\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-instantapps\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="423fb69e69759d8b726fa4a4fb6a1ea9fc86d1cd">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-instantapps-10.2.0_836c34dd6d31d6cb3de298072d001bbee9a86dc6\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-tagmanager-api\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="9d1d0e1270310e34e2d65afda2bc18605c14cd46">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-tagmanager-api-10.2.0_95d1a7e0ba168e4a49b829d5e20cca4ee6b6d41e\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.firebase\firebase-auth\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="48532a016bb0dfbe7970c147ce784598a515406b">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-auth-10.2.0_cf6dc5c0351099ae8a74a6b10596b08a0acdd854\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.firebase\firebase-appindexing\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="1fbf3733f36fea63e70373212796e70f9079981f">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-appindexing-10.2.0_dcd56cb7fada52752b13ef5b19730bbf72c5619d\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-panorama\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="db4aca1c1ec60f2c098d3b6c91cedfb7838f83ed">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-panorama-10.2.0_d289affc336e6f2476466d0789536bf8f470e594\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-gcm\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="ea03bbfaed89818f233ee9918fac493f2b63895a">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-gcm-10.2.0_c58ecb5ebb1a1937d8d68637fb13cfb46d44ad85\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-fitness\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="ab0c7fe28f9506302eb39adf1ebf5858732e18ec">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-fitness-10.2.0_7f124fcbabaec011fc6ba16b5d5fae418c84763d\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-places\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="654b294d429b56fd18392f2b68ad79954f431f8e">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-places-10.2.0_da4644ac5600aeae7e5af0b0b4d0b17a60447ff2\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\25.3.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="150252b33b00274cc868578ade018fda0d43a3eb">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-25.3.1_612b6c670de5b459a9cf8dfb758a097def218db7\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-location\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d08bb32b88df3dbcbe1d498c3c57f020b8c521ec">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-location-10.2.0_9c41909072f09acb22e73641ae9053efd74c1ce5\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.android.support\mediarouter-v7\24.0.0\jars\libs\internal_impl-24.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="b6763651ec29b4c95e7bbe63fc393ffcc8c4c2c5">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.0.0_5a42a66b49b4d50b1aebee8dd20f0a3551ef6681\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-gass\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="857ce7350acf811749c8fd0254d3d39b02aa71f5">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-gass-10.2.0_cecc86cec3382fef8f9da3a7bee528fa1204676b\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-vision\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="444f9de23145e8caba7bf1c1772acad142ea6013">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-vision-10.2.0_8f3e7b70315da0cee849f6df978d9ddaef33b8c8\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-tagmanager-v4-impl\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="8438c64f9eb581429dc592f7c9b3156a3d071653">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-tagmanager-v4-impl-10.2.0_a5ef29f87bfd9d74a6e70305c62a4a35b6ca1edc\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-awareness\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="45e0953544711e0b5a2d227732e88cccb82793bc">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-awareness-10.2.0_4e26adf11a6085571ef0ac4e794d9ec6120d5b42\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3d13e510077b35fe8e49930a627dd849ad5da0dc">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-base-10.2.0_776f45528db65300e1ba4c90503f5d9676d5c7f4\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appinvite\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="646b2c48e147b943f0a39842457fdc66d501e4b6">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-appinvite-10.2.0_64f5fc30bef4e8e23bf55413e6f6a4649bc5dd4c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.android.support\transition\25.3.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d4cf6227dd6a2ceff0f7dcf0c324380b7abf2c28">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-transition-25.3.1_a77bbac8a27ad46c90ffb31a6f012f62c388b22f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\25.3.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="95519720620b553f63afc789beba9ad582807f7c">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-recyclerview-v7-25.3.1_eddeb391203418b4ccc1019916e15f7250d075cf\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.firebase\firebase-messaging\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="75575883f0348fc5d2be85f23bd10b050095cf17">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-messaging-10.2.0_1d45e3ab919925ee48175d62bb9e9ecf333805fb\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\25.3.1\support-annotations-25.3.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="bf8841d29fa39e077730e7a91222c2ce269fa7c9">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-25.3.1_63101c4dc98c075ea58d2e9b2c14611b9dc0dfd9\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="1ac56e5801e986583cbe27f2cce57f626cc7ff93">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-basement-10.2.0_3e0013fa1721bfd81e25bc1d15855e1c5eb5415a\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.android.support\support-v4\25.3.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-25.3.1_4902b83b91d48e283a01a51f2563004dcb32da85\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-clearcut\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3f4483afd050f3be12db7838422309446a45daa1">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-clearcut-10.2.0_40ed37ef9334d7aa5c3a293a49dde9fdbae1f691\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-games\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="ddb7fed808f4331174b59428ccfc46b3696c9812">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-games-10.2.0_da527685f43346f608af6267e0f49133bb195e72\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.android.support\support-fragment\25.3.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="4a26a1154d053ab11aaf4c3967c42a4d66390991">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-fragment-25.3.1_0bfd65553014c7ca37dd6203adb2a87b11e243a8\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-iid\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="421a5cebe9ff187c98075c59786e9464c5c67d36">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-iid-10.2.0_3fe52d04d927932a285119d3566dc93e8fcd810f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="aa23e4589287adb431ef59d6c78af79ab8885682">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-ads-10.2.0_a8db1ab6b1069eaafb592803477e0f4de9e90cdf\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-auth-base\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="4e01b82d664e1a8253b2b9658e74b5da35c8771d">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-auth-base-10.2.0_dba6a0722c355f2597ff5b868ba2008ad282bf9c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.firebase\firebase-database\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="94fca868854457ede6df15c902938468c71d579e">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-database-10.2.0_fa59c05166509b0abbb1d11eb5859af8ff97d7b0\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.android.support\multidex\1.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="78ea232052df889856dcb7b7b542707c89bb3bfb">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-multidex-1.0.1_3bf96007970f8945a573396ce0447f46fe66d577\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.firebase\firebase-storage-common\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="1df6d719c4e264d66bb98baa5cb637495b8cca66">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-storage-common-10.2.0_4cec936fde5cacb394a67c556ae6d74701064b17\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-wallet\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="1bab75be1918fc9871be4da7afe38d7e4d308303">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-wallet-10.2.0_590ca364860742272aa6b0e48706574e51fcbec9\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics-impl\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="ca82d5800780b1d53f0f9ab43678d8634a34cddc">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-analytics-impl-10.2.0_76ee25c0474960bb66a53f5d7f233c25ceb57641\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="98ed0aea9a375f19d6008dd840feea56498f663f">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_165cc128727febd3ae659a473ddbfc357b35f721\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\25.3.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="47635644d0d5c103c1dd8360549eb9ba3225c7d3">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-25.3.1_0432404875e53726c276522795d8cd0f9ad991cc\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.firebase\firebase-crash\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0f58195bee8a08f35e7d4ee7fd4b0479e570e172">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-crash-10.2.0_51bdf71a909cf0e47237a046bbc5f5c5812a97c4\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-safetynet\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3aaf1e7b5fe9f4d3ff22c4edc0ead631f7389d30">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-safetynet-10.2.0_1cbce5496eac816c7e6e9a5a41b3c7f01e67ae05\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-plus\10.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="e7157a9577c983651d6c6ee313813424fe2d8ab6">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-plus-10.2.0_a572fa445c0d620fd3e02091f138c7989eca1eff\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\exploded-aar\com.android.support\mediarouter-v7\24.0.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="b327fbe2fad414bc38cf0ce8f7efe1a38f572837">
+        <dex dex="C:\Users\amand\Desktop\ee497_v2\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-mediarouter-v7-24.0.0_83b109849975511d451de71ddea6db249c290f0f\classes.dex" />
+    </item>
+
+</items>
