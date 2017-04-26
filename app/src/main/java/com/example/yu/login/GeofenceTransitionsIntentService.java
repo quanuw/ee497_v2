@@ -6,10 +6,13 @@ import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.support.v7.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofenceStatusCodes;
@@ -32,12 +35,25 @@ public class GeofenceTransitionsIntentService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         GeofencingEvent event = GeofencingEvent.fromIntent(intent);
-        String description = getGeofenceTransitionDetails(event);
-        sendNotification(description);
         if (event.hasError()) {
             Log.e(TAG, "GeofencingEvent Error: " + event.getErrorCode());
             return;
         }
+        // Turn on gps switch automatically if leaving Geofence. Turn off if in Geofence.
+        if (event.getGeofenceTransition() == Geofence.GEOFENCE_TRANSITION_EXIT) {
+            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
+            editor.putBoolean("gps", true);
+            editor.commit();
+            Toast.makeText(getApplicationContext(), "TURNED ON GPS!", Toast.LENGTH_LONG).show();
+        } else {
+            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
+            editor.putBoolean("gps", false);
+            editor.commit();
+            Toast.makeText(getApplicationContext(), "TURNED OFF GPS!", Toast.LENGTH_LONG).show();
+        }
+        String description = getGeofenceTransitionDetails(event);
+        sendNotification(description);
+
         Log.v(TAG, "in onHandleIntent");
     }
 

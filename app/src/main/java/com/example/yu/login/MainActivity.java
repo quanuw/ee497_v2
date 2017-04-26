@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -100,6 +101,9 @@ public class MainActivity extends AppCompatActivity implements
 //                        userRepo.insert(registerUser);
                     }
                 });
+
+        // Add geofences in onCreate
+
     }
 
     // pre:
@@ -134,6 +138,7 @@ public class MainActivity extends AppCompatActivity implements
         super.onStart();
         if (!mGoogleApiClient.isConnecting() || !mGoogleApiClient.isConnected()) {
             mGoogleApiClient.connect();
+
         }
     }
 
@@ -147,6 +152,22 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onConnected(Bundle connectionHint) {
+        // Add geofences in onConnected callback
+        if (!mGoogleApiClient.isConnected()) {
+            Toast.makeText(this, "Google API Client not connected!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try {
+            LocationServices.GeofencingApi.addGeofences(
+                    mGoogleApiClient,
+                    getGeofencingRequest(),
+                    getGeofencePendingIntent()
+            ).setResultCallback(this); // Result processed in onResult().
+            Log.i(TAG, "GEOFENCES ADDED!");
+        } catch (SecurityException securityException) {
+            // Catch exception generated if the app does not use ACCESS_FINE_LOCATION permission.
+        }
 
     }
 
@@ -161,20 +182,20 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     public void addGeofencesButtonHandler(View view) {
-        if (!mGoogleApiClient.isConnected()) {
-            Toast.makeText(this, "Google API Client not connected!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        try {
-            LocationServices.GeofencingApi.addGeofences(
-                    mGoogleApiClient,
-                    getGeofencingRequest(),
-                    getGeofencePendingIntent()
-            ).setResultCallback(this); // Result processed in onResult().
-        } catch (SecurityException securityException) {
-            // Catch exception generated if the app does not use ACCESS_FINE_LOCATION permission.
-        }
+//        if (!mGoogleApiClient.isConnected()) {
+//            Toast.makeText(this, "Google API Client not connected!", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//
+//        try {
+//            LocationServices.GeofencingApi.addGeofences(
+//                    mGoogleApiClient,
+//                    getGeofencingRequest(),
+//                    getGeofencePendingIntent()
+//            ).setResultCallback(this); // Result processed in onResult().
+//        } catch (SecurityException securityException) {
+//            // Catch exception generated if the app does not use ACCESS_FINE_LOCATION permission.
+//        }
     }
 
     private GeofencingRequest getGeofencingRequest() {
