@@ -20,7 +20,7 @@ public class UserRepo {
 
     public static String createTable(){
         return "CREATE TABLE " + User.TABLE  + "("
-                + User.KEY_UserId  + " TEXT PRIMARY KEY  ,"
+                + User.KEY_UserId  + " INTERGER PRIMARY KEY  ,"
                 + User.KEY_LoginName  + " TEXT  ,"
                 + User.KEY_LoginPW  + " TEXT  ,"
                 + User.KEY_LastName  + " TEXT  ,"

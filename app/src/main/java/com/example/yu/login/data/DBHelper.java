@@ -1,31 +1,45 @@
 package com.example.yu.login.data;
+//for next time:
+//you need to test out the foreign keys in main activities somehow
+//add in query, use quan's code for more ideas
+//so far you MAY have only completed successful FK for vehicle, if test works, replicate for trip
+//useful link: http://androidopentutorials.com/android-sqlite-join-multiple-tables-example/
+//think about if the delete and update method in vehicle successfully track back thru user
+
 
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.example.yu.login.MainActivity;
+import com.example.yu.login.data.model.Trip;
 import com.example.yu.login.data.model.User;
 import com.example.yu.login.data.model.Vehicle;
-import com.example.yu.login.data.model.Trip;
+import com.example.yu.login.data.repo.TripRepo;
 import com.example.yu.login.data.repo.UserRepo;
 import com.example.yu.login.data.repo.VehicleRepo;
-import com.example.yu.login.data.repo.TripRepo;
-
-import static com.example.yu.login.MainActivity.getContext;
 
 
-public class DBHelper  extends SQLiteOpenHelper {
+public class DBHelper extends SQLiteOpenHelper {
     //version number to upgrade database version
     //each time if you Add, Edit table, you need to change the
     //version number.
-    private static final int DATABASE_VERSION = 10;
+    private static final int DATABASE_VERSION = 14;
     // Database Name
     private static final String DATABASE_NAME = "sqliteDBRUC.db";
     private static final String TAG = DBHelper.class.getSimpleName().toString();
 
     public DBHelper( ) {
         super(MainActivity.getContext(), DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    @Override
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+        if (!db.isReadOnly()) {
+            // Enable foreign key constraints
+            db.execSQL("PRAGMA foreign_keys=ON;");
+        }
     }
 
     @Override

@@ -21,9 +21,13 @@ public class TripRepo {
 
     public static String createTable(){
         return "CREATE TABLE " + Trip.TABLE  + "("
-                + Trip.KEY_TripID  + " TEXT PRIMARY KEY ,"
-                + Trip.KEY_VehicleIdNum  + " TEXT  ,"
-                + Trip.KEY_Miles  + " TEXT )";
+                + Trip.KEY_TripId  + " INTEGER PRIMARY KEY ,"
+                + Trip.KEY_State  + " TEXT  ,"
+                + Trip.KEY_Date  + " TEXT  ,"
+                + Trip.KEY_Miles  + " TEXT   ,"
+                + Trip.KEY_VehicleIdNum  + " INTEGER  ,"
+                + "FOREIGN KEY(" + Trip.KEY_VehicleIdNum + ") REFERENCES "
+                + Vehicle.KEY_VehicleIdNum + ")";
     }
 
 
@@ -31,7 +35,7 @@ public class TripRepo {
     public void insert(Trip trip) {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         ContentValues values = new ContentValues();
-        values.put(Trip.KEY_TripID, trip.getTripId());
+        values.put(Trip.KEY_TripId, trip.getTripId());
         values.put(Trip.KEY_VehicleIdNum, trip.getVehicleIdNum());
         values.put(Trip.KEY_Miles, trip.getMiles());
 
