@@ -57,7 +57,9 @@ public class GeofenceTransitionsIntentService extends IntentService {
         // Create an explicit content Intent that starts MainActivity.
         // Somehow need to go to gps settings so user can change it.
         // Or can activiate gs once user clicks on the notification.
-        Intent notificationIntent = new Intent(getApplicationContext(), MainActivity.class);
+//        Intent notificationIntent = new Intent(getApplicationContext(), MainActivity.class);
+
+        Intent notificationIntent = new Intent(getApplicationContext(), MenuActivity.class);
 
         // Get a PendingIntent containing the entire back stack.
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);

@@ -90,6 +90,7 @@ public class MenuActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         int id = item.getItemId();
         switch (id) {
+            // Decide which fragment to load into activity
             case R.id.nav_camera:
                 // Handle the camera action
                 FragmentCammar Cammar = new FragmentCammar();
@@ -98,9 +99,9 @@ public class MenuActivity extends AppCompatActivity
                 drawer.closeDrawer(GravityCompat.START);
                 return true;
             case R.id.nav_gps:
-                FragmentGPS gps = new FragmentGPS();
-                FragmentManager gpsManager = getSupportFragmentManager();
-                gpsManager.beginTransaction().replace(R.id.content_menu, gps).commit();
+                // Made it an activity to avoid dealing with xml overlaps
+                Intent settingsIntent = new Intent(MenuActivity.this, SettingsActivity.class);
+                startActivity(settingsIntent);
                 drawer.closeDrawer(GravityCompat.START);
                 return true;
             case R.id.nav_manage:
@@ -162,4 +163,5 @@ public class MenuActivity extends AppCompatActivity
             }
         }
     }
+
 }

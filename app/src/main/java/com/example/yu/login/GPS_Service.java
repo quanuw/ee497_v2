@@ -87,6 +87,7 @@ public class GPS_Service extends Service implements LocationListener {
         provider = locationManager.getBestProvider(criteria, false);
         //noinspection MissingPermission
         locationManager.requestLocationUpdates(provider, 5000, 100, this);
+        // Must check permissions
         if ( Build.VERSION.SDK_INT >= 23 &&
                 ContextCompat.checkSelfPermission( getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission( getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {

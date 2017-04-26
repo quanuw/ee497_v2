@@ -6,9 +6,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -16,7 +18,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -34,9 +35,7 @@ import static com.google.android.gms.wearable.DataMap.TAG;
 public class FragmentGPS extends Fragment {
 
 
-    public FragmentGPS() {
-        // Required empty public constructor
-    }
+
 
     private ToggleButton gpsButton;
     private TextView textView;
@@ -45,6 +44,11 @@ public class FragmentGPS extends Fragment {
     private ImageView imageView;
     private BroadcastReceiver broadcastReceiver;
     private double totalDistance = 0;
+
+
+    public FragmentGPS() {
+        // Required empty public constructor
+    }
 
 //    @Override
 //    public void onCreate(Bundle savedInstanceState) {
@@ -119,29 +123,30 @@ public class FragmentGPS extends Fragment {
     }
 
     // pre:
-    // post: If toggle is on then start GPS. Else, stop GPS.
+    // post: If switch is on then start GPS. Else, stop GPS.
     private void enable_buttons() {
-        gpsButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked){
-//                Intent gpsService = new Intent(getActivity(), GPS_Service.class);
-                if (isChecked) {
-                    Log.d("", "isChecked: " + isChecked);
-                    Intent start = new Intent(getActivity(), GPS_Service.class);
-                    getActivity().startService(start);
-                    if (isServiceRunning(GPS_Service.class)) {
-                        Log.d(TAG, "GPS Service started");
-                    }
-//              TODO: Don't think stopService() is working.
-                } else {
-                    Log.d("", "isChecked: " + isChecked);
-                    Intent stop = new Intent(getActivity(), GPS_Service.class);
-                    getActivity().stopService(stop);
-                    if (!isServiceRunning(GPS_Service.class)) {
-                        Log.d(TAG, "GPS Service stopped");
-                    }
-                }
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        // TODO: 4/26/17
+        // Not sure what default boolean value should be.
+        boolean isGpsOn = sharedPreferences.getBoolean("gps", false);
+
+        if (isGpsOn) {
+            Log.d("", "isChecked: " + isGpsOn);
+            Intent start = new Intent(getActivity(), GPS_Service.class);
+            getActivity().startService(start);
+            if (isServiceRunning(GPS_Service.class)) {
+                Log.d(TAG, "GPS Service started");
             }
-        });
+//              TODO: Don't think stopService() is working.
+        } else {
+            Log.d("", "isChecked: " + isGpsOn);
+            Intent stop = new Intent(getActivity(), GPS_Service.class);
+            getActivity().stopService(stop);
+            if (!isServiceRunning(GPS_Service.class)) {
+                Log.d(TAG, "GPS Service stopped");
+            }
+        }
+
     }
 
     // pre:
