@@ -6,16 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yu.login.data.DBHelper;
 import com.example.yu.login.data.DatabaseManager;
-import com.example.yu.login.data.model.User;
-import com.example.yu.login.data.repo.UserRepo;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -28,8 +23,7 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
 import java.util.Map;
 
-
-
+import layout.RegistrationFragment;
 
 
 // REFERENCES:
@@ -37,7 +31,10 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        ResultCallback<Status> {
+        ResultCallback<Status>,
+        RegistrationFragment.OnRegisterListener,
+        RegistrationFragment.ToSignInListener,
+        LoginFragment.OnLoginListener {
 
 
     public static final String TAG = MainActivity.class.getSimpleName();
@@ -61,12 +58,7 @@ public class MainActivity extends AppCompatActivity implements
         DatabaseManager.initializeInstance(dbHelper);
         //insertSampleData();
 
-        final EditText etUsername = (EditText) findViewById(R.id.etUsername);
-        final EditText etPassword = (EditText) findViewById(R.id.etPassword);
-        final Button registerButton = (Button) findViewById(R.id.registerButton);
-        final TextView signin = (TextView) findViewById(R.id.signin);
 
-        mAddGeofencesButton = (Button) findViewById(R.id.add_geofences_button);
         // Empty list for storing geofences.
         mGeofenceList = new ArrayList<Geofence>();
 
@@ -76,25 +68,16 @@ public class MainActivity extends AppCompatActivity implements
         // Kick off the request to build GoogleApiClient.
         buildGoogleApiClient();
 
-        signin.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent registerIntent = new Intent(MainActivity.this, RegisterAcivity.class);
-                MainActivity.this.startActivity(registerIntent);
-            }
-        });
 
-        registerButton.setOnClickListener(
-                new Button.OnClickListener() {
-                    public void onClick(View v) {
-                        Intent MenuIntent = new Intent(MainActivity.this, MenuActivity.class);
-                        MainActivity.this.startActivity(MenuIntent);
-                            UserRepo userRepo = new UserRepo();
-                            User registerUser = new User();
-                            registerUser.setLoginName(etUsername.getText().toString());
-                            registerUser.setLoginPW(etPassword.getText().toString());
-                            userRepo.insert(registerUser);
-                    }
-                });
+
+//        signin.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                Intent registerIntent = new Intent(MainActivity.this, RegisterAcivity.class);
+//                MainActivity.this.startActivity(registerIntent);
+//            }
+//        });
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.mainContainer, new RegistrationFragment()).commit();
 
     }
 
@@ -173,23 +156,6 @@ public class MainActivity extends AppCompatActivity implements
         mGoogleApiClient.connect();
     }
 
-    public void addGeofencesButtonHandler(View view) {
-//        if (!mGoogleApiClient.isConnected()) {
-//            Toast.makeText(this, "Google API Client not connected!", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//
-//        try {
-//            LocationServices.GeofencingApi.addGeofences(
-//                    mGoogleApiClient,
-//                    getGeofencingRequest(),
-//                    getGeofencePendingIntent()
-//            ).setResultCallback(this); // Result processed in onResult().
-//        } catch (SecurityException securityException) {
-//            // Catch exception generated if the app does not use ACCESS_FINE_LOCATION permission.
-//        }
-    }
-
     private GeofencingRequest getGeofencingRequest() {
         GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
         builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
@@ -223,6 +189,31 @@ public class MainActivity extends AppCompatActivity implements
     }
     public static Context getContext(){
         return context;
+    }
+
+    @Override
+    public void onRegistration(String firstName, String lastName, String email, String dob, String username, String password) {
+        Toast.makeText(this, "REGISTER USER!", Toast.LENGTH_LONG).show();
+//        User user = new User();
+//        user.setFirstName(firstName);
+//        user.setLastName(lastName);
+//        user.setEmail(email);
+//        user.setDOB(dob);
+//        user.setLoginName(username);
+//        user.setLoginPW(password);
+//        user.setUserId(0); // how does this work? We might need to autoincrement?
+    }
+
+    @Override
+    public void toSignIn() {
+        LoginFragment loginFragment = new LoginFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.mainContainer, loginFragment).commit();
+    }
+
+    @Override
+    public void onLogin(String username, String password) {
+        Intent loginIntent  = new Intent(this, MenuActivity.class);
+        startActivity(loginIntent);
     }
 //    private void insertSampleData(){
 //
