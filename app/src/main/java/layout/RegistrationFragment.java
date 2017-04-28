@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +15,10 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.yu.login.R;
 
 import java.util.Calendar;
-import java.util.regex.Matcher;
 
 import static android.content.ContentValues.TAG;
 
@@ -39,18 +36,23 @@ public class RegistrationFragment extends Fragment {
 
     //interface supported by anyone who can respond to this Fragment's clicks
     public interface OnRegisterListener {
-        public void onRegistration(String firstName, String lastName, String email, String dob,
-                                   String username, String password);
+        public void onRegistration();
     }
 
-    //interface supported by anyone who can respond to this Fragment's clicks
+    // Interface supported by anyone who can respond to this Fragment's clicks
     public interface ToSignInListener {
         public void toSignIn();
+    }
+
+    // Interface for date picker listener
+    public interface DobSetListener {
+        public void dobSet(String dob);
     }
 
     public RegistrationFragment() {
         // Required empty public constructor
     }
+
 
     public static RegistrationFragment newInstance() {
         
@@ -91,13 +93,6 @@ public class RegistrationFragment extends Fragment {
             }
         });
 
-        final EditText firstName = (EditText) rootView.findViewById(R.id.firstName);
-        final EditText lastName = (EditText) rootView.findViewById(R.id.lastName);
-        final EditText email = (EditText) rootView.findViewById(R.id.email);
-        //final EditText dob = (EditText) rootView.findViewById(R.id.email);
-        final EditText username = (EditText) rootView.findViewById(R.id.username);
-        final EditText password = (EditText) rootView.findViewById(R.id.password);
-
 
         TextView signin = (TextView) rootView.findViewById(R.id.signin);
 
@@ -105,27 +100,8 @@ public class RegistrationFragment extends Fragment {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String firstNameStr= firstName.getText().toString();
-                String lastNameStr = lastName.getText().toString();
-                String emailStr = email.getText().toString();
-                //String dobStr = dob.getText().toString();
-                String usernameStr = username.getText().toString();
-                String passwordStr = password.getText().toString();
 
-                // check fields
-                if (firstNameStr.equals("") || lastNameStr.equals("") || emailStr.equals("") ||
-                    usernameStr.equals("") || passwordStr.equals("")) {
-                    Toast.makeText(getActivity(), "Please fill out all fields!", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                if (!isValidEmailAddress(emailStr)) {
-                    Toast.makeText(getActivity(), emailStr + " is not valid.", Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-
-                callback.onRegistration(firstNameStr, lastNameStr, emailStr, dobStr, usernameStr,
-                        passwordStr);
+                callback.onRegistration();
             }
         });
 
@@ -145,12 +121,6 @@ public class RegistrationFragment extends Fragment {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
     }
-
-    public static boolean isValidEmailAddress(String email) {
-        Matcher matcher = Patterns.EMAIL_ADDRESS.matcher(email);
-        return matcher.matches();
-    }
-
 
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener{
@@ -177,6 +147,7 @@ public class RegistrationFragment extends Fragment {
             int monthIndexOne = month + 1;
             String monthStr = "" + monthIndexOne;
             String day = "" + dayOfMonth;
+            // Adjust dates
             if (monthIndexOne < 10) {
                 monthStr = "0" + monthIndexOne;
             }
@@ -185,11 +156,11 @@ public class RegistrationFragment extends Fragment {
             }
 
             String dob = monthStr + "/" + day + "/" + year;
+            Log.e(TAG, "DOB: " + dob);
 
-            callback.onDatePick(dob);
+            // Send set dob to MainActivity
+            ((RegistrationFragment.DobSetListener)getActivity()).dobSet(dob);
         }
     }
-
-
 
 }

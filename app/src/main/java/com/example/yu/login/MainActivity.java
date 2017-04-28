@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.Patterns;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.yu.login.data.DBHelper;
@@ -22,6 +24,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.regex.Matcher;
 
 import layout.RegistrationFragment;
 
@@ -34,12 +37,15 @@ public class MainActivity extends AppCompatActivity implements
         ResultCallback<Status>,
         RegistrationFragment.OnRegisterListener,
         RegistrationFragment.ToSignInListener,
+        RegistrationFragment.DobSetListener,
         LoginFragment.OnLoginListener {
 
 
     public static final String TAG = MainActivity.class.getSimpleName();
     private static Context context;
     private static  DBHelper dbHelper;
+
+    private String dob = "";
 
     protected ArrayList<Geofence> mGeofenceList;
     protected GoogleApiClient mGoogleApiClient;
@@ -68,15 +74,7 @@ public class MainActivity extends AppCompatActivity implements
         // Kick off the request to build GoogleApiClient.
         buildGoogleApiClient();
 
-
-
-//        signin.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                Intent registerIntent = new Intent(MainActivity.this, RegisterAcivity.class);
-//                MainActivity.this.startActivity(registerIntent);
-//            }
-//        });
-
+        // Display Registration Fragment
         getSupportFragmentManager().beginTransaction().replace(R.id.mainContainer, new RegistrationFragment()).commit();
 
     }
@@ -192,7 +190,36 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onRegistration(String firstName, String lastName, String email, String dob, String username, String password) {
+    public void onRegistration() {
+        EditText firstName = (EditText) findViewById(R.id.firstName);
+        EditText lastName = (EditText) findViewById(R.id.lastName);
+        EditText email = (EditText) findViewById(R.id.email);
+        EditText username = (EditText) findViewById(R.id.username);
+        EditText password = (EditText) findViewById(R.id.password);
+
+        String firstNameStr= firstName.getText().toString();
+        String lastNameStr = lastName.getText().toString();
+        String emailStr = email.getText().toString();
+        String usernameStr = username.getText().toString();
+        String passwordStr = password.getText().toString();
+
+        // check fields
+        if (firstNameStr.equals("") || lastNameStr.equals("") || emailStr.equals("") ||
+                usernameStr.equals("") || passwordStr.equals("")) {
+            Toast.makeText(this, "Please fill out all fields!", Toast.LENGTH_LONG).show();
+            return;
+        }
+        // check email
+        if (!isValidEmailAddress(emailStr)) {
+            Toast.makeText(this, emailStr + " is not valid.", Toast.LENGTH_LONG).show();
+            return;
+        }
+        // check dob
+        if (dob.equals("")) {
+            Toast.makeText(this, "Please enter a date of birth.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         Toast.makeText(this, "REGISTER USER!", Toast.LENGTH_LONG).show();
 //        User user = new User();
 //        user.setFirstName(firstName);
@@ -215,50 +242,18 @@ public class MainActivity extends AppCompatActivity implements
         Intent loginIntent  = new Intent(this, MenuActivity.class);
         startActivity(loginIntent);
     }
-//    private void insertSampleData(){
-//
-//        UserRepo userRepo = new UserRepo();
-//        VehicleRepo vehicleRepo   = new VehicleRepo();
-//        TripRepo tripRepo = new TripRepo();
-//
-//
-////        tripRepo.delete();
-////        vehicleRepo.delete();
-////        userRepo.delete();
-//
-//        //Insert Sample data if the table is empty
-//        User user = new User();
-//
-//        user.setFirstName("Amanda");
-//        user.setLastName("Tran");
-//        user.setLoginName("trana19");
-//        user.setLoginPW("password");
-//        user.setDOB("02/01/96");
-//        user.setEmail("amanda.tran02@gamil.com");
-//        user.setUserId(1);
-//        userRepo.insert(user);
-//        user.setFirstName("Sam");
-//        user.setLastName("whatever");
-//        user.setLoginName("Sammie");
-//        user.setLoginPW("sandwich");
-//        user.setDOB("02/01/96");
-//        user.setEmail("email");
-//        user.setUserId(2);
-//        userRepo.insert(user);
-//
-//        Vehicle vehicle = new Vehicle();
-//
-//        vehicle.setVehicleIdNum("1924809873");
-//        vehicle.setMake("Honda");
-//        vehicle.setModel("Accord");
-//        vehicle.setYear(1995);
-//        vehicleRepo.insert(vehicle);
-//
-//        Trip trip = new Trip();
-//
-//        trip.setVehicleIdNum("1924809873");
-//        trip.setMiles("200");
-//        trip.setTripId(1);
-//        tripRepo.insert(trip);
-//    }
+
+    // Sets dob from the DatePickerFragment
+    @Override
+    public void dobSet(String dob) {
+        this.dob = dob;
+
+    }
+
+    // Validates email
+    public static boolean isValidEmailAddress(String email) {
+        Matcher matcher = Patterns.EMAIL_ADDRESS.matcher(email);
+        return matcher.matches();
+    }
+
 }
