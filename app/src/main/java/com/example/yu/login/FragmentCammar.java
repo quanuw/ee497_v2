@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static android.content.ContentValues.TAG;
 
@@ -46,11 +48,14 @@ public class FragmentCammar extends Fragment {
         imageView  = (ImageView) rootview.findViewById(R.id.CammarView);
 
         // Take picture
+        // TODO: Picture is being saved upside down.
         click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 File file = getFile();
+                Uri pictureFileUri = Uri.fromFile(file);
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
                 startActivityForResult(intent , 1);
             }
@@ -72,7 +77,9 @@ public class FragmentCammar extends Fragment {
             folder.mkdir();
 
         }
-        File image_file = new File(folder, "cam_image.jpg");
+        // Make a timestamp for image
+        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File image_file = new File(folder, "WARUC_" + timestamp + ".jpg");
 
         // For sharing the media (produces a Uri the Messenger has permissions for)
         MediaScannerConnection.scanFile(getActivity(), new String[] { image_file.toString() }, null,
