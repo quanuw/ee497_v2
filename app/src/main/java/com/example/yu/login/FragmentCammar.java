@@ -1,21 +1,23 @@
 package com.example.yu.login;
 
 
-import android.app.Activity;
-import android.app.DownloadManager;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+
 import java.io.File;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,7 +30,12 @@ public class FragmentCammar extends Fragment {
     }
 
     private Button click;
+    private Button shareButton;
+
     private ImageView imageView;
+
+    private Uri mediaStoreUri = null; //for sharing
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -37,6 +44,8 @@ public class FragmentCammar extends Fragment {
 
         click = (Button) rootview.findViewById(R.id.CammarButton);
         imageView  = (ImageView) rootview.findViewById(R.id.CammarView);
+
+        // Take picture
         click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,6 +53,15 @@ public class FragmentCammar extends Fragment {
                 File file = getFile();
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
                 startActivityForResult(intent , 1);
+            }
+        });
+
+        // Share picture
+        shareButton = (Button) rootview.findViewById(R.id.sharePicture);
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               sharePicture(getView());
             }
         });
         return rootview;
@@ -56,6 +74,15 @@ public class FragmentCammar extends Fragment {
         }
         File image_file = new File(folder, "cam_image.jpg");
 
+        // For sharing the media (produces a Uri the Messenger has permissions for)
+        MediaScannerConnection.scanFile(getActivity(), new String[] { image_file.toString() }, null,
+                new MediaScannerConnection.OnScanCompletedListener() {
+                    public void onScanCompleted(String path, Uri uri) {
+                        mediaStoreUri = uri;
+                        Log.v(TAG, "MediaStore Uri: "+uri);
+                    }
+                });
+
         return image_file;
     }
 
@@ -63,5 +90,24 @@ public class FragmentCammar extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         String path = "sdcard/camera_app/cam_image.jpg";
         imageView.setImageDrawable(Drawable.createFromPath(path));
+
+
+    }
+
+    // Share the picture
+    public void sharePicture(View v) {
+        Log.v(TAG, "Sharing picture...");
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_STREAM, mediaStoreUri);
+        Log.v(TAG, "Uri: " + mediaStoreUri);
+
+        // Get an app that can send pictures (Faccebook, Gmail, native SMS, etc..)
+        Intent chooser = Intent.createChooser(intent, "Share Picture");
+
+        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivity(chooser);
+        }
     }
 }

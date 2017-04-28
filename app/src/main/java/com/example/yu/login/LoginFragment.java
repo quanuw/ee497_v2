@@ -18,6 +18,7 @@ public class LoginFragment extends Fragment {
 
     private OnLoginListener callback;
 
+    // Interface for logging in
     public interface OnLoginListener {
         public void onLogin(String username, String password);
     }
@@ -46,6 +47,7 @@ public class LoginFragment extends Fragment {
         final EditText username = (EditText) rootView.findViewById(R.id.loginUsername);
         final EditText password = (EditText) rootView.findViewById(R.id.loginPassword);
 
+        // Login button.
         Button button = (Button) rootView.findViewById(R.id.loginButton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override

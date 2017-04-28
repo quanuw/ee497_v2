@@ -92,9 +92,6 @@ public class RegistrationFragment extends Fragment {
                 String usernameStr = username.getText().toString();
                 String passwordStr = password.getText().toString();
 
-                if (callback == null) {
-                    Log.e(TAG, "callback is null");
-                }
                 callback.onRegistration(firstNameStr, lastNameStr, emailStr, dobStr, usernameStr,
                         passwordStr);
             }
