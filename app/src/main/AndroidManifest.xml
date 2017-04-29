@@ -36,9 +36,11 @@
             android:name=".GeofenceTransitionsIntentService"
             android:exported="true" />
         <!-- register the gps service -->
-        <activity android:name=".SettingsActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".BaseActivity"></activity>
+        <activity android:name=".SettingsActivity" android:parentActivityName=".MenuActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MenuActivity"/>
+        </activity>
     </application>
 
 </manifest>
