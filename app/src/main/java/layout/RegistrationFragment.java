@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.yu.login.R;
@@ -85,7 +84,7 @@ public class RegistrationFragment extends Fragment {
             Log.e(TAG, "Button is null!");
         }
 
-        EditText dob = (EditText) rootView.findViewById(R.id.dob);
+        TextView dob = (TextView) rootView.findViewById(R.id.dob);
         dob.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -3,11 +3,13 @@ package com.example.yu.login;
 import android.Manifest;
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -22,7 +24,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.example.yu.login.data.DatabaseManager;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
+import static com.example.yu.login.data.model.Trip.KEY_Date;
+import static com.example.yu.login.data.model.Trip.KEY_Miles;
+import static com.example.yu.login.data.model.Trip.KEY_State;
+import static com.example.yu.login.data.model.Trip.KEY_VehicleIdNum;
 import static com.google.android.gms.wearable.DataMap.TAG;
+
+
 
 /**
  * Created by Quan on 2/26/2017.
@@ -46,6 +60,11 @@ public class FragmentGPS extends Fragment {
     private double totalDistance = 0;
 
 
+    private boolean gpsWasOn = false; // to decide whether or not to account for miles.
+
+    // query list of vehicles from db and store the vehicle user chooses.
+    private String myVechicle = "";   // keep track of which vehicle the user is in.
+
     public FragmentGPS() {
         // Required empty public constructor
     }
@@ -62,11 +81,8 @@ public class FragmentGPS extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.fragment_gps, container, false);
-        textView = (TextView) rootview.findViewById(R.id.textView);
         distance = (TextView) rootview.findViewById(R.id.distance);
         speed = (TextView) rootview.findViewById(R.id.speed);
-        imageView = (ImageView) rootview.findViewById(R.id.imageView6);
-        gpsButton = (ToggleButton) rootview.findViewById(R.id.gpsButton);
         Log.d("1", "onCreateView");
         // check runtime permissions (location).
         if (!runtime_permissions()) {
@@ -128,6 +144,7 @@ public class FragmentGPS extends Fragment {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         // TODO: 4/26/17
         // Not sure what default boolean value should be.
+
         boolean isGpsOn = sharedPreferences.getBoolean("gps", false);
 
         if (isGpsOn) {
@@ -144,6 +161,42 @@ public class FragmentGPS extends Fragment {
             getActivity().stopService(stop);
             if (!isServiceRunning(GPS_Service.class)) {
                 Log.d(TAG, "GPS Service stopped");
+            }
+
+            // If GPS is now off but was on then insert trip into database
+            if (gpsWasOn) {
+
+
+                String miles = String.valueOf(totalDistance);
+                String state = "N/A";
+                String date = unixToPDT(System.currentTimeMillis());
+                String vehicle = myVechicle;
+
+                // Get a database manager
+                DatabaseManager databaseManager = new DatabaseManager();
+
+                // Open the database to write
+                SQLiteDatabase writable = databaseManager.openDatabase();
+
+                // Create a content values instance (kind of like a map)
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(KEY_Miles, miles);
+                contentValues.put(KEY_State, state);
+                contentValues.put(KEY_Date, date);
+                contentValues.put(KEY_VehicleIdNum, vehicle);
+
+                // Insert the content values into the chosen table (Table)
+                long result = writable.insert("Trip", null, contentValues);
+
+                // If an error occured during insertion of row
+                if (result == -1) {
+                    Log.e(TAG, "COULD NOT REGISTER USER!");
+                    return;
+                }
+
+                // Turn flag off
+                gpsWasOn = false;
+
             }
         }
 
@@ -196,6 +249,16 @@ public class FragmentGPS extends Fragment {
         }
         Log.d(TAG, "GPS Service is NOT running!");
         return false;
+    }
+
+    // pre: Takes time as a Long.
+    // post: Returns a formatted date using PDT time zone.
+    private String unixToPDT(long unixTime) {
+        Date date = new Date(unixTime);
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT-7"));
+        String formattedDate = sdf.format(date);
+        return formattedDate;
     }
 }
 

@@ -1,8 +1,10 @@
 package com.example.yu.login;
 
 import android.app.PendingIntent;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -27,6 +29,13 @@ import java.util.Map;
 import java.util.regex.Matcher;
 
 import layout.RegistrationFragment;
+
+import static com.example.yu.login.data.model.User.KEY_DOB;
+import static com.example.yu.login.data.model.User.KEY_Email;
+import static com.example.yu.login.data.model.User.KEY_FirstName;
+import static com.example.yu.login.data.model.User.KEY_LastName;
+import static com.example.yu.login.data.model.User.KEY_LoginName;
+import static com.example.yu.login.data.model.User.KEY_LoginPW;
 
 
 // REFERENCES:
@@ -194,6 +203,7 @@ public class MainActivity extends AppCompatActivity implements
         EditText firstName = (EditText) findViewById(R.id.firstName);
         EditText lastName = (EditText) findViewById(R.id.lastName);
         EditText email = (EditText) findViewById(R.id.email);
+
         EditText username = (EditText) findViewById(R.id.username);
         EditText password = (EditText) findViewById(R.id.password);
 
@@ -220,15 +230,37 @@ public class MainActivity extends AppCompatActivity implements
             return;
         }
 
+        // Get a database manager
+        DatabaseManager databaseManager = new DatabaseManager();
+
+        // Open the database to write
+        SQLiteDatabase writable = databaseManager.openDatabase();
+
+        // Create a content values instance (kind of like a map)
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(KEY_FirstName, firstNameStr);
+        contentValues.put(KEY_LastName, lastNameStr);
+        contentValues.put(KEY_Email, emailStr);
+        contentValues.put(KEY_DOB, dob);
+        contentValues.put(KEY_LoginName, usernameStr);
+        contentValues.put(KEY_LoginPW, passwordStr);
+
+        // Insert the content values into the chosen table (User)
+        long result = writable.insert("User", null, contentValues);
+
+        // If an error occured during insertion of row
+        if (result == -1) {
+            Log.e(TAG, "COULD NOT REGISTER USER!");
+            return;
+        }
+
         Toast.makeText(this, "REGISTER USER!", Toast.LENGTH_LONG).show();
-//        User user = new User();
-//        user.setFirstName(firstName);
-//        user.setLastName(lastName);
-//        user.setEmail(email);
-//        user.setDOB(dob);
-//        user.setLoginName(username);
-//        user.setLoginPW(password);
-//        user.setUserId(0); // how does this work? We might need to autoincrement?
+
+        // Go to menu activity if registration is successful.
+        Intent menuIntent = new Intent(MainActivity.this, MenuActivity.class);
+        startActivity(menuIntent);
+
+
     }
 
     @Override
@@ -247,7 +279,8 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void dobSet(String dob) {
         this.dob = dob;
-
+        EditText setDob = (EditText) findViewById(R.id.dob);
+        setDob.setText(dob);
     }
 
     // Validates email

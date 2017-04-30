@@ -102,9 +102,9 @@ public class MenuActivity extends AppCompatActivity
                 drawer.closeDrawer(GravityCompat.START);
                 return true;
             case R.id.nav_manage:
-                BlankFragment mangageFrament = new BlankFragment();
-                FragmentManager navManager = getSupportFragmentManager();
-                navManager.beginTransaction().replace(R.id.content_menu, mangageFrament).commit();
+                FragmentGPS gpsFragment = new FragmentGPS();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.content_menu, gpsFragment).commit();
                 drawer.closeDrawer(GravityCompat.START);
                 return true;
             case R.id.nav_add_vehicle:

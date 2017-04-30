@@ -23,14 +23,18 @@
         android:layout_height="wrap_content"
 
         android:id="@+id/email"
-        android:hint="Last Name" />
+        android:hint="Email" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:id="@+id/dob"
-        android:hint="MM/DD/YYYY" />
+        android:hint="MM/DD/YYYY"
+
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"/>
 
     <EditText
         android:layout_width="match_parent"
