@@ -1,4 +1,4 @@
-package layout;
+package com.example.yu.login;
 
 
 import android.app.DatePickerDialog;
@@ -14,8 +14,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
-
-import com.example.yu.login.R;
 
 import java.util.Calendar;
 
@@ -138,7 +136,8 @@ public class RegistrationFragment extends Fragment {
             int day = c.get(Calendar.DAY_OF_MONTH);
 
             // Create a new instance of DatePickerDialog and return it
-            return new DatePickerDialog(getActivity(), this, year, month, day);
+            //TODO: Create custom dialog theme with style.xml
+            return new DatePickerDialog(getActivity(),android.R.style.Theme_Holo_Light_Dialog , this, year, month, day);
         }
 
         @Override

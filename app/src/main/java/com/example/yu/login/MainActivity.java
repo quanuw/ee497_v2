@@ -28,8 +28,6 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.regex.Matcher;
 
-import layout.RegistrationFragment;
-
 import static com.example.yu.login.data.model.User.KEY_DOB;
 import static com.example.yu.login.data.model.User.KEY_Email;
 import static com.example.yu.login.data.model.User.KEY_FirstName;
