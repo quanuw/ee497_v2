@@ -24,6 +24,7 @@ import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 
+
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -100,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements
                     .setExpirationDuration(Constants.GEOFENCE_EXPIRATION_IN_MILLISECONDS)
                     .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
                             Geofence.GEOFENCE_TRANSITION_EXIT)
+                    .setNotificationResponsiveness(10000) // Set the best effort notification responsiveness
                     .build());
         }
     }
@@ -187,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements
                     "Geofences can't be added",
                     Toast.LENGTH_SHORT
             ).show();
-            // Get the status code for the error and log it using a user-friendly message.
+            //Get the status code for the error and log it using a user-friendly message.
 //            String errorMessage = GeofenceErrorMessages.getErrorString(this,
 //                    status.getStatusCode());
         }
