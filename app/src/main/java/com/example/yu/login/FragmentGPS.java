@@ -57,7 +57,7 @@ public class FragmentGPS extends Fragment {
     private TextView speed;
     private ImageView imageView;
     private BroadcastReceiver broadcastReceiver;
-    private double totalDistance = 0;
+    private float totalDistance = 0;
 
 
     private boolean gpsWasOn = false; // to decide whether or not to account for miles.
@@ -118,7 +118,7 @@ public class FragmentGPS extends Fragment {
                     //textView.setText((CharSequence) intent.getExtras().get("coordinates"));
                     if (intent != null && intent.getExtras().get("distance") != null &&
                             intent.getExtras().get("speed") != null) {
-                        totalDistance += (double) intent.getExtras().get("distance");
+                        totalDistance += (float) intent.getExtras().get("distance");
                         distance.setText(String.valueOf(totalDistance));
                         speed.setText(intent.getExtras().get("speed") + " mph");
                     }
@@ -154,7 +154,6 @@ public class FragmentGPS extends Fragment {
             if (isServiceRunning(GPS_Service.class)) {
                 Log.d(TAG, "GPS Service started");
             }
-//              TODO: Don't think stopService() is working.
         } else {
             Log.d("", "isChecked: " + isGpsOn);
             Intent stop = new Intent(getActivity(), GPS_Service.class);
