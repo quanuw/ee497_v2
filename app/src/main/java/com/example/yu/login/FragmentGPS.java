@@ -46,7 +46,7 @@ import static com.google.android.gms.wearable.DataMap.TAG;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentGPS extends Fragment {
+public class FragmentGPS extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
 
 
@@ -60,7 +60,7 @@ public class FragmentGPS extends Fragment {
     private float totalDistance = 0;
 
 
-    private boolean gpsWasOn = false; // to decide whether or not to account for miles.
+    private boolean gpsOn = false; // to decide whether or not to account for miles.
 
     // query list of vehicles from db and store the vehicle user chooses.
     private String myVechicle = "";   // keep track of which vehicle the user is in.
@@ -126,8 +126,12 @@ public class FragmentGPS extends Fragment {
             };
         }
         getActivity().registerReceiver(broadcastReceiver, new IntentFilter("location_update"));
-    }
 
+        // TODO: 5/4/17
+        // Gps setting shouldn't be registered here
+        PreferenceManager.getDefaultSharedPreferences(getActivity())
+                .registerOnSharedPreferenceChangeListener(this);
+    }
     // pre:
     // post: Destroy broadcastReceiver after it is made.
     @Override
@@ -136,69 +140,25 @@ public class FragmentGPS extends Fragment {
         if (broadcastReceiver != null) {
             getActivity().unregisterReceiver(broadcastReceiver);
         }
+        PreferenceManager.getDefaultSharedPreferences(getActivity())
+                .unregisterOnSharedPreferenceChangeListener(this);
+        super.onDestroy();
+    }
+
+    // TODO: 5/4/17
+    // Gps setting shouldn't be unregistered here
+    @Override
+    public void onPause() {
+        PreferenceManager.getDefaultSharedPreferences(getActivity())
+                .unregisterOnSharedPreferenceChangeListener(this);
+        super.onPause();
     }
 
     // pre:
     // post: If switch is on then start GPS. Else, stop GPS.
     private void enable_buttons() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        // TODO: 4/26/17
-        // Not sure what default boolean value should be.
-
-        boolean isGpsOn = sharedPreferences.getBoolean("gps", false);
-
-        if (isGpsOn) {
-            Log.d("", "isChecked: " + isGpsOn);
-            Intent start = new Intent(getActivity(), GPS_Service.class);
-            getActivity().startService(start);
-            if (isServiceRunning(GPS_Service.class)) {
-                Log.d(TAG, "GPS Service started");
-            }
-        } else {
-            Log.d("", "isChecked: " + isGpsOn);
-            Intent stop = new Intent(getActivity(), GPS_Service.class);
-            getActivity().stopService(stop);
-            if (!isServiceRunning(GPS_Service.class)) {
-                Log.d(TAG, "GPS Service stopped");
-            }
-
-            // If GPS is now off but was on then insert trip into database
-            if (gpsWasOn) {
-
-
-                String miles = String.valueOf(totalDistance);
-                String state = "N/A";
-                String date = unixToPDT(System.currentTimeMillis());
-                String vehicle = myVechicle;
-
-                // Get a database manager
-                DatabaseManager databaseManager = new DatabaseManager();
-
-                // Open the database to write
-                SQLiteDatabase writable = databaseManager.openDatabase();
-
-                // Create a content values instance (kind of like a map)
-                ContentValues contentValues = new ContentValues();
-                contentValues.put(KEY_Miles, miles);
-                contentValues.put(KEY_State, state);
-                contentValues.put(KEY_Date, date);
-                contentValues.put(KEY_VehicleIdNum, vehicle);
-
-                // Insert the content values into the chosen table (Table)
-                long result = writable.insert("Trip", null, contentValues);
-
-                // If an error occured during insertion of row
-                if (result == -1) {
-                    Log.e(TAG, "COULD NOT REGISTER USER!");
-                    return;
-                }
-
-                // Turn flag off
-                gpsWasOn = false;
-
-            }
-        }
-
+        // TODO: 5/4/17
+        // Can probably get rid of this method
     }
 
     // pre:
@@ -258,6 +218,55 @@ public class FragmentGPS extends Fragment {
         sdf.setTimeZone(TimeZone.getTimeZone("GMT-7"));
         String formattedDate = sdf.format(date);
         return formattedDate;
+    }
+
+    // Star or stop gps service depending on preference change
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        Log.e(TAG, "onSharedPreferenceChanged");
+        if (key.equals("gps")) {
+            if (sharedPreferences.getBoolean(key, false) == false) {
+                Intent stopGps = new Intent(getActivity(), GPS_Service.class);
+                getActivity().startService(stopGps);
+                if (gpsOn) {
+                    String miles = String.valueOf(totalDistance);
+                    String state = "N/A";
+                    String date = unixToPDT(System.currentTimeMillis());
+                    String vehicle = myVechicle;
+
+                    // Get a database manager
+                    DatabaseManager databaseManager = new DatabaseManager();
+
+                    // Open the database to write
+                    SQLiteDatabase writable = databaseManager.openDatabase();
+
+                    // Create a content values instance (kind of like a map)
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(KEY_Miles, miles);
+                    contentValues.put(KEY_State, state);
+                    contentValues.put(KEY_Date, date);
+                    contentValues.put(KEY_VehicleIdNum, vehicle);
+
+                    // Insert the content values into the chosen table (Table)
+                    long result = writable.insert("Trip", null, contentValues);
+
+                    // If an error occured during insertion of row
+                    if (result == -1) {
+                        Log.e(TAG, "COULD NOT REGISTER TRIP");
+                        return;
+                    }
+
+                    // Turn flag off
+                    gpsOn = false;
+                    Log.e(TAG, "GPS SERVICE STOPPED");
+                }
+            } else {
+                Intent startGps = new Intent(getActivity(), GPS_Service.class);
+                getActivity().startService(startGps);
+                gpsOn = true;
+                Log.e(TAG, "GPS SERVICE STARTED");
+            }
+        }
     }
 }
 

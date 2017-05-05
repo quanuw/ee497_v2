@@ -149,8 +149,9 @@ public class GPS_Service extends Service implements
         Log.v(TAG, "" + pointCount);
         // Want 68% chance that the current location estmate is within 200m of the radius.
         float accuracy = location.getAccuracy();
+        Log.e(TAG, "Location accuracy: " + accuracy);
         float speed = location.getSpeed() * (float) 2.24;
-        if (accuracy < 200){
+        if (accuracy < 15){
             Intent i = new Intent("location_update");
             // update distance.
             prevLocation = nextLocation;
