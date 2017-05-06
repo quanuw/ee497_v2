@@ -3,16 +3,12 @@ package com.example.yu.login;
 import android.Manifest;
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -24,16 +20,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import com.example.yu.login.data.DatabaseManager;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-import static com.example.yu.login.data.model.Trip.KEY_Date;
-import static com.example.yu.login.data.model.Trip.KEY_Miles;
-import static com.example.yu.login.data.model.Trip.KEY_State;
-import static com.example.yu.login.data.model.Trip.KEY_VehicleIdNum;
 import static com.google.android.gms.wearable.DataMap.TAG;
 
 
@@ -46,10 +36,10 @@ import static com.google.android.gms.wearable.DataMap.TAG;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentGPS extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class FragmentGPS extends Fragment {
 
 
-
+    private static final int LOCATION_REQUEST_CODE = 100;
 
     private ToggleButton gpsButton;
     private TextView textView;
@@ -69,41 +59,22 @@ public class FragmentGPS extends Fragment implements SharedPreferences.OnSharedP
         // Required empty public constructor
     }
 
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//
-//        gpsButton = (ToggleButton) getView().findViewById(R.id.gpsButton);
-//
-//    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.fragment_gps, container, false);
         distance = (TextView) rootview.findViewById(R.id.distance);
         speed = (TextView) rootview.findViewById(R.id.speed);
-        Log.d("1", "onCreateView");
+        Log.d(TAG, "onCreateView");
         // check runtime permissions (location).
         if (!runtime_permissions()) {
-            Log.d("2", "Ask for permissions");
-            enable_buttons();
+            Log.d(TAG, "Ask for permissions");
         }
         //The heart and mind of headless fragment is below line. It will keep the fragment alive during configuration change when activities and   //subsequent fragments are "put to death" and recreated
         setRetainInstance(true);
 
         return rootview;
     }
-//
-//    @Override
-//    public void onSaveInstanceState(Bundle savedInstanceState) {
-//
-//    }
-//
-//    @Override
-//    public void onRestoreInstanceState(Bundle savedInstanceState) {
-//
-//    }
 
     // pre:
     // post: Creates broadcastReceiver that accepts intents with string "location_update".
@@ -114,8 +85,6 @@ public class FragmentGPS extends Fragment implements SharedPreferences.OnSharedP
             broadcastReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
-//                    textView.append("\n"+intent.getExtras().get("coordinates"));
-                    //textView.setText((CharSequence) intent.getExtras().get("coordinates"));
                     if (intent != null && intent.getExtras().get("distance") != null &&
                             intent.getExtras().get("speed") != null) {
                         totalDistance += (float) intent.getExtras().get("distance");
@@ -126,12 +95,8 @@ public class FragmentGPS extends Fragment implements SharedPreferences.OnSharedP
             };
         }
         getActivity().registerReceiver(broadcastReceiver, new IntentFilter("location_update"));
-
-        // TODO: 5/4/17
-        // Gps setting shouldn't be registered here
-        PreferenceManager.getDefaultSharedPreferences(getActivity())
-                .registerOnSharedPreferenceChangeListener(this);
     }
+
     // pre:
     // post: Destroy broadcastReceiver after it is made.
     @Override
@@ -140,25 +105,12 @@ public class FragmentGPS extends Fragment implements SharedPreferences.OnSharedP
         if (broadcastReceiver != null) {
             getActivity().unregisterReceiver(broadcastReceiver);
         }
-        PreferenceManager.getDefaultSharedPreferences(getActivity())
-                .unregisterOnSharedPreferenceChangeListener(this);
         super.onDestroy();
     }
 
-    // TODO: 5/4/17
-    // Gps setting shouldn't be unregistered here
     @Override
     public void onPause() {
-        PreferenceManager.getDefaultSharedPreferences(getActivity())
-                .unregisterOnSharedPreferenceChangeListener(this);
         super.onPause();
-    }
-
-    // pre:
-    // post: If switch is on then start GPS. Else, stop GPS.
-    private void enable_buttons() {
-        // TODO: 5/4/17
-        // Can probably get rid of this method
     }
 
     // pre:
@@ -171,7 +123,7 @@ public class FragmentGPS extends Fragment implements SharedPreferences.OnSharedP
                 PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getContext(),
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
+                Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_REQUEST_CODE);
                 return true;
         }
         return false;
@@ -182,14 +134,15 @@ public class FragmentGPS extends Fragment implements SharedPreferences.OnSharedP
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 100) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED &&
-                    grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                enable_buttons();
-            } else {
-                runtime_permissions();
-            }
+        switch (requestCode) {
+            case LOCATION_REQUEST_CODE: // check FINE and COURSE location permissions
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                        grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                    // do something
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 
@@ -212,7 +165,7 @@ public class FragmentGPS extends Fragment implements SharedPreferences.OnSharedP
 
     // pre: Takes time as a Long.
     // post: Returns a formatted date using PDT time zone.
-    private String unixToPDT(long unixTime) {
+    public static String unixToPDT(long unixTime) {
         Date date = new Date(unixTime);
         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
         sdf.setTimeZone(TimeZone.getTimeZone("GMT-7"));
@@ -220,54 +173,6 @@ public class FragmentGPS extends Fragment implements SharedPreferences.OnSharedP
         return formattedDate;
     }
 
-    // Star or stop gps service depending on preference change
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        Log.e(TAG, "onSharedPreferenceChanged");
-        if (key.equals("gps")) {
-            if (sharedPreferences.getBoolean(key, false) == false) {
-                Intent stopGps = new Intent(getActivity(), GPS_Service.class);
-                getActivity().startService(stopGps);
-                if (gpsOn) {
-                    String miles = String.valueOf(totalDistance);
-                    String state = "N/A";
-                    String date = unixToPDT(System.currentTimeMillis());
-                    String vehicle = myVechicle;
-
-                    // Get a database manager
-                    DatabaseManager databaseManager = new DatabaseManager();
-
-                    // Open the database to write
-                    SQLiteDatabase writable = databaseManager.openDatabase();
-
-                    // Create a content values instance (kind of like a map)
-                    ContentValues contentValues = new ContentValues();
-                    contentValues.put(KEY_Miles, miles);
-                    contentValues.put(KEY_State, state);
-                    contentValues.put(KEY_Date, date);
-                    contentValues.put(KEY_VehicleIdNum, vehicle);
-
-                    // Insert the content values into the chosen table (Table)
-                    long result = writable.insert("Trip", null, contentValues);
-
-                    // If an error occured during insertion of row
-                    if (result == -1) {
-                        Log.e(TAG, "COULD NOT REGISTER TRIP");
-                        return;
-                    }
-
-                    // Turn flag off
-                    gpsOn = false;
-                    Log.e(TAG, "GPS SERVICE STOPPED");
-                }
-            } else {
-                Intent startGps = new Intent(getActivity(), GPS_Service.class);
-                getActivity().startService(startGps);
-                gpsOn = true;
-                Log.e(TAG, "GPS SERVICE STARTED");
-            }
-        }
-    }
 }
 
 

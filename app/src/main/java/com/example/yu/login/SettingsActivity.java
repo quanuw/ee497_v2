@@ -9,21 +9,18 @@ import android.support.v7.app.AppCompatActivity;
 // parent activity in manifest.
 public class SettingsActivity extends AppCompatActivity {
 
-        @Override
+    @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_settings);
-
-
 
             // Display the fragment as the main content.
             getFragmentManager().beginTransaction()
                     .replace(R.id.settingsContainer, new SettingsFragment())
                     .commit();
-
         }
 
-        public static class SettingsFragment extends PreferenceFragment {
+    public static class SettingsFragment extends PreferenceFragment {
 
             @Override
             public void onCreate(Bundle savedInstanceState) {

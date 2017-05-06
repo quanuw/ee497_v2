@@ -24,7 +24,6 @@ import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 
-
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.regex.Matcher;

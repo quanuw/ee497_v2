@@ -42,6 +42,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MenuActivity"/>
         </activity>
+        <receiver
+            android:name=".GeofenceTransitionReceiver"
+            android:exported="true"
+            android:permission="android.permission.ACCESS_FINE_LOCATION"
+            >
+            <intent-filter>
+                <action android:name="GeofenceTransition" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
