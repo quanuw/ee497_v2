@@ -1,7 +1,9 @@
 package com.example.yu.login;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -48,12 +50,12 @@ public class MenuActivity extends AppCompatActivity implements
 
     @Override
     public void onResume() {
-
+        super.onResume();
     }
 
     @Override
     public void onPause() {
-
+        super.onPause();
     }
 
     @Override
@@ -104,9 +106,12 @@ public class MenuActivity extends AppCompatActivity implements
                 drawer.closeDrawer(GravityCompat.START);
                 return true;
             case R.id.nav_gps:
-                // Made it an activity to avoid dealing with xml overlaps
-                Intent settingsIntent = new Intent(MenuActivity.this, SettingsActivity.class);
-                startActivity(settingsIntent);
+                // Go directly to app settings
+                Intent intent = new Intent();
+                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                Uri uri = Uri.fromParts("package", getPackageName(), null);
+                intent.setData(uri);
+                startActivity(intent);
                 drawer.closeDrawer(GravityCompat.START);
                 return true;
             case R.id.nav_manage:

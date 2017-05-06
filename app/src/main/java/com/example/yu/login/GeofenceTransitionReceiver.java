@@ -28,6 +28,8 @@ import static com.google.android.gms.wearable.DataMap.TAG;
  * Created by Quan on 5/6/2017.
  */
 
+// This class will listen to Geofence transtition events and start or stop the GPS service depending
+// depending on the transition type. A notification will also be sent to the user.
 public class GeofenceTransitionReceiver extends BroadcastReceiver {
 
     public static final String Tag = "GeofenceTransitionReceiver";
