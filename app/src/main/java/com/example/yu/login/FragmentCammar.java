@@ -2,7 +2,6 @@ package com.example.yu.login;
 
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,13 +12,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
 
 /**
@@ -27,17 +27,25 @@ import static android.content.ContentValues.TAG;
  */
 public class FragmentCammar extends Fragment {
 
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
 
     public FragmentCammar() {
         // Required empty public constructor
     }
 
-    private Button click;
-    private Button shareButton;
+    private ImageButton click;
+    private ImageButton shareButton;
 
     private ImageView imageView;
 
     private Uri mediaStoreUri = null; //for sharing
+
+    private String fileName;
+
+    private File imageFile;
+
+    private Uri pictureFileUri; //for saving
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,7 +53,7 @@ public class FragmentCammar extends Fragment {
         // Inflate the layout for this fragment
         View rootview = inflater.inflate(R.layout.fragment_fragment_cammar, container, false);
 
-        click = (Button) rootview.findViewById(R.id.CammarButton);
+        click = (ImageButton) rootview.findViewById(R.id.CammarButton);
         imageView  = (ImageView) rootview.findViewById(R.id.CammarView);
 
         // Take picture
@@ -58,12 +66,12 @@ public class FragmentCammar extends Fragment {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
-                startActivityForResult(intent , 1);
+                startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
             }
         });
 
         // Share picture
-        shareButton = (Button) rootview.findViewById(R.id.sharePicture);
+        shareButton = (ImageButton) rootview.findViewById(R.id.sharePicture);
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,10 +88,11 @@ public class FragmentCammar extends Fragment {
         }
         // Make a timestamp for image
         String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        File image_file = new File(folder, "WARUC_" + timestamp + ".jpg");
+        fileName = "WARUC_" + timestamp + ".jpg";
+        imageFile = new File(folder, fileName);
 
         // For sharing the media (produces a Uri the Messenger has permissions for)
-        MediaScannerConnection.scanFile(getActivity(), new String[] { image_file.toString() }, null,
+        MediaScannerConnection.scanFile(getActivity(), new String[] { imageFile.toString() }, null,
                 new MediaScannerConnection.OnScanCompletedListener() {
                     public void onScanCompleted(String path, Uri uri) {
                         mediaStoreUri = uri;
@@ -91,15 +100,16 @@ public class FragmentCammar extends Fragment {
                     }
                 });
 
-        return image_file;
+        return imageFile;
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        String path = "sdcard/camera_app/cam_image.jpg";
-        imageView.setImageDrawable(Drawable.createFromPath(path));
-
-
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            String path = "sdcard/camera_app/" + fileName;
+            imageView.setImageURI(pictureFileUri);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     // Share the picture
