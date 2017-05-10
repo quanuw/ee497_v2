@@ -1,8 +1,10 @@
 package com.example.yu.login;
 
 import android.app.PendingIntent;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -27,6 +29,11 @@ import java.util.Map;
 import java.util.regex.Matcher;
 
 import layout.RegistrationFragment;
+
+import static com.example.yu.login.data.model.User.KEY_DOB;
+import static com.example.yu.login.data.model.User.KEY_Email;
+import static com.example.yu.login.data.model.User.KEY_FirstName;
+import static com.example.yu.login.data.model.User.KEY_LastName;
 
 
 // REFERENCES:
@@ -203,32 +210,44 @@ public class MainActivity extends AppCompatActivity implements
         String usernameStr = username.getText().toString();
         String passwordStr = password.getText().toString();
 
-        // check fields
-        if (firstNameStr.equals("") || lastNameStr.equals("") || emailStr.equals("") ||
-                usernameStr.equals("") || passwordStr.equals("")) {
-            Toast.makeText(this, "Please fill out all fields!", Toast.LENGTH_LONG).show();
-            return;
-        }
-        // check email
-        if (!isValidEmailAddress(emailStr)) {
-            Toast.makeText(this, emailStr + " is not valid.", Toast.LENGTH_LONG).show();
-            return;
-        }
-        // check dob
-        if (dob.equals("")) {
-            Toast.makeText(this, "Please enter a date of birth.", Toast.LENGTH_LONG).show();
-            return;
-        }
+//        // check fields
+//        if (firstNameStr.equals("") || lastNameStr.equals("") || emailStr.equals("") ||
+//                usernameStr.equals("") || passwordStr.equals("")) {
+//            Toast.makeText(this, "Please fill out all fields!", Toast.LENGTH_LONG).show();
+//            return;
+//        }
+//        // check email
+//        if (!isValidEmailAddress(emailStr)) {
+//            Toast.makeText(this, emailStr + " is not valid.", Toast.LENGTH_LONG).show();
+//            return;
+//        }
+//        // check dob
+//        if (dob.equals("")) {
+//            Toast.makeText(this, "Please enter a date of birth.", Toast.LENGTH_LONG).show();
+//            return;
+//        }
+//
+//        UserRepo userRepo = new UserRepo();
+//
+//        User user = new User();
+//        user.setFirstName(firstNameStr);
+//        user.setLastName(lastNameStr);
+//        user.setEmail(emailStr);
+//        user.setDOB(dob);
+//        user.setLoginName(usernameStr);
+//        user.setLoginPW(passwordStr);
 
         Toast.makeText(this, "REGISTER USER!", Toast.LENGTH_LONG).show();
-//        User user = new User();
-//        user.setFirstName(firstName);
-//        user.setLastName(lastName);
-//        user.setEmail(email);
-//        user.setDOB(dob);
-//        user.setLoginName(username);
-//        user.setLoginPW(password);
-//        user.setUserId(0); // how does this work? We might need to autoincrement?
+        DatabaseManager databaseManager = new DatabaseManager();
+        SQLiteDatabase writable = databaseManager.openDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(KEY_FirstName, "Amanda");
+        contentValues.put(KEY_DOB, "01283");
+        contentValues.put(KEY_Email, "amdna@gmail.com");
+        contentValues.put(KEY_LastName, "TRan");
+        writable.insert("User", null, contentValues);
+
     }
 
     @Override
