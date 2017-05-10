@@ -1,21 +1,21 @@
 package com.example.yu.login;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.widget.Toast;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 
 /**
  * Created by Quan on 2/26/2017.
@@ -23,7 +23,19 @@ import android.widget.Toast;
 
 // The GPS_Service allows other activities to start a process running in the background. In
 // this case, get location coordinates.
-public class GPS_Service extends Service implements LocationListener {
+public class GPS_Service extends Service implements
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
+        LocationListener {
+
+    private static final String TAG = "LOCATION";
+
+    private static final double METERS_TO_MILES = 0.000621371;
+
+    private static final int LOCATION_REQUEST_CODE = 1;
+
+    private GoogleApiClient mGoogleApiClient;
+    private LocationRequest mLocationRequest;
 
     private int pointCount = 0;
 
@@ -31,8 +43,9 @@ public class GPS_Service extends Service implements LocationListener {
     private double prevY = 0;
     private double nextX = 0;
     private double nextY = 0;
-    private LocationManager locationManager;
-    private String provider;
+
+    private Location prevLocation;
+    private Location nextLocation;
 
     private Location currentLocation;
 
@@ -43,12 +56,6 @@ public class GPS_Service extends Service implements LocationListener {
     public static final double M = 3959.9;// miles
     public static final int minPointCount = 2;
 
-    @Override
-    public void onProviderDisabled(String s) {
-        Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(i);
-    }
 
     @Nullable
     @Override
@@ -82,54 +89,77 @@ public class GPS_Service extends Service implements LocationListener {
     @Override
     public void onCreate() {
         Log.d("GPS location manager", "This is my message");
-            locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
-        provider = locationManager.getBestProvider(criteria, false);
-        //noinspection MissingPermission
-        locationManager.requestLocationUpdates(provider, 5000, 100, this);
-        // Must check permissions
-        if ( Build.VERSION.SDK_INT >= 23 &&
-                ContextCompat.checkSelfPermission( getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission( getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        currentLocation = locationManager.getLastKnownLocation(provider);
-        if (currentLocation != null) {
-            onLocationChanged(currentLocation);
-            Log.d("GPS location manager", "Location is available");
-        } else {
-            Log.d("GPS location manager", "Location not available");
-        }
 
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
+    }
 
-        Log.d("GPS location manager", "This is my message");
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        mGoogleApiClient.connect();
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    @Override
+    public void onDestroy() {
+        mGoogleApiClient.disconnect();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        Log.v(TAG, "GoogleApiClient connected");
+
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setSmallestDisplacement(0);
+        mLocationRequest.setInterval(10000);
+        mLocationRequest.setFastestInterval(5000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        int permissionCheck = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION);
+        if(permissionCheck == PackageManager.PERMISSION_GRANTED) {
+            //have permission, can go ahead and do stuff
+
+            //assumes location settings enabled
+
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+        }
+        else {
+            //request permission
+            //ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.v("TAG", "" + pointCount);
+        Log.v(TAG, "" + pointCount);
         // Want 68% chance that the current location estmate is within 200m of the radius.
         float accuracy = location.getAccuracy();
+        Log.e(TAG, "Location accuracy: " + accuracy);
         float speed = location.getSpeed() * (float) 2.24;
-        if (accuracy < 200){
+        if (accuracy < 15){
             Intent i = new Intent("location_update");
             // update distance.
-            prevX = nextX;
-            prevY = nextY;
-            nextX = location.getLongitude();
-            nextY = location.getLatitude();
+            prevLocation = nextLocation;
+            nextLocation = location;
             // need at least 2 coordinates to begin calculation.
             if (pointCount >= minPointCount) {
-                // double dist = getDistance(prevX, prevY, nextX, nextY);
-                // Try android built-in static function.
-                float results[] = new float[1];
-                // Stores the resulting distance in results[0].
-                Location.distanceBetween(prevX, prevY, nextX, nextY, results);
-                float androidDist = results[0];
-                i.putExtra("distance", androidDist);
-
-
+                float distance = prevLocation.distanceTo(nextLocation) * (float) METERS_TO_MILES;
+                i.putExtra("distance", distance);
             }
             // send speed data
             float sp = location.getSpeed() * (float) 2.24; // convert m/s to mi/h
@@ -143,53 +173,6 @@ public class GPS_Service extends Service implements LocationListener {
         }
     }
 
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d("On Start", "onStartCommand");
-        super.onStartCommand(intent, flags, startId);
-        return START_STICKY;
-    }
-
-
-
-    // Request updates at startup *
-//    @SuppressWarnings({"MissingPermission"})
-//    public void onResume() {
-//        super.onResume();
-//
-//        locationManager.requestLocationUpdates(provider, 400, 0, this);
-//    }
-
-    /* Remove the locationlistener updates when Activity is paused */
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        locationManager.removeUpdates(this);
-//    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-        Toast.makeText(this, "Enabled new provider " + provider,
-                Toast.LENGTH_SHORT).show();
-
-    }
-
-
-
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//        if(locationManager != null){
-//            //noinspection MissingPermission
-//            locationManager.removeUpdates(listener);
-//        }
-//    }
 
     /** Determines whether one Location reading is better than the current Location fix
      * @param location  The new Location that you want to evaluate

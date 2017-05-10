@@ -28,7 +28,12 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.regex.Matcher;
 
-import layout.RegistrationFragment;
+import static com.example.yu.login.data.model.User.KEY_DOB;
+import static com.example.yu.login.data.model.User.KEY_Email;
+import static com.example.yu.login.data.model.User.KEY_FirstName;
+import static com.example.yu.login.data.model.User.KEY_LastName;
+import static com.example.yu.login.data.model.User.KEY_LoginName;
+import static com.example.yu.login.data.model.User.KEY_LoginPW;
 
 import static com.example.yu.login.data.model.User.KEY_DOB;
 import static com.example.yu.login.data.model.User.KEY_Email;
@@ -100,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements
                     .setExpirationDuration(Constants.GEOFENCE_EXPIRATION_IN_MILLISECONDS)
                     .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
                             Geofence.GEOFENCE_TRANSITION_EXIT)
+                    .setNotificationResponsiveness(10000) // Set the best effort notification responsiveness
                     .build());
         }
     }
@@ -187,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements
                     "Geofences can't be added",
                     Toast.LENGTH_SHORT
             ).show();
-            // Get the status code for the error and log it using a user-friendly message.
+            //Get the status code for the error and log it using a user-friendly message.
 //            String errorMessage = GeofenceErrorMessages.getErrorString(this,
 //                    status.getStatusCode());
         }
@@ -201,6 +207,7 @@ public class MainActivity extends AppCompatActivity implements
         EditText firstName = (EditText) findViewById(R.id.firstName);
         EditText lastName = (EditText) findViewById(R.id.lastName);
         EditText email = (EditText) findViewById(R.id.email);
+
         EditText username = (EditText) findViewById(R.id.username);
         EditText password = (EditText) findViewById(R.id.password);
 
@@ -238,16 +245,52 @@ public class MainActivity extends AppCompatActivity implements
 //        user.setLoginPW(passwordStr);
 
         Toast.makeText(this, "REGISTER USER!", Toast.LENGTH_LONG).show();
+// check fields
+        if (firstNameStr.equals("") || lastNameStr.equals("") || emailStr.equals("") ||
+                usernameStr.equals("") || passwordStr.equals("")) {
+            Toast.makeText(this, "Please fill out all fields!", Toast.LENGTH_LONG).show();
+            return;
+        }
+        // check email
+        if (!isValidEmailAddress(emailStr)) {
+            Toast.makeText(this, emailStr + " is not valid.", Toast.LENGTH_LONG).show();
+            return;
+        }
+        // check dob
+        if (dob.equals("")) {
+            Toast.makeText(this, "Please enter a date of birth.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        // Get a database manager
         DatabaseManager databaseManager = new DatabaseManager();
+
+        // Open the database to write
         SQLiteDatabase writable = databaseManager.openDatabase();
 
+        // Create a content values instance (kind of like a map)
         ContentValues contentValues = new ContentValues();
-        contentValues.put(KEY_FirstName, "Amanda");
-        contentValues.put(KEY_DOB, "01283");
-        contentValues.put(KEY_Email, "amdna@gmail.com");
-        contentValues.put(KEY_LastName, "TRan");
-        writable.insert("User", null, contentValues);
+        contentValues.put(KEY_FirstName, firstNameStr);
+        contentValues.put(KEY_LastName, lastNameStr);
+        contentValues.put(KEY_Email, emailStr);
+        contentValues.put(KEY_DOB, dob);
+        contentValues.put(KEY_LoginName, usernameStr);
+        contentValues.put(KEY_LoginPW, passwordStr);
 
+        // Insert the content values into the chosen table (User)
+        long result = writable.insert("User", null, contentValues);
+
+        // If an error occured during insertion of row
+        if (result == -1) {
+            Log.e(TAG, "COULD NOT REGISTER USER!");
+            return;
+        }
+
+        Toast.makeText(this, "REGISTER USER!", Toast.LENGTH_LONG).show();
+
+        // Go to menu activity if registration is successful.
+        Intent menuIntent = new Intent(MainActivity.this, MenuActivity.class);
+        startActivity(menuIntent);
     }
 
     @Override
@@ -266,7 +309,8 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void dobSet(String dob) {
         this.dob = dob;
-
+        EditText setDob = (EditText) findViewById(R.id.dob);
+        setDob.setText(dob);
     }
 
     // Validates email

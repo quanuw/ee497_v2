@@ -1,4 +1,4 @@
-package layout;
+package com.example.yu.login;
 
 
 import android.app.DatePickerDialog;
@@ -13,10 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.TextView;
-
-import com.example.yu.login.R;
 
 import java.util.Calendar;
 
@@ -85,7 +82,7 @@ public class RegistrationFragment extends Fragment {
             Log.e(TAG, "Button is null!");
         }
 
-        EditText dob = (EditText) rootView.findViewById(R.id.dob);
+        TextView dob = (TextView) rootView.findViewById(R.id.dob);
         dob.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,7 +136,8 @@ public class RegistrationFragment extends Fragment {
             int day = c.get(Calendar.DAY_OF_MONTH);
 
             // Create a new instance of DatePickerDialog and return it
-            return new DatePickerDialog(getActivity(), this, year, month, day);
+            //TODO: Create custom dialog theme with style.xml
+            return new DatePickerDialog(getActivity(),android.R.style.Theme_Holo_Light_Dialog , this, year, month, day);
         }
 
         @Override

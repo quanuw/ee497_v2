@@ -27,6 +27,9 @@ import java.util.List;
 
 public class GeofenceTransitionsIntentService extends IntentService {
     protected static final String TAG = "GeofenceTransitionsIS";
+    public static final String GEOFENCE_TRANSITION_ACTION = "GeofenceTransition";
+    public static final String GEOFENCE_TRANSITION_TYPE = "geofenceTransitionType";
+    public static final String GEOFENCE_TRANSITION_DETAILS = "geofenceTransitionDetails";
 
     public GeofenceTransitionsIntentService() {
         super(TAG);
@@ -35,6 +38,9 @@ public class GeofenceTransitionsIntentService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         GeofencingEvent event = GeofencingEvent.fromIntent(intent);
+
+        Intent broadcastIntent = new Intent();
+        intent.setAction(GEOFENCE_TRANSITION_ACTION);
         if (event.hasError()) {
             Log.e(TAG, "GeofencingEvent Error: " + event.getErrorCode());
             return;
@@ -44,15 +50,21 @@ public class GeofenceTransitionsIntentService extends IntentService {
             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
             editor.putBoolean("gps", true);
             editor.commit();
+            broadcastIntent.putExtra(GEOFENCE_TRANSITION_TYPE, Geofence.GEOFENCE_TRANSITION_EXIT);
             Toast.makeText(getApplicationContext(), "TURNED ON GPS!", Toast.LENGTH_LONG).show();
         } else {
             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
             editor.putBoolean("gps", false);
             editor.commit();
+            broadcastIntent.putExtra(GEOFENCE_TRANSITION_TYPE, Geofence.GEOFENCE_TRANSITION_ENTER);
             Toast.makeText(getApplicationContext(), "TURNED OFF GPS!", Toast.LENGTH_LONG).show();
         }
         String description = getGeofenceTransitionDetails(event);
+        broadcastIntent.putExtra(GEOFENCE_TRANSITION_DETAILS, description);
+        sendBroadcast(broadcastIntent); // Send a broadcast intent to auto gps control
         sendNotification(description);
+
+
 
         Log.v(TAG, "in onHandleIntent");
     }
@@ -73,7 +85,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
         // Create an explicit content Intent that starts MainActivity.
         // Somehow need to go to gps settings so user can change it.
         // Or can activiate gs once user clicks on the notification.
-//        Intent notificationIntent = new Intent(getApplicationContext(), MainActivity.class);
+        // Intent notificationIntent = new Intent(getApplicationContext(), MainActivity.class);
 
         Intent notificationIntent = new Intent(getApplicationContext(), MenuActivity.class);
 
@@ -85,8 +97,6 @@ public class GeofenceTransitionsIntentService extends IntentService {
 
         // Get a notification builder that's compatible with platform versions >= 4
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-
-
 
         // Define the notification settings.
         builder.setColor(Color.RED)

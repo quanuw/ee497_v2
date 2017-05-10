@@ -16,7 +16,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:largeHeap="true">
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,9 +37,20 @@
             android:name=".GeofenceTransitionsIntentService"
             android:exported="true" />
         <!-- register the gps service -->
-        <activity android:name=".SettingsActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".BaseActivity"></activity>
+        <activity android:name=".SettingsActivity" android:parentActivityName=".MenuActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MenuActivity"/>
+        </activity>
+        <receiver
+            android:name=".GeofenceTransitionReceiver"
+            android:exported="true"
+            android:permission="android.permission.ACCESS_FINE_LOCATION"
+            >
+            <intent-filter>
+                <action android:name="GeofenceTransition" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

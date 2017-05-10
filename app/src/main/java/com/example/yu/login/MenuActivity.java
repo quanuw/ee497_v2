@@ -1,10 +1,9 @@
 package com.example.yu.login;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -18,10 +17,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import layout.AddVehicleFragment;
-
-public class MenuActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MenuActivity extends AppCompatActivity implements
+        NavigationView.OnNavigationItemSelectedListener {
 
     static final int PICK_IMAGE_REQUEST = 1;  // The request code
 
@@ -49,6 +46,16 @@ public class MenuActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 
     @Override
@@ -99,15 +106,18 @@ public class MenuActivity extends AppCompatActivity
                 drawer.closeDrawer(GravityCompat.START);
                 return true;
             case R.id.nav_gps:
-                // Made it an activity to avoid dealing with xml overlaps
-                Intent settingsIntent = new Intent(MenuActivity.this, SettingsActivity.class);
-                startActivity(settingsIntent);
+                // Go directly to app settings
+                Intent intent = new Intent();
+                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                Uri uri = Uri.fromParts("package", getPackageName(), null);
+                intent.setData(uri);
+                startActivity(intent);
                 drawer.closeDrawer(GravityCompat.START);
                 return true;
             case R.id.nav_manage:
-                BlankFragment mangageFrament = new BlankFragment();
-                FragmentManager navManager = getSupportFragmentManager();
-                navManager.beginTransaction().replace(R.id.content_menu, mangageFrament).commit();
+                FragmentGPS gpsFragment = new FragmentGPS();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.content_menu, gpsFragment).commit();
                 drawer.closeDrawer(GravityCompat.START);
                 return true;
             case R.id.nav_add_vehicle:
@@ -117,51 +127,12 @@ public class MenuActivity extends AppCompatActivity
                 drawer.closeDrawer(GravityCompat.START);
                 return true;
             case R.id.nav_send: // Send an image.
-                pickImage();
                 return true;
             default:
                 drawer.closeDrawer(GravityCompat.START);
                 return false;
         }
     }
-    // TODO: 4/22/17
-    /* Following block of code is for sending images. Android does not natively support this.
-    Might need to use a library.
-    REFERENCE: https://github.com/klinker41/android-smsmms
-     */
-    private void pickImage() {
-        Intent pickContactIntent = new Intent(Intent.ACTION_PICK);
-        pickContactIntent.setType("image/*"); // Show user only contacts w/ phone numbers
-        startActivityForResult(pickContactIntent, PICK_IMAGE_REQUEST);
-    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Check which request it is that we're responding to
-        if (requestCode == PICK_IMAGE_REQUEST) {
-            // Make sure the request was successful
-            if (resultCode == RESULT_OK) {
-                // Get the URI that points to the selected contact
-                Uri contactUri = data.getData();
-                // We only need the NUMBER column, because there will be only one row in the result
-                String[] projection = {ContactsContract.CommonDataKinds.Photo.PHOTO};
-
-                // Perform the query on the contact to get the NUMBER column
-                // We don't need a selection or sort order (there's only one result for the given URI)
-                // CAUTION: The query() method should be called from a separate thread to avoid blocking
-                // your app's UI thread. (For simplicity of the sample, this code doesn't do that.)
-                // Consider using CursorLoader to perform the query.
-                Cursor cursor = getContentResolver()
-                        .query(contactUri, projection, null, null, null);
-                cursor.moveToFirst();
-
-                // Retrieve the phone number from the NUMBER column
-                int column = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Photo.PHOTO);
-                String number = cursor.getString(column);
-
-                // Do something with the phone number...
-            }
-        }
-    }
 
 }
