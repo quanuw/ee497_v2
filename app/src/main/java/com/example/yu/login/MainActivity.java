@@ -35,6 +35,11 @@ import static com.example.yu.login.data.model.User.KEY_LastName;
 import static com.example.yu.login.data.model.User.KEY_LoginName;
 import static com.example.yu.login.data.model.User.KEY_LoginPW;
 
+import static com.example.yu.login.data.model.User.KEY_DOB;
+import static com.example.yu.login.data.model.User.KEY_Email;
+import static com.example.yu.login.data.model.User.KEY_FirstName;
+import static com.example.yu.login.data.model.User.KEY_LastName;
+
 
 // REFERENCES:
 // http://io2015codelabs.appspot.com/codelabs/geofences#4
@@ -212,7 +217,35 @@ public class MainActivity extends AppCompatActivity implements
         String usernameStr = username.getText().toString();
         String passwordStr = password.getText().toString();
 
-        // check fields
+//        // check fields
+//        if (firstNameStr.equals("") || lastNameStr.equals("") || emailStr.equals("") ||
+//                usernameStr.equals("") || passwordStr.equals("")) {
+//            Toast.makeText(this, "Please fill out all fields!", Toast.LENGTH_LONG).show();
+//            return;
+//        }
+//        // check email
+//        if (!isValidEmailAddress(emailStr)) {
+//            Toast.makeText(this, emailStr + " is not valid.", Toast.LENGTH_LONG).show();
+//            return;
+//        }
+//        // check dob
+//        if (dob.equals("")) {
+//            Toast.makeText(this, "Please enter a date of birth.", Toast.LENGTH_LONG).show();
+//            return;
+//        }
+//
+//        UserRepo userRepo = new UserRepo();
+//
+//        User user = new User();
+//        user.setFirstName(firstNameStr);
+//        user.setLastName(lastNameStr);
+//        user.setEmail(emailStr);
+//        user.setDOB(dob);
+//        user.setLoginName(usernameStr);
+//        user.setLoginPW(passwordStr);
+
+        Toast.makeText(this, "REGISTER USER!", Toast.LENGTH_LONG).show();
+// check fields
         if (firstNameStr.equals("") || lastNameStr.equals("") || emailStr.equals("") ||
                 usernameStr.equals("") || passwordStr.equals("")) {
             Toast.makeText(this, "Please fill out all fields!", Toast.LENGTH_LONG).show();
@@ -258,8 +291,6 @@ public class MainActivity extends AppCompatActivity implements
         // Go to menu activity if registration is successful.
         Intent menuIntent = new Intent(MainActivity.this, MenuActivity.class);
         startActivity(menuIntent);
-
-
     }
 
     @Override

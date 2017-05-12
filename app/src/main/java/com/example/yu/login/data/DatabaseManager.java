@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by amand on 3/31/2017.
  */
 
-public class DatabaseManager {
+public class  DatabaseManager {
     private Integer mOpenCounter = 0;
 
     private static DatabaseManager instance;
