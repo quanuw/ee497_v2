@@ -4,6 +4,7 @@ import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.yu.login.data.DBHelper;
 import com.example.yu.login.data.DatabaseManager;
+import com.example.yu.login.data.model.User;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -25,6 +27,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 
@@ -34,11 +37,6 @@ import static com.example.yu.login.data.model.User.KEY_FirstName;
 import static com.example.yu.login.data.model.User.KEY_LastName;
 import static com.example.yu.login.data.model.User.KEY_LoginName;
 import static com.example.yu.login.data.model.User.KEY_LoginPW;
-
-import static com.example.yu.login.data.model.User.KEY_DOB;
-import static com.example.yu.login.data.model.User.KEY_Email;
-import static com.example.yu.login.data.model.User.KEY_FirstName;
-import static com.example.yu.login.data.model.User.KEY_LastName;
 
 
 // REFERENCES:
@@ -262,27 +260,13 @@ public class MainActivity extends AppCompatActivity implements
             return;
         }
 
-        // Get a database manager
-        DatabaseManager databaseManager = new DatabaseManager();
+        if (checkUserExist(usernameStr)) {
+            Toast.makeText(this, "User", Toast.LENGTH_LONG).show();
+            return;
+        }
 
-        // Open the database to write
-        SQLiteDatabase writable = databaseManager.openDatabase();
-
-        // Create a content values instance (kind of like a map)
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(KEY_FirstName, firstNameStr);
-        contentValues.put(KEY_LastName, lastNameStr);
-        contentValues.put(KEY_Email, emailStr);
-        contentValues.put(KEY_DOB, dob);
-        contentValues.put(KEY_LoginName, usernameStr);
-        contentValues.put(KEY_LoginPW, passwordStr);
-
-        // Insert the content values into the chosen table (User)
-        long result = writable.insert("User", null, contentValues);
-
-        // If an error occured during insertion of row
-        if (result == -1) {
-            Log.e(TAG, "COULD NOT REGISTER USER!");
+        if (!insertUser(firstNameStr, lastNameStr, emailStr, dob, usernameStr, passwordStr)) {
+            Toast.makeText(this, "Could not register user!", Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -301,6 +285,11 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onLogin(String username, String password) {
+        // Check for credentials before making intent
+        if (!LoginFragment.checkCredentials(username, password)) {
+            Toast.makeText(this, "Username and password don't match!", Toast.LENGTH_LONG).show();
+            return;
+        }
         Intent loginIntent  = new Intent(this, MenuActivity.class);
         startActivity(loginIntent);
     }
@@ -317,6 +306,73 @@ public class MainActivity extends AppCompatActivity implements
     public static boolean isValidEmailAddress(String email) {
         Matcher matcher = Patterns.EMAIL_ADDRESS.matcher(email);
         return matcher.matches();
+    }
+
+    public static boolean checkUserExist(String username) {
+        // Get a database manager
+        DatabaseManager databaseManager = new DatabaseManager();
+
+        // Open the database to write
+        SQLiteDatabase writable = databaseManager.openDatabase();
+
+        // TODO: 5/12/17
+        // Read from the database
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query
+        String[] projection = { User.KEY_UserId, User.KEY_LoginName };
+
+        // Filter results WHERE "LoginName" = "Current registration name"
+        String selection = User.KEY_LoginName + " = ?";
+        String[] selectionArgs = { username };
+
+        // How you want the results sorted in the resulting Cursor
+        String sortOrder = User.KEY_LoginName + " DESC";
+
+        // Look through the rows
+        Cursor cursor = writable.query(User.TABLE, projection, selection, selectionArgs, null, null, sortOrder);
+        List loginNames = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            String loginName = cursor.getString(cursor.getColumnIndexOrThrow(User.KEY_LoginName));
+            loginNames.add(loginName);
+        }
+
+        cursor.close();
+
+        // Check if list contain the registration name
+        if (loginNames.contains(username)) {
+            return true;
+        }
+        return false;
+
+    }
+
+    public static boolean insertUser(String firstName, String lastName, String email, String dob,
+                           String username, String password) {
+
+        // Get a database manager
+        DatabaseManager databaseManager = new DatabaseManager();
+
+        // Open the database to write
+        SQLiteDatabase writable = databaseManager.openDatabase();
+
+        // Create a content values instance (kind of like a map)
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(KEY_FirstName, firstName);
+        contentValues.put(KEY_LastName, lastName);
+        contentValues.put(KEY_Email, email);
+        contentValues.put(KEY_DOB, dob);
+        contentValues.put(KEY_LoginName, username);
+        contentValues.put(KEY_LoginPW, password);
+
+        // Insert the content values into the chosen table (User)
+        long result = writable.insert("User", null, contentValues);
+
+        // If an error occured during insertion of row
+        if (result == -1) {
+            Log.e(TAG, "COULD NOT REGISTER USER!");
+            return false;
+        }
+        return true;
     }
 
 }
