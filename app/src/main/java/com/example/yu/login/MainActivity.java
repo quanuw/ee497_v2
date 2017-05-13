@@ -1,14 +1,12 @@
 package com.example.yu.login;
 
 import android.app.PendingIntent;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,13 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
-
-import static com.example.yu.login.data.model.User.KEY_DOB;
-import static com.example.yu.login.data.model.User.KEY_Email;
-import static com.example.yu.login.data.model.User.KEY_FirstName;
-import static com.example.yu.login.data.model.User.KEY_LastName;
-import static com.example.yu.login.data.model.User.KEY_LoginName;
-import static com.example.yu.login.data.model.User.KEY_LoginPW;
 
 
 // REFERENCES:
