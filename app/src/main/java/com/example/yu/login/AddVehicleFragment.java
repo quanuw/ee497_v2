@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import static com.android.volley.Request.Method.HEAD;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -80,15 +82,10 @@ public class AddVehicleFragment extends Fragment {
 //                    Toast.makeText(getActivity(), "INPUTS MUST BE FILLED.", Toast.LENGTH_LONG).show();
 //                } else {
                     // Add into db
-<<<<<<< HEAD
-
-                }
-=======
                     callback.onAddVehicle(model, make, year, vin);
-//                }
+                }
 
->>>>>>> f4e1212ec2e13fc6cdb2e79d3cd8a0a16897668a
-            }
+
         });
         return rootView;
     }

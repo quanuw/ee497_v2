@@ -15,9 +15,6 @@ import android.widget.EditText;
 import com.example.yu.login.data.DatabaseManager;
 import com.example.yu.login.data.model.User;
 
-import static com.android.volley.Request.Method.HEAD;
-
-
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -80,11 +77,8 @@ public class LoginFragment extends Fragment {
 
         // Define a projection that specifies which columns from the database
         // you will actually use after this query
-<<<<<<< HEAD
-        String[] projection = { User.KEY_UserId, User.KEY_LoginName };
-=======
+
         String[] projection = { User.KEY_UserId, User.KEY_LoginName, User.KEY_LoginPW };
->>>>>>> f4e1212ec2e13fc6cdb2e79d3cd8a0a16897668a
 
         // TODO: 5/12/17
         // Not sure if this is the correct selection
@@ -105,8 +99,4 @@ public class LoginFragment extends Fragment {
         return false; // No rows returned from query
     }
 
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> f4e1212ec2e13fc6cdb2e79d3cd8a0a16897668a
