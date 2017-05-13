@@ -16,9 +16,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 public class MenuActivity extends AppCompatActivity implements
-        NavigationView.OnNavigationItemSelectedListener {
+        NavigationView.OnNavigationItemSelectedListener,
+        AddVehicleFragment.OnAddVehicleListener {
 
     static final int PICK_IMAGE_REQUEST = 1;  // The request code
 
@@ -134,5 +136,11 @@ public class MenuActivity extends AppCompatActivity implements
         }
     }
 
-
+    // TODO: 5/12/17
+    // Interface method for adding vehicle to db.
+    // This is where you should insert the vehicle information into the db.
+    @Override
+    public void onAddVehicle(String model, String make, String year, String vin) {
+        Toast.makeText(this, "ADD VEHICLE!!!!", Toast.LENGTH_LONG).show();
+    }
 }

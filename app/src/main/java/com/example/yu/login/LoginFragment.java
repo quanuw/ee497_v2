@@ -78,7 +78,7 @@ public class LoginFragment extends Fragment {
 
         // Define a projection that specifies which columns from the database
         // you will actually use after this query
-        String[] projection = { User.KEY_UserId, User.KEY_LoginName };
+        String[] projection = { User.KEY_UserId, User.KEY_LoginName, User.KEY_LoginPW };
 
         // TODO: 5/12/17
         // Not sure if this is the correct selection

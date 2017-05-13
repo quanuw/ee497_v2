@@ -1,6 +1,7 @@
 package com.example.yu.login;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,6 +22,8 @@ public class AddVehicleFragment extends Fragment {
     private EditText vehicleYear;
     private EditText vehicleVIN;
 
+    private OnAddVehicleListener callback;
+
     public static AddVehicleFragment newInstance() {
         
         Bundle args = new Bundle();
@@ -33,6 +35,22 @@ public class AddVehicleFragment extends Fragment {
 
     public AddVehicleFragment() {
         // Required empty public constructor
+    }
+
+    // Interface for adding vechicles
+    public interface OnAddVehicleListener {
+        public void onAddVehicle(String model, String make, String year, String vin);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            callback = (OnAddVehicleListener) context;
+        }catch(ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement OnAddVehicleListener!");
+        }
     }
 
 
@@ -55,14 +73,16 @@ public class AddVehicleFragment extends Fragment {
                 String model = vehicleModel.getText().toString();
                 String make = vehicleMake.getText().toString();
                 String year = vehicleYear.getText().toString();
-                String VIN = vehicleVIN.getText().toString();
+                String vin = vehicleVIN.getText().toString();
 
                 // Simple validation. Only checks empty fields.
-                if (model.equals("") || make.equals("") || year.equals("") || VIN.equals("")) {
-                    Toast.makeText(getActivity(), "INPUTS MUST BE FILLED.", Toast.LENGTH_LONG).show();
-                } else {
+//                if (model.equals("") || make.equals("") || year.equals("") || vin.equals("")) {
+//                    Toast.makeText(getActivity(), "INPUTS MUST BE FILLED.", Toast.LENGTH_LONG).show();
+//                } else {
                     // Add into db
-                }
+                    callback.onAddVehicle(model, make, year, vin);
+//                }
+
             }
         });
         return rootView;

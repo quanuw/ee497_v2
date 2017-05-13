@@ -87,6 +87,8 @@ public class MainActivity extends AppCompatActivity implements
         // Display Registration Fragment
         getSupportFragmentManager().beginTransaction().replace(R.id.mainContainer, new RegistrationFragment()).commit();
 
+
+
     }
 
     // pre:
@@ -148,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements
                     getGeofencingRequest(),
                     getGeofencePendingIntent()
             ).setResultCallback(this); // Result processed in onResult().
-            Log.i(TAG, "GEOFENCES ADDED!");
+//            Log.i(TAG, "GEOFENCES ADDED!");
         } catch (SecurityException securityException) {
             // Catch exception generated if the app does not use ACCESS_FINE_LOCATION permission.
         }
@@ -215,35 +217,6 @@ public class MainActivity extends AppCompatActivity implements
         String usernameStr = username.getText().toString();
         String passwordStr = password.getText().toString();
 
-//        // check fields
-//        if (firstNameStr.equals("") || lastNameStr.equals("") || emailStr.equals("") ||
-//                usernameStr.equals("") || passwordStr.equals("")) {
-//            Toast.makeText(this, "Please fill out all fields!", Toast.LENGTH_LONG).show();
-//            return;
-//        }
-//        // check email
-//        if (!isValidEmailAddress(emailStr)) {
-//            Toast.makeText(this, emailStr + " is not valid.", Toast.LENGTH_LONG).show();
-//            return;
-//        }
-//        // check dob
-//        if (dob.equals("")) {
-//            Toast.makeText(this, "Please enter a date of birth.", Toast.LENGTH_LONG).show();
-//            return;
-//        }
-//
-//        UserRepo userRepo = new UserRepo();
-//
-//        User user = new User();
-//        user.setFirstName(firstNameStr);
-//        user.setLastName(lastNameStr);
-//        user.setEmail(emailStr);
-//        user.setDOB(dob);
-//        user.setLoginName(usernameStr);
-//        user.setLoginPW(passwordStr);
-
-        Toast.makeText(this, "REGISTER USER!", Toast.LENGTH_LONG).show();
-// check fields
         if (firstNameStr.equals("") || lastNameStr.equals("") || emailStr.equals("") ||
                 usernameStr.equals("") || passwordStr.equals("")) {
             Toast.makeText(this, "Please fill out all fields!", Toast.LENGTH_LONG).show();
@@ -286,10 +259,10 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onLogin(String username, String password) {
         // Check for credentials before making intent
-        if (!LoginFragment.checkCredentials(username, password)) {
-            Toast.makeText(this, "Username and password don't match!", Toast.LENGTH_LONG).show();
-            return;
-        }
+//        if (!LoginFragment.checkCredentials(username, password)) {
+//            Toast.makeText(this, "Username and password don't match!", Toast.LENGTH_LONG).show();
+//            return;
+//        }
         Intent loginIntent  = new Intent(this, MenuActivity.class);
         startActivity(loginIntent);
     }
