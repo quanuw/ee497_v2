@@ -41,6 +41,7 @@ public class VehicleRepo {
         values.put(Vehicle.KEY_UserId, vehicle.getUser().getUserId());
 
         // Inserting Row
+        long result = db.insert("User", null, values);
         db.insert(Vehicle.TABLE, null, values);
         DatabaseManager.getInstance().closeDatabase();
     }

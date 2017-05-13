@@ -30,11 +30,17 @@ public class UserRepo {
     }
 
 
+    public static boolean insertUser(User user) {
 
-    public void insert(User user) {
-        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+        // Get a database manager
+        DatabaseManager databaseManager = new DatabaseManager();
+
+        // Open the database to write
+        SQLiteDatabase writable = databaseManager.openDatabase();
+
+        // Create a content values instance (kind of like a map)
         ContentValues values = new ContentValues();
-        values.put(User.KEY_UserId, user.getUserId());
+        //values.put(User.KEY_UserId, user.getUserId()); ISSUE WITH AUTOINCREMETNATION
         values.put(User.KEY_LoginName, user.getLoginName());
         values.put(User.KEY_LoginPW, user.getLoginPW());
         values.put(User.KEY_LastName, user.getLastName());
@@ -42,10 +48,15 @@ public class UserRepo {
         values.put(User.KEY_DOB, user.getDOB());
         values.put(User.KEY_Email, user.getEmail());
 
+        // Insert the content values into the chosen table (User)
+        long result = writable.insert("User", null, values);
 
-        // Inserting Row
-        db.insert(User.TABLE, null, values);
-        DatabaseManager.getInstance().closeDatabase();
+        // If an error occured during insertion of row
+        if (result == -1) {
+            System.out.println("COULD NOT REGISTER USER!");
+            return false;
+        }
+        return true;
     }
 
 

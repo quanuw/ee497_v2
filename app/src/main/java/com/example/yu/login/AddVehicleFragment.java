@@ -62,6 +62,7 @@ public class AddVehicleFragment extends Fragment {
                     Toast.makeText(getActivity(), "INPUTS MUST BE FILLED.", Toast.LENGTH_LONG).show();
                 } else {
                     // Add into db
+
                 }
             }
         });
