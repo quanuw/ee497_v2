@@ -20,10 +20,10 @@ public class Vehicle implements Parcelable {
 
     private String vehicleIdNum;
     private int vehicleId;
-    private String userId;
+    private int userId;
     private String make;
     private String model;
-    private int year;
+    private String year;
 
     private User user;
 
@@ -37,9 +37,17 @@ public class Vehicle implements Parcelable {
         this.vehicleIdNum = in.readString();
         this.make = in.readString();
         this.model = in.readString();
-        this.year = in.readInt();
+        this.year = in.readString();
         this.user = in.readParcelable(User.class.getClassLoader());
     }
+
+    public int getVehicleId() {
+        return vehicleId;
+    }
+//    public void setVehicleId(int vehicleId) {
+//        this.vehicleId = vehicleId;
+//    }
+
     public String getVehicleIdNum() {
         return vehicleIdNum;
     }
@@ -47,17 +55,10 @@ public class Vehicle implements Parcelable {
         this.vehicleIdNum = vehicleIdNum;
     }
 
-    public int getVehicleId() {
-        return vehicleId;
-    }
-    public void setVehicleId(int vehicleId) {
-        this.vehicleId = vehicleId;
-    }
-
-    public String getUserID() {
+    public int getUserID() {
         return userId;
     }
-    public void setUserId(String userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
@@ -75,10 +76,10 @@ public class Vehicle implements Parcelable {
         this.model = model;
     }
 
-    public int getYear() {
+    public String getYear() {
         return year;
     }
-    public void setYear(int year) {
+    public void setYear(String year) {
         this.year = year;
     }
     public User getUser() {
@@ -126,7 +127,7 @@ public class Vehicle implements Parcelable {
         parcel.writeInt(getVehicleId());
         parcel.writeString(getMake());
         parcel.writeString(getModel());
-        parcel.writeInt(getYear());
+        parcel.writeString(getYear());
         parcel.writeParcelable(getUser(), flags);
     }
 

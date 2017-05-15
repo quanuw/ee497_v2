@@ -20,46 +20,47 @@ public class VehicleRepo {
 
     public static String createTable(){
         return "CREATE TABLE " + Vehicle.TABLE  + "("
-                + Vehicle.KEY_VehicleId  + " INTEGER PRIMARY KEY  ,"
-                + Vehicle.KEY_VehicleIdNum  + " TEXT  ,"
-                + Vehicle.KEY_Make  + " TEXT  ,"
-                + Vehicle.KEY_Model  + " TEXT  ,"
-                + Vehicle.KEY_Year  + " TEXT   ,"
-                + Vehicle.KEY_UserId + " TEXT   ,"
+                + Vehicle.KEY_VehicleId  + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + Vehicle.KEY_VehicleIdNum  + " TEXT, "
+                + Vehicle.KEY_Make  + " TEXT, "
+                + Vehicle.KEY_Model  + " TEXT, "
+                + Vehicle.KEY_Year  + " TEXT, "
+                + Vehicle.KEY_UserId + " TEXT, "
                 + "FOREIGN KEY(" + Vehicle.KEY_UserId + ") REFERENCES "
-                + User.KEY_UserId + ")";
+                + User.KEY_UserId + " )";
     }
 
-    public void insert(Vehicle vehicle) {
-        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+    public void insertVehicle(Vehicle vehicle) {
+
+        // Get a database manager
+        SQLiteDatabase writable = DatabaseManager.getInstance().openDatabase();
+        // Create a content values instance (kind of like a map)
         ContentValues values = new ContentValues();
+        values.put(Vehicle.KEY_UserId, vehicle.getUserID());
         values.put(Vehicle.KEY_VehicleIdNum, vehicle.getVehicleIdNum());
-        values.put(Vehicle.KEY_VehicleId, vehicle.getVehicleId());
+        //values.put(Vehicle.KEY_VehicleId, vehicle.getVehicleId());
         values.put(Vehicle.KEY_Make, vehicle.getMake());
         values.put(Vehicle.KEY_Model, vehicle.getModel());
         values.put(Vehicle.KEY_Year, vehicle.getYear());
-        values.put(Vehicle.KEY_UserId, vehicle.getUser().getUserId());
-
-        // Inserting Row
-        long result = db.insert("User", null, values);
-        db.insert(Vehicle.TABLE, null, values);
-        DatabaseManager.getInstance().closeDatabase();
+        // Insert the content values into the chosen table (Vehicle)
+        long result = writable.insert("Vehicle", null, values);
     }
-    public void update(Vehicle vehicle) {
-        long id = vehicle.getVehicleId();
-        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
-        ContentValues values = new ContentValues();
-        values.put(Vehicle.KEY_VehicleIdNum, vehicle.getVehicleIdNum());
-        values.put(Vehicle.KEY_VehicleId, vehicle.getVehicleId());
-        values.put(Vehicle.KEY_Make, vehicle.getMake());
-        values.put(Vehicle.KEY_Model, vehicle.getModel());
-        values.put(Vehicle.KEY_Year, vehicle.getYear());
-        values.put(Vehicle.KEY_UserId, vehicle.getUser().getUserId());
 
-        db.update(Vehicle.TABLE, values,
-                Vehicle.KEY_VehicleId + " = " + id, new String[] { String.valueOf(id) });
-        DatabaseManager.getInstance().closeDatabase();
-    }
+//    public void update(Vehicle vehicle) {
+//        long id = vehicle.getVehicleId();
+//        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+//        ContentValues values = new ContentValues();
+//        values.put(Vehicle.KEY_VehicleIdNum, vehicle.getVehicleIdNum());
+//        values.put(Vehicle.KEY_VehicleId, vehicle.getVehicleId());
+//        values.put(Vehicle.KEY_Make, vehicle.getMake());
+//        values.put(Vehicle.KEY_Model, vehicle.getModel());
+//        values.put(Vehicle.KEY_Year, vehicle.getYear());
+//        values.put(Vehicle.KEY_UserId, vehicle.getUser().getUserId());
+//
+//        db.update(Vehicle.TABLE, values,
+//                Vehicle.KEY_VehicleId + " = " + id, new String[] { String.valueOf(id) });
+//        DatabaseManager.getInstance().closeDatabase();
+//    }
 
 
     public void delete(Vehicle vehicle) {

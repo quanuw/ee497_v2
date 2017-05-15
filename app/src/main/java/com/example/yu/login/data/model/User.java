@@ -58,9 +58,6 @@ public class User implements Parcelable{
     public int getUserId() {
         return userId;
     }
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
 
     public String getLoginName() {
         return loginName;
@@ -117,7 +114,7 @@ public class User implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
-        parcel.writeInt(getUserId());
+        //parcel.writeInt(getUserId());
         parcel.writeString(getLoginName());
         parcel.writeString(getLoginPW());
         parcel.writeString(getDOB());

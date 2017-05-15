@@ -9,8 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-
-import static com.android.volley.Request.Method.HEAD;
+import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,9 +26,9 @@ public class AddVehicleFragment extends Fragment {
     private OnAddVehicleListener callback;
 
     public static AddVehicleFragment newInstance() {
-        
+
         Bundle args = new Bundle();
-        
+
         AddVehicleFragment fragment = new AddVehicleFragment();
         fragment.setArguments(args);
         return fragment;
@@ -50,7 +49,7 @@ public class AddVehicleFragment extends Fragment {
 
         try {
             callback = (OnAddVehicleListener) context;
-        }catch(ClassCastException e) {
+        } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement OnAddVehicleListener!");
         }
     }
@@ -76,18 +75,17 @@ public class AddVehicleFragment extends Fragment {
                 String make = vehicleMake.getText().toString();
                 String year = vehicleYear.getText().toString();
                 String vin = vehicleVIN.getText().toString();
-
+                //add this back in when we figure out getCurrentUserId method in mainactivity
+                //int currUserId = MainActivity.getCurrentUserId();
                 // Simple validation. Only checks empty fields.
-//                if (model.equals("") || make.equals("") || year.equals("") || vin.equals("")) {
-//                    Toast.makeText(getActivity(), "INPUTS MUST BE FILLED.", Toast.LENGTH_LONG).show();
-//                } else {
+                if (model.equals("") || make.equals("") || year.equals("") || vin.equals("")) {
+                    Toast.makeText(getActivity(), "INPUTS MUST BE FILLED.", Toast.LENGTH_LONG).show();
+                } else {
                     // Add into db
                     callback.onAddVehicle(model, make, year, vin);
                 }
-
-
+            }
         });
         return rootView;
     }
-
 }
