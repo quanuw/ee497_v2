@@ -1,8 +1,10 @@
 package com.example.yu.login;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -13,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +28,7 @@ public class MenuActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener,
         AddVehicleFragment.OnAddVehicleListener {
 
+    private final static String TAG = "MENUACTIVITY";
     static final int PICK_IMAGE_REQUEST = 1;  // The request code
 
     @Override
@@ -51,6 +55,9 @@ public class MenuActivity extends AppCompatActivity implements
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        Log.i(TAG, "USERID IS: " + sharedPreferences.getInt("username", 44));
     }
 
     @Override

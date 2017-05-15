@@ -3,10 +3,13 @@ package com.example.yu.login;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,8 +34,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
-
-import static com.android.volley.Request.Method.HEAD;
 
 
 // REFERENCES:
@@ -83,7 +84,19 @@ public class MainActivity extends AppCompatActivity implements
         // Display Registration Fragment
         getSupportFragmentManager().beginTransaction().replace(R.id.mainContainer, new RegistrationFragment()).commit();
 
-
+        /* TODO: 5/15/17
+          Put the user's id into default shared preferences.
+          To access the id later use this code:
+            Shared sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Context context);
+            int id = sharedPreferences.getInt(String key, int default) key would be "username"
+            int default is the value returned if the key didn't exist
+          Example code can be seen in MenuActivity lines 59-60
+        */
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("username", currentUserId); // the key value pair
+        editor.commit();
+        Log.i(TAG, "USERID IS: " + sharedPreferences.getInt("username", 33));
 
     }
 
@@ -213,8 +226,7 @@ public class MainActivity extends AppCompatActivity implements
         String usernameStr = username.getText().toString();
         String passwordStr = password.getText().toString();
 
-// check fields
-
+        // check fields
         if (firstNameStr.equals("") || lastNameStr.equals("") || emailStr.equals("") ||
                 usernameStr.equals("") || passwordStr.equals("")) {
             Toast.makeText(this, "Please fill out all fields!", Toast.LENGTH_LONG).show();
@@ -254,10 +266,12 @@ public class MainActivity extends AppCompatActivity implements
         //create a user repo to insert user into table
         UserRepo userRepo = new UserRepo();
         currentUserId = userRepo.insertUser(user);
+
         if (currentUserId == -1) {
             Toast.makeText(this, "User could not be registered", Toast.LENGTH_LONG).show();
             return;
         } else {
+
             System.out.println("userID is " + Integer.toString(currentUserId));
         }
 
@@ -388,10 +402,6 @@ public class MainActivity extends AppCompatActivity implements
         System.out.println("vehiclesssss");
     }
 
-// need to figure out how to reference currentUserId from a static method
-//    public static int getCurrentUserId() {
-//        return currentUserId;
-//    }
 }
 
 
