@@ -18,6 +18,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.yu.login.data.model.Vehicle;
+import com.example.yu.login.data.repo.VehicleRepo;
+
 public class MenuActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener,
         AddVehicleFragment.OnAddVehicleListener {
@@ -140,7 +143,20 @@ public class MenuActivity extends AppCompatActivity implements
     // Interface method for adding vehicle to db.
     // This is where you should insert the vehicle information into the db.
     @Override
-    public void onAddVehicle(String model, String make, String year, String vin) {
+    public void onAddVehicle(String model, String make, String year, String vin) { //int currUserId) {
+        //create a vehicle object to store values
+        Vehicle vehicle = new Vehicle();
+        //set the values of the vehicle object
+        vehicle.setModel(model);
+        vehicle.setMake(make);
+        vehicle.setYear(year);
+        vehicle.setVehicleIdNum(vin);
+        //add this parameter back in once we figure out getCurrentUserId method in mainactivity
+        //vehicle.setUserId(currUserId);
+        //create a user repo to insert user into table
+        VehicleRepo vehicleRepo = new VehicleRepo();
+        //insert vehicle
+        vehicleRepo.insertVehicle(vehicle);
         Toast.makeText(this, "ADD VEHICLE!!!!", Toast.LENGTH_LONG).show();
     }
 }

@@ -15,7 +15,9 @@ import android.widget.Toast;
 import com.example.yu.login.data.DBHelper;
 import com.example.yu.login.data.DatabaseManager;
 import com.example.yu.login.data.model.User;
+import com.example.yu.login.data.model.Vehicle;
 import com.example.yu.login.data.repo.UserRepo;
+import com.example.yu.login.data.repo.VehicleRepo;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -48,11 +50,11 @@ public class MainActivity extends AppCompatActivity implements
     private static  DBHelper dbHelper;
 
     private String dob = "";
-
+    private int currentUserId;
     protected ArrayList<Geofence> mGeofenceList;
     protected GoogleApiClient mGoogleApiClient;
     private Button mAddGeofencesButton;
-    DB_Controller rubDb;
+
 
 
     @Override
@@ -249,14 +251,16 @@ public class MainActivity extends AppCompatActivity implements
 
         //create a user repo to insert user into table
         UserRepo userRepo = new UserRepo();
-
-        if (!userRepo.insertUser(user)) {
-            Toast.makeText(this, "User", Toast.LENGTH_LONG).show();
+        currentUserId = userRepo.insertUser(user);
+        if (currentUserId == -1) {
+            Toast.makeText(this, "User could not be registered", Toast.LENGTH_LONG).show();
             return;
+        } else {
+            System.out.println("userID is " + Integer.toString(currentUserId));
         }
 
         Toast.makeText(this, "REGISTER USER!", Toast.LENGTH_LONG).show();
-
+        //this will be the userID of the person logged in
         // Go to menu activity if registration is successful.
         Intent menuIntent = new Intent(MainActivity.this, MenuActivity.class);
         startActivity(menuIntent);
@@ -371,6 +375,21 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
+    private void insertSampleData() {
+        Vehicle vehicle = new Vehicle();
+        vehicle.setVehicleIdNum("1920319823");
+        vehicle.setModel("accord");
+        vehicle.setMake("honda");
+        vehicle.setYear("ssss");
+        VehicleRepo vehicleRepo = new VehicleRepo();
+        vehicleRepo.insertVehicle(vehicle);
+        System.out.println("vehiclesssss");
+    }
+
+// need to figure out how to reference currentUserId from a static method
+//    public static int getCurrentUserId() {
+//        return currentUserId;
+//    }
 }
 
 

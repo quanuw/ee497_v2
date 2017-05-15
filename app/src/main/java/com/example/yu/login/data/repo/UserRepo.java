@@ -20,27 +20,21 @@ public class UserRepo {
 
     public static String createTable(){
         return "CREATE TABLE " + User.TABLE  + "("
-                + User.KEY_UserId  + " INTERGER PRIMARY KEY  ,"
-                + User.KEY_LoginName  + " TEXT  ,"
-                + User.KEY_LoginPW  + " TEXT  ,"
-                + User.KEY_LastName  + " TEXT  ,"
-                + User.KEY_FirstName  + " TEXT  ,"
-                + User.KEY_DOB  + " TEXT  ,"
+                + User.KEY_UserId  + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + User.KEY_LoginName  + " TEXT, "
+                + User.KEY_LoginPW  + " TEXT, "
+                + User.KEY_LastName  + " TEXT,"
+                + User.KEY_FirstName  + " TEXT, "
+                + User.KEY_DOB  + " TEXT, "
                 + User.KEY_Email  + " TEXT )";
     }
 
 
-    public static boolean insertUser(User user) {
-
-        // Get a database manager
-        DatabaseManager databaseManager = new DatabaseManager();
-
-        // Open the database to write
-        SQLiteDatabase writable = databaseManager.openDatabase();
-
+    public static int insertUser(User user) {
+        //open database
+        SQLiteDatabase writable = DatabaseManager.getInstance().openDatabase();
         // Create a content values instance (kind of like a map)
         ContentValues values = new ContentValues();
-        //values.put(User.KEY_UserId, user.getUserId()); ISSUE WITH AUTOINCREMETNATION
         values.put(User.KEY_LoginName, user.getLoginName());
         values.put(User.KEY_LoginPW, user.getLoginPW());
         values.put(User.KEY_LastName, user.getLastName());
@@ -49,16 +43,11 @@ public class UserRepo {
         values.put(User.KEY_Email, user.getEmail());
 
         // Insert the content values into the chosen table (User)
-        long result = writable.insert("User", null, values);
-
-        // If an error occured during insertion of row
-        if (result == -1) {
-            System.out.println("COULD NOT REGISTER USER!");
-            return false;
-        }
-        return true;
+        int result = (int)writable.insert("User", null, values);
+        DatabaseManager.getInstance().closeDatabase();
+        //will return the User ID and if it is -1, an issue occurred while inserting
+        return result;
     }
-
 
 
     public void delete( ) {
