@@ -2,8 +2,7 @@ package com.example.yu.login;
 
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.media.ExifInterface;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
@@ -78,6 +77,7 @@ public class FragmentCammar extends Fragment {
                             dir.mkdirs(); //make Documents directory if doesn't otherwise exist
                         }
                         file = new File(dir, "PIC_" + timestamp + ".jpg");
+                        imageFile = file; // just testing can delete later
                         boolean created = file.createNewFile(); //actually make the file!
                         Log.v(TAG, "File created: " + created);
 
@@ -119,44 +119,46 @@ public class FragmentCammar extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-//            String path = "sdcard/camera_app/" + fileName;
-            // TODO: 5/12/17
-            // Can show preview in view but it is sideways... NEED TO FIX!
+
             ImageView imageView = (ImageView) getActivity().findViewById(R.id.CammarView);
-//            try {
-//                Log.e(TAG, "IMAGE URI: " + pictureFileUri);
-//                InputStream imageStream = getActivity().getContentResolver().openInputStream(pictureFileUri);
-//                Bitmap bitmap = createScaledBitmap(pictureFileUri.getPath(), imageView.getMaxWidth(), imageView.getHeight());
-//                imageView.setImageBitmap(bitmap);
-//            } catch (IOException ioe) {
-//                Log.e(TAG, Log.getStackTraceString(ioe));
-//            }
+
             imageView.setImageURI(pictureFileUri);
-//            imageView.setImageResource(android.R.drawable.alert_dark_frame);
+
+            // Adjust rotation
+            Log.d(TAG, "ROTATED PRE: " + imageView.getRotation());
+            int exifOrientation = 0;
+
+            try { // Try to get the orientation of the image
+
+                ExifInterface exif = new ExifInterface(imageFile.getPath());
+                exifOrientation = Integer.valueOf(exif.getAttribute(ExifInterface.TAG_ORIENTATION));
+                Log.d(TAG, "EXIF ORIENTATION: " + exifOrientation);
+
+            } catch (IOException ioe) {
+
+                Log.e(TAG, Log.getStackTraceString(ioe));
+
+            }
+
+            // Check and set orientation
+            if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) {
+                imageView.setRotation(90);
+
+            } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_180) {
+                imageView.setRotation(180);
+
+            } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_270) {
+                imageView.setRotation(270);
+
+            } else {
+                imageView.setRotation(0); // Rotation is normal
+            }
+
+            Log.d(TAG, "ROTATED POST: " + imageView.getRotation());
             Log.e(TAG, "IMAGE URI: " + pictureFileUri);
         }
+
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    public Bitmap createScaledBitmap(String pathName, int width, int height) {
-        final BitmapFactory.Options opt = new BitmapFactory.Options();
-        opt.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(pathName, opt);
-        opt.inSampleSize = calculateBmpSampleSize(opt, width, height);
-        opt.inJustDecodeBounds = false;
-        return BitmapFactory.decodeFile(pathName, opt);
-    }
-
-    public int calculateBmpSampleSize(BitmapFactory.Options opt, int width, int height) {
-        final int outHeight = opt.outHeight;
-        final int outWidth = opt.outWidth;
-        int sampleSize = 1;
-        if (outHeight > height || outWidth > width) {
-            final int heightRatio = Math.round((float) outHeight / (float) height);
-            final int widthRatio = Math.round((float) outWidth / (float) width);
-            sampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
-        }
-        return sampleSize;
     }
 
     // Share the picture
@@ -184,4 +186,5 @@ public class FragmentCammar extends Fragment {
         }
         return false;
     }
+
 }

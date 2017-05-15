@@ -32,6 +32,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 
+import static com.android.volley.Request.Method.HEAD;
+
 
 // REFERENCES:
 // http://io2015codelabs.appspot.com/codelabs/geofences#4
@@ -276,10 +278,10 @@ public class MainActivity extends AppCompatActivity implements
     public void onLogin(String username, String password) {
         // Check for credentials before making intent
 
-        if (!LoginFragment.checkCredentials(username, password)) {
-            Toast.makeText(this, "Username and password don't match!", Toast.LENGTH_LONG).show();
-            return;
-        }
+//        if (!LoginFragment.checkCredentials(username, password)) {
+//            Toast.makeText(this, "Username and password don't match!", Toast.LENGTH_LONG).show();
+//            return;
+//        }
 
         Intent loginIntent  = new Intent(this, MenuActivity.class);
         startActivity(loginIntent);
