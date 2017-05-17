@@ -86,13 +86,13 @@ public class Vehicle implements Parcelable {
         return user;
     }
 
-    public void setUser(User department) {
+    public void setUser(User user) {
         this.user = user;
     }
     @Override
     public String toString() {
         return "Vehicle [Vehicle ID=" + vehicleId + ", VIN=" + vehicleIdNum + ", Make=" + make
-                + ", Model=" + model + ", Year=" + year + ", User=" + user + "]";
+                + ", Model=" + model + ", Year=" + year + ", User ID=" + userId + "]";
     }
 
     @Override
@@ -128,6 +128,7 @@ public class Vehicle implements Parcelable {
         parcel.writeString(getMake());
         parcel.writeString(getModel());
         parcel.writeString(getYear());
+        parcel.writeInt(getUserID());
         parcel.writeParcelable(getUser(), flags);
     }
 

@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("username", currentUserId); // the key value pair
         editor.commit();
+        System.out.println("current UserID is" + Integer.toString(sharedPreferences.getInt("username", 33)));
         Log.i(TAG, "USERID IS: " + sharedPreferences.getInt("username", 33));
 
     }
@@ -266,12 +267,16 @@ public class MainActivity extends AppCompatActivity implements
         //create a user repo to insert user into table
         UserRepo userRepo = new UserRepo();
         currentUserId = userRepo.insertUser(user);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("userId", currentUserId);
+        editor.commit();
+
 
         if (currentUserId == -1) {
             Toast.makeText(this, "User could not be registered", Toast.LENGTH_LONG).show();
             return;
         } else {
-
             System.out.println("userID is " + Integer.toString(currentUserId));
         }
 
@@ -390,6 +395,7 @@ public class MainActivity extends AppCompatActivity implements
         return false;
 
     }
+
 
     private void insertSampleData() {
         Vehicle vehicle = new Vehicle();

@@ -42,7 +42,7 @@ public class AddVehicleFragment extends Fragment {
 
     // Interface for adding vechicles
     public interface OnAddVehicleListener {
-        public void onAddVehicle(String model, String make, String year, String vin);
+        public void onAddVehicle(String model, String make, String year, String vin, int userId);
     }
 
     @Override
@@ -77,8 +77,9 @@ public class AddVehicleFragment extends Fragment {
                 String make = vehicleMake.getText().toString();
                 String year = vehicleYear.getText().toString();
                 String vin = vehicleVIN.getText().toString();
-                //add this back in when we figure out getCurrentUserId method in mainactivity
-                //int currUserId = MainActivity.getCurrentUserId();
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+                int currUserId = sharedPreferences.getInt("userId", -2);
+                System.out.println("AddVehicleFragment" + Integer.toString(currUserId));
                 // Simple validation. Only checks empty fields.
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
                 int currentUserId = sharedPreferences.getInt("username", 11);
@@ -86,7 +87,7 @@ public class AddVehicleFragment extends Fragment {
                     Toast.makeText(getActivity(), "INPUTS MUST BE FILLED.", Toast.LENGTH_LONG).show();
                 } else {
                     // Add into db
-                    callback.onAddVehicle(model, make, year, vin);
+                    callback.onAddVehicle(model, make, year, vin, currUserId);
                 }
             }
         });
