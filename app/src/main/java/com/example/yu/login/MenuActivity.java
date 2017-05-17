@@ -57,7 +57,7 @@ public class MenuActivity extends AppCompatActivity implements
         navigationView.setNavigationItemSelectedListener(this);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        Log.i(TAG, "USERID IS: " + sharedPreferences.getInt("username", 44));
+        Log.i(TAG, "USERID IS: " + sharedPreferences.getInt("userId", 44));
     }
 
     @Override
@@ -150,7 +150,7 @@ public class MenuActivity extends AppCompatActivity implements
     // Interface method for adding vehicle to db.
     // This is where you should insert the vehicle information into the db.
     @Override
-    public void onAddVehicle(String model, String make, String year, String vin) { //int currUserId) {
+    public void onAddVehicle(String model, String make, String year, String vin, int currUserId) {
         //create a vehicle object to store values
         Vehicle vehicle = new Vehicle();
         //set the values of the vehicle object
@@ -159,7 +159,7 @@ public class MenuActivity extends AppCompatActivity implements
         vehicle.setYear(year);
         vehicle.setVehicleIdNum(vin);
         //add this parameter back in once we figure out getCurrentUserId method in mainactivity
-        //vehicle.setUserId(currUserId);
+        vehicle.setUserId(currUserId);
         //create a user repo to insert user into table
         VehicleRepo vehicleRepo = new VehicleRepo();
         //insert vehicle

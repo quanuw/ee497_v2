@@ -31,7 +31,6 @@ public class VehicleRepo {
     }
 
     public void insertVehicle(Vehicle vehicle) {
-
         // Get a database manager
         SQLiteDatabase writable = DatabaseManager.getInstance().openDatabase();
         // Create a content values instance (kind of like a map)
@@ -43,7 +42,7 @@ public class VehicleRepo {
         values.put(Vehicle.KEY_Model, vehicle.getModel());
         values.put(Vehicle.KEY_Year, vehicle.getYear());
         // Insert the content values into the chosen table (Vehicle)
-        long result = writable.insert("Vehicle", null, values);
+        long result = writable.insertOrThrow("Vehicle", null, values);
     }
 
 //    public void update(Vehicle vehicle) {
@@ -67,7 +66,7 @@ public class VehicleRepo {
         long id = vehicle.getVehicleId();
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         db.delete(Vehicle.TABLE, Vehicle.KEY_VehicleId + " = " + id, null);
-        System.out.println("the deleted user has the id: " + id);
+        System.out.println(" deleted user has the id: " + id);
         DatabaseManager.getInstance().closeDatabase();
     }
 }
