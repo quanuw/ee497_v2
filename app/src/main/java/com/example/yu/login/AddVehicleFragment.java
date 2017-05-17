@@ -2,7 +2,9 @@ package com.example.yu.login;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -78,6 +80,8 @@ public class AddVehicleFragment extends Fragment {
                 //add this back in when we figure out getCurrentUserId method in mainactivity
                 //int currUserId = MainActivity.getCurrentUserId();
                 // Simple validation. Only checks empty fields.
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+                int currentUserId = sharedPreferences.getInt("username", 11);
                 if (model.equals("") || make.equals("") || year.equals("") || vin.equals("")) {
                     Toast.makeText(getActivity(), "INPUTS MUST BE FILLED.", Toast.LENGTH_LONG).show();
                 } else {
