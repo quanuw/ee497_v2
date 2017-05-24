@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import android.widget.Toast;
  * A simple {@link Fragment} subclass.
  */
 public class AddVehicleFragment extends Fragment {
+
+    private static final String TAG = "ADDVEHICLEFRAGMENT";
 
     private Button addButton;
 
@@ -78,11 +81,9 @@ public class AddVehicleFragment extends Fragment {
                 String year = vehicleYear.getText().toString();
                 String vin = vehicleVIN.getText().toString();
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-                int currUserId = sharedPreferences.getInt("userId", -2);
-                System.out.println("AddVehicleFragment" + Integer.toString(currUserId));
+                int currUserId = sharedPreferences.getInt("userId", 1);
+                Log.e(TAG, "UserId: " + currUserId);
                 // Simple validation. Only checks empty fields.
-                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-                int currentUserId = sharedPreferences.getInt("username", 11);
                 if (model.equals("") || make.equals("") || year.equals("") || vin.equals("")) {
                     Toast.makeText(getActivity(), "INPUTS MUST BE FILLED.", Toast.LENGTH_LONG).show();
                 } else {

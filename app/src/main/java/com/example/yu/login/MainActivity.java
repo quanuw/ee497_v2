@@ -94,10 +94,10 @@ public class MainActivity extends AppCompatActivity implements
         */
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("username", currentUserId); // the key value pair
+        editor.putInt("userId", currentUserId); // the key value pair
         editor.commit();
-        System.out.println("current UserID is" + Integer.toString(sharedPreferences.getInt("username", 33)));
-        Log.i(TAG, "USERID IS: " + sharedPreferences.getInt("username", 33));
+        System.out.println("current UserID is" + Integer.toString(sharedPreferences.getInt("userId", 33)));
+        Log.i(TAG, "USERID IS: " + sharedPreferences.getInt("userId", 33));
 
     }
 

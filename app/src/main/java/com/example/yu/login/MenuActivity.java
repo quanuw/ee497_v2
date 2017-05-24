@@ -160,7 +160,13 @@ public class MenuActivity extends AppCompatActivity implements
         vehicle.setVehicleIdNum(vin);
         //add this parameter back in once we figure out getCurrentUserId method in mainactivity
         vehicle.setUserId(currUserId);
+        String modelTest = vehicle.getModel();
+        String makeTest = vehicle.getMake();
+        String yearTest = vehicle.getYear();
+        String vinTest = vehicle.getVehicleIdNum();
+        String idTest = "" + vehicle.getUserID();
         //create a user repo to insert user into table
+        Log.e(TAG, "VEHICLE INFO: " + makeTest + ", " + modelTest + ", " + yearTest + ", " + vinTest + ", " + idTest);
         VehicleRepo vehicleRepo = new VehicleRepo();
         //insert vehicle
         vehicleRepo.insertVehicle(vehicle);

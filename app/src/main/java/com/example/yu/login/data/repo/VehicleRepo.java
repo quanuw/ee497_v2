@@ -2,10 +2,13 @@ package com.example.yu.login.data.repo;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.yu.login.data.DatabaseManager;
 import com.example.yu.login.data.model.User;
 import com.example.yu.login.data.model.Vehicle;
+
+import static com.google.android.gms.wearable.DataMap.TAG;
 
 /**
  * Created by amand on 3/31/2017.
@@ -27,7 +30,7 @@ public class VehicleRepo {
                 + Vehicle.KEY_Year  + " TEXT, "
                 + Vehicle.KEY_UserId + " TEXT, "
                 + "FOREIGN KEY(" + Vehicle.KEY_UserId + ") REFERENCES "
-                + User.KEY_UserId + " )";
+                + User.TABLE + "(" + User.KEY_UserId +"))";
     }
 
     public void insertVehicle(Vehicle vehicle) {
@@ -41,7 +44,14 @@ public class VehicleRepo {
         values.put(Vehicle.KEY_Make, vehicle.getMake());
         values.put(Vehicle.KEY_Model, vehicle.getModel());
         values.put(Vehicle.KEY_Year, vehicle.getYear());
+        Log.e(TAG, "Content values: " + values.toString());
         // Insert the content values into the chosen table (Vehicle)
+        // TODO: 5/17/17
+        // Can't insert into vehicle table
+        // android.database.sqlite.SQLiteException: foreign key mismatch -
+        // "Vehicle" referencing "User" (code 1): , while compiling:
+        // INSERT INTO Vehicle(UserId,Model,Make,VehicleIdNum,Year) VALUES (?,?,?,?,?)
+        // Error Code : 1 (SQLITE_ERROR)
         long result = writable.insertOrThrow("Vehicle", null, values);
     }
 
