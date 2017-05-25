@@ -33,7 +33,7 @@ public class Vehicle implements Parcelable {
 
     private Vehicle(Parcel in) {
         super();
-        this.vehicleId = in.readInt();
+//        this.vehicleId = in.readInt();
         this.vehicleIdNum = in.readString();
         this.make = in.readString();
         this.model = in.readString();

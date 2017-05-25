@@ -7,11 +7,11 @@ package com.example.yu.login.data;
 //think about if the delete and update method in vehicle successfully track back thru user
 
 
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.example.yu.login.MainActivity;
 import com.example.yu.login.data.model.Trip;
 import com.example.yu.login.data.model.User;
 import com.example.yu.login.data.model.Vehicle;
@@ -29,8 +29,8 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "sqliteDBRUC.db";
     private static final String TAG = DBHelper.class.getSimpleName().toString();
 
-    public DBHelper( ) {
-        super(MainActivity.getContext(), DATABASE_NAME, null, DATABASE_VERSION);
+    public DBHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
@@ -60,6 +60,11 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + Vehicle.TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + Trip.TABLE);
         onCreate(db);
+    }
+
+    @Override
+    public void onConfigure(SQLiteDatabase db) {
+        db.setForeignKeyConstraintsEnabled(true);
     }
 
 }

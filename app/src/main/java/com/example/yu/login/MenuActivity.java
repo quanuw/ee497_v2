@@ -1,7 +1,9 @@
 package com.example.yu.login;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -21,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.yu.login.data.DBHelper;
 import com.example.yu.login.data.model.Vehicle;
 import com.example.yu.login.data.repo.VehicleRepo;
 
@@ -31,9 +34,16 @@ public class MenuActivity extends AppCompatActivity implements
     private final static String TAG = "MENUACTIVITY";
     static final int PICK_IMAGE_REQUEST = 1;  // The request code
 
+    private static DBHelper dbHelper;
+    private SQLiteDatabase db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        dbHelper = new DBHelper(this);
+        db = dbHelper.getWritableDatabase();
+
         setContentView(R.layout.activity_menu);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -68,6 +78,12 @@ public class MenuActivity extends AppCompatActivity implements
     @Override
     public void onPause() {
         super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        db.close();
     }
 
     @Override
@@ -164,12 +180,43 @@ public class MenuActivity extends AppCompatActivity implements
         String makeTest = vehicle.getMake();
         String yearTest = vehicle.getYear();
         String vinTest = vehicle.getVehicleIdNum();
-        String idTest = "" + vehicle.getUserID();
+        int idTest = vehicle.getUserID();
         //create a user repo to insert user into table
         Log.e(TAG, "VEHICLE INFO: " + makeTest + ", " + modelTest + ", " + yearTest + ", " + vinTest + ", " + idTest);
+
         VehicleRepo vehicleRepo = new VehicleRepo();
         //insert vehicle
-        vehicleRepo.insertVehicle(vehicle);
+        insertVehicle(vehicle);
         Toast.makeText(this, "ADD VEHICLE!!!!", Toast.LENGTH_LONG).show();
+    }
+
+    public void insertVehicle(Vehicle vehicle) {
+        // Get a database manager
+//        SQLiteDatabase writable = DatabaseManager.getInstance().openDatabase();
+//        Log.e(TAG, "table string: " + writable.toString());
+        // Create a content values instance (kind of like a map)
+        ContentValues values = new ContentValues();
+//        values.put(Vehicle.KEY_UserId, vehicle.getUserID());
+        // TODO: 5/24/17
+        // Must get user's  current id
+        // If id is 0 then insert will fail since there is no user with id of 0
+        // So hardcode to 1 for now
+        values.put(Vehicle.KEY_UserId, 1);
+        values.put(Vehicle.KEY_VehicleIdNum, vehicle.getVehicleIdNum());
+        //values.put(Vehicle.KEY_VehicleId, vehicle.getVehicleId());
+        values.put(Vehicle.KEY_Make, vehicle.getMake());
+        values.put(Vehicle.KEY_Model, vehicle.getModel());
+        values.put(Vehicle.KEY_Year, vehicle.getYear());
+        Log.e(TAG, "Content values: " + values.toString());
+        // Insert the content values into the chosen table (Vehicle)
+        // TODO: 5/17/17
+        // Can't insert into vehicle table
+        // android.database.sqlite.SQLiteException: foreign key mismatch -
+        // "Vehicle" referencing "User" (code 1): , while compiling:
+        // INSERT INTO Vehicle(UserId,Model,Make,VehicleIdNum,Year) VALUES (?,?,?,?,?)
+        // Error Code : 1 (SQLITE_ERROR)
+
+        long result = db.insertOrThrow("Vehicle", null, values);
+
     }
 }

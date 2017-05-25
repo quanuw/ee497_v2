@@ -1,6 +1,7 @@
 package com.example.yu.login;
 
 import android.app.PendingIntent;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,9 +19,6 @@ import android.widget.Toast;
 import com.example.yu.login.data.DBHelper;
 import com.example.yu.login.data.DatabaseManager;
 import com.example.yu.login.data.model.User;
-import com.example.yu.login.data.model.Vehicle;
-import com.example.yu.login.data.repo.UserRepo;
-import com.example.yu.login.data.repo.VehicleRepo;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -51,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements
     public static final String TAG = MainActivity.class.getSimpleName();
     private static Context context;
     private static  DBHelper dbHelper;
+    private SQLiteDatabase db;
 
     private String dob = "";
     private int currentUserId;
@@ -67,10 +66,10 @@ public class MainActivity extends AppCompatActivity implements
 
 //        MAKE DB
         context = this.getApplicationContext();
-        dbHelper = new DBHelper();
-        DatabaseManager.initializeInstance(dbHelper);
+        dbHelper = new DBHelper(getContext());
+//        DatabaseManager.initializeInstance(dbHelper);
         //insertSampleData();
-
+        db = dbHelper.getWritableDatabase();
 
         // Empty list for storing geofences.
         mGeofenceList = new ArrayList<Geofence>();
@@ -144,6 +143,12 @@ public class MainActivity extends AppCompatActivity implements
         if (mGoogleApiClient.isConnecting() || mGoogleApiClient.isConnected()) {
             mGoogleApiClient.disconnect();
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        db.close();
     }
 
     @Override
@@ -265,8 +270,9 @@ public class MainActivity extends AppCompatActivity implements
         user.setLoginPW(passwordStr);
 
         //create a user repo to insert user into table
-        UserRepo userRepo = new UserRepo();
-        currentUserId = userRepo.insertUser(user);
+//        UserRepo userRepo = new UserRepo();
+//        currentUserId = userRepo.insertUser(user);
+        currentUserId = insertUser(user);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("userId", currentUserId);
@@ -396,18 +402,26 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
+    public int insertUser(User user) {
+        //open database
+//        SQLiteDatabase writable = DatabaseManager.getInstance().openDatabase();
 
-    private void insertSampleData() {
-        Vehicle vehicle = new Vehicle();
-        vehicle.setVehicleIdNum("1920319823");
-        vehicle.setModel("accord");
-        vehicle.setMake("honda");
-        vehicle.setYear("ssss");
-        VehicleRepo vehicleRepo = new VehicleRepo();
-        vehicleRepo.insertVehicle(vehicle);
-        System.out.println("vehiclesssss");
+        // Create a content values instance (kind of like a map)
+        ContentValues values = new ContentValues();
+        values.put(User.KEY_LoginName, user.getLoginName());
+        values.put(User.KEY_LoginPW, user.getLoginPW());
+        values.put(User.KEY_LastName, user.getLastName());
+        values.put(User.KEY_FirstName, user.getFirstName());
+        values.put(User.KEY_DOB, user.getDOB());
+        values.put(User.KEY_Email, user.getEmail());
+
+        // Insert the content values into the chosen table (User)
+        int result = (int)db.insert("User", null, values);
+//        writable.close();
+//        DatabaseManager.getInstance().closeDatabase();
+        //will return the User ID and if it is -1, an issue occurred while inserting
+        return result;
     }
-
 }
 
 
