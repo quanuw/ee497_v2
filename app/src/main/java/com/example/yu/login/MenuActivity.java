@@ -201,7 +201,7 @@ public class MenuActivity extends AppCompatActivity implements
         // Must get user's  current id
         // If id is 0 then insert will fail since there is no user with id of 0
         // So hardcode to 1 for now
-        values.put(Vehicle.KEY_UserId, 1);
+        values.put(Vehicle.KEY_UserId, vehicle.getUserID());
         values.put(Vehicle.KEY_VehicleIdNum, vehicle.getVehicleIdNum());
         //values.put(Vehicle.KEY_VehicleId, vehicle.getVehicleId());
         values.put(Vehicle.KEY_Make, vehicle.getMake());

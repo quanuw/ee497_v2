@@ -17,7 +17,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.yu.login.data.DBHelper;
-import com.example.yu.login.data.DatabaseManager;
 import com.example.yu.login.data.model.User;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -326,12 +325,15 @@ public class MainActivity extends AppCompatActivity implements
         return matcher.matches();
     }
 
-    public static boolean checkUserExist(String username) {
+    public boolean checkUserExist(String username) {
+        //first check if db is empty
+
+
         // Get a database manager
-        DatabaseManager databaseManager = new DatabaseManager();
+//        DatabaseManager databaseManager = new DatabaseManager();
 
         // Open the database to write
-        SQLiteDatabase writable = databaseManager.openDatabase();
+//        SQLiteDatabase writable = databaseManager.openDatabase();
 
         // TODO: 5/12/17
         // Read from the database
@@ -347,7 +349,7 @@ public class MainActivity extends AppCompatActivity implements
         String sortOrder = User.KEY_LoginName + " DESC";
 
         // Look through the rows
-        Cursor cursor = writable.query(User.TABLE, projection, selection, selectionArgs, null, null, sortOrder);
+        Cursor cursor = db.query(User.TABLE, projection, selection, selectionArgs, null, null, sortOrder);
         List loginNames = new ArrayList<>();
         while (cursor.moveToNext()) {
             String loginName = cursor.getString(cursor.getColumnIndexOrThrow(User.KEY_LoginName));
@@ -364,13 +366,13 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
-    public static boolean checkEmailExist(String email) {
+    public boolean checkEmailExist(String email) {
 
-        // Get a database manager
-        DatabaseManager databaseManager = new DatabaseManager();
-
-        // Open the database to write
-        SQLiteDatabase writable = databaseManager.openDatabase();
+//        // Get a database manager
+//        DatabaseManager databaseManager = new DatabaseManager();
+//
+//        // Open the database to write
+//        SQLiteDatabase writable = databaseManager.openDatabase();
 
         // TODO: 5/12/17
         // Read from the database
@@ -386,7 +388,7 @@ public class MainActivity extends AppCompatActivity implements
         String sortOrder = User.KEY_Email + " DESC";
 
         // Look through the rows
-        Cursor cursor = writable.query(User.TABLE, projection, selection, selectionArgs, null, null, sortOrder);
+        Cursor cursor = db.query(User.TABLE, projection, selection, selectionArgs, null, null, sortOrder);
         List emails = new ArrayList<>();
         while (cursor.moveToNext()) {
             String address = cursor.getString(cursor.getColumnIndexOrThrow(User.KEY_Email));
