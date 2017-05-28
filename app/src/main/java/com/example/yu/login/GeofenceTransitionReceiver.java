@@ -21,7 +21,7 @@ import static com.example.yu.login.GeofenceTransitionsIntentService.GEOFENCE_TRA
 import static com.example.yu.login.data.model.Trip.KEY_Date;
 import static com.example.yu.login.data.model.Trip.KEY_Miles;
 import static com.example.yu.login.data.model.Trip.KEY_State;
-import static com.example.yu.login.data.model.Trip.KEY_VehicleIdNum;
+import static com.example.yu.login.data.model.Vehicle.KEY_VehicleId;
 import static com.google.android.gms.wearable.DataMap.TAG;
 
 /**
@@ -92,7 +92,7 @@ public class GeofenceTransitionReceiver extends BroadcastReceiver {
         contentValues.put(KEY_Miles, miles);
         contentValues.put(KEY_State, state);
         contentValues.put(KEY_Date, date);
-        contentValues.put(KEY_VehicleIdNum, vehicle);
+        contentValues.put(KEY_VehicleId, vehicle);
 
         // Insert the content values into the chosen table (Table)
         long result = writable.insert("Trip", null, contentValues);

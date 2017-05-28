@@ -24,7 +24,7 @@ public class DBHelper extends SQLiteOpenHelper {
     //version number to upgrade database version
     //each time if you Add, Edit table, you need to change the
     //version number.
-    private static final int DATABASE_VERSION = 18;
+    private static final int DATABASE_VERSION = 19;
     // Database Name
     private static final String DATABASE_NAME = "sqliteDBRUC.db";
     private static final String TAG = DBHelper.class.getSimpleName().toString();
@@ -63,9 +63,9 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    @Override
-    public void onConfigure(SQLiteDatabase db) {
-        db.setForeignKeyConstraintsEnabled(true);
-    }
+//    @Override
+//    public void onConfigure(SQLiteDatabase db) {
+//        db.setForeignKeyConstraintsEnabled(true);
+//    }
 
 }
