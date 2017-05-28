@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <SwitchPreference
-        android:key="gps"
-        android:title="Control GPS"
-        android:defaultValue="true"
-    />
+    <ListPreference
+        android:key="vehiclePref"
+        android:title="Shake Sensitivity"
+        android:dialogTitle="sensitivity"
+        android:entries="@array/listEntries"
+        android:entryValues="@array/listValues"
+        />
+
+
+
 </PreferenceScreen>
