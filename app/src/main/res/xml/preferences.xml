@@ -2,8 +2,8 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <ListPreference
         android:key="vehiclePref"
-        android:title="Shake Sensitivity"
-        android:dialogTitle="sensitivity"
+        android:title="Select Vehicle"
+        android:dialogTitle="vehicles"
         android:entries="@array/listEntries"
         android:entryValues="@array/listValues"
         />
