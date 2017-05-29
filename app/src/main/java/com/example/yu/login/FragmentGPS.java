@@ -3,10 +3,12 @@ package com.example.yu.login;
 import android.Manifest;
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,6 +21,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
+
+import com.example.yu.login.data.model.Trip;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -48,7 +52,7 @@ public class FragmentGPS extends Fragment {
     private ImageView imageView;
     private BroadcastReceiver broadcastReceiver;
     private float totalDistance = 0;
-
+    private SQLiteDatabase db;
 
     private boolean gpsOn = false; // to decide whether or not to account for miles.
 
@@ -90,6 +94,8 @@ public class FragmentGPS extends Fragment {
                         totalDistance += (float) intent.getExtras().get("distance");
                         distance.setText(String.valueOf(totalDistance));
                         speed.setText(intent.getExtras().get("speed") + " mph");
+                        Trip trip = new Trip(String.valueOf(totalDistance), "WA", "June 27th, 2017", 1);
+                        insertTrip(trip);
                     }
                 }
             };
@@ -171,6 +177,20 @@ public class FragmentGPS extends Fragment {
         sdf.setTimeZone(TimeZone.getTimeZone("GMT-7"));
         String formattedDate = sdf.format(date);
         return formattedDate;
+    }
+
+    public void insertTrip(Trip trip) {
+        // Create a content values instance (kind of like a map)
+        ContentValues values = new ContentValues();
+        values.put(Trip.KEY_VehicleId, trip.getVehicleId());
+        values.put(Trip.KEY_TripId, trip.getTripId());
+        values.put(Trip.KEY_Date, trip.getDate());
+        values.put(Trip.KEY_Miles, trip.getMiles());
+        values.put(Trip.KEY_State, trip.getState());
+        Log.e(TAG, "Content values: " + values.toString());
+        // Insert the content values into the chosen table (Vehicle)
+        long result = db.insertOrThrow("Trip", null, values);
+
     }
 
 }

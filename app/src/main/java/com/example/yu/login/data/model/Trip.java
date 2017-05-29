@@ -30,9 +30,9 @@ public class Trip implements Parcelable {
         super();
     }
 
-    public Trip(int tripId, String miles, String state, String date, int vehicleId) {
+    public Trip(String miles, String state, String date, int vehicleId) {
         super();
-        this.tripId = tripId;
+        //this.tripId = tripId;
         this.miles = miles;
         this.state = state;
         this.date = date;
