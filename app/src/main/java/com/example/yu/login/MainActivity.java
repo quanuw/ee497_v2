@@ -326,11 +326,6 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     public boolean checkUserExist(String username) {
-        // Get a database manager
-//        DatabaseManager databaseManager = new DatabaseManager();
-//
-//        // Open the database to write
-//        SQLiteDatabase writable = databaseManager.openDatabase();
 
         // TODO: 5/12/17
         // Read from the database
