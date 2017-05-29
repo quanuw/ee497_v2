@@ -20,14 +20,14 @@ public class TripRepo {
 
 
     public static String createTable(){
-        return "CREATE TABLE " + Trip.TABLE  + "("
-                + Trip.KEY_TripId  + " INTEGER PRIMARY KEY ,"
-                + Trip.KEY_State  + " TEXT  ,"
-                + Trip.KEY_Date  + " TEXT  ,"
-                + Trip.KEY_Miles  + " TEXT   ,"
-                + Trip.KEY_VehicleIdNum  + " INTEGER  ,"
-                + "FOREIGN KEY(" + Trip.KEY_VehicleIdNum + ") REFERENCES "
-                + Vehicle.KEY_VehicleIdNum + ")";
+        return "CREATE TABLE IF NOT EXISTS" + Trip.TABLE  + " ("
+                + Trip.KEY_TripId  + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + Trip.KEY_State  + " TEXT, "
+                + Trip.KEY_Date  + " TEXT, "
+                + Trip.KEY_Miles  + " TEXT, "
+                + Trip.KEY_VehicleId  + " INTEGER, "
+                + "FOREIGN KEY(" + Trip.KEY_VehicleId + ") REFERENCES "
+                + Vehicle.TABLE + "(" + Vehicle.KEY_VehicleId + "));";
     }
 
 
@@ -36,7 +36,7 @@ public class TripRepo {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         ContentValues values = new ContentValues();
         values.put(Trip.KEY_TripId, trip.getTripId());
-        values.put(Trip.KEY_VehicleIdNum, trip.getVehicleIdNum());
+        values.put(Trip.KEY_VehicleId, trip.getVehicleId());
         values.put(Trip.KEY_Miles, trip.getMiles());
 
         // Inserting Row

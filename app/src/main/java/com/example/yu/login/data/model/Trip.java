@@ -16,13 +16,13 @@ public class Trip implements Parcelable {
     public static final String KEY_Miles = "Miles";
     public static final String KEY_State = "State";
     public static final String KEY_Date = "Date";
-    public static final String KEY_VehicleIdNum = "VehicleIdNum";
+    public static final String KEY_VehicleId = "VehicleId";
 
     private int tripId ;
     private String miles;
     private String state;
     private String date;
-    private String vehicleIdNum ;
+    private int vehicleId ;
 
 
 
@@ -30,13 +30,13 @@ public class Trip implements Parcelable {
         super();
     }
 
-    public Trip(int tripId, String miles, String state, String date, String vehicleIdNum) {
+    public Trip(int tripId, String miles, String state, String date, int vehicleId) {
         super();
         this.tripId = tripId;
         this.miles = miles;
         this.state = state;
         this.date = date;
-        this.vehicleIdNum = vehicleIdNum;
+        this.vehicleId = vehicleId;
     }
 
     private Trip(Parcel in) {
@@ -45,7 +45,7 @@ public class Trip implements Parcelable {
         this.miles = in.readString();
         this.state = in.readString();
         this.date = in.readString();
-        this.vehicleIdNum = in.readString();
+        this.vehicleId = in.readInt();
     }
 
     public int getTripId() {
@@ -80,17 +80,17 @@ public class Trip implements Parcelable {
         this.date = date;
     }
 
-    public String getVehicleIdNum() {
-        return vehicleIdNum;
+    public int getVehicleId() {
+        return vehicleId;
     }
 
-    public void setVehicleIdNum(String vehicleIdNum) {
-        this.vehicleIdNum = vehicleIdNum;
+    public void setVehicleId(int vehicleId) {
+        this.vehicleId = vehicleId;
     }
     @Override
     public String toString() {
         return "Trip ID:" + tripId + ", Miles:" + miles + ", State:" + state
-                + ", Date:" + date + ", Vehicle ID Number:" + vehicleIdNum;
+                + ", Date:" + date + ", Vehicle ID Number:" + vehicleId;
     }
 
     @Override
@@ -104,7 +104,7 @@ public class Trip implements Parcelable {
         parcel.writeString(getMiles());
         parcel.writeString(getState());
         parcel.writeString(getDate());
-        parcel.writeString(getVehicleIdNum());
+        parcel.writeInt(getVehicleId());
     }
     public static final Parcelable.Creator<Trip> CREATOR = new Parcelable.Creator<Trip>() {
         public Trip createFromParcel(Parcel in) {
