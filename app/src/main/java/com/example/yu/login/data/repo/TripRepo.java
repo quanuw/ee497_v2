@@ -20,7 +20,7 @@ public class TripRepo {
 
 
     public static String createTable(){
-        return "CREATE TABLE IF NOT EXISTS" + Trip.TABLE  + " ("
+        return "CREATE TABLE IF NOT EXISTS " + Trip.TABLE  + " ("
                 + Trip.KEY_TripId  + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + Trip.KEY_State  + " TEXT, "
                 + Trip.KEY_Date  + " TEXT, "
