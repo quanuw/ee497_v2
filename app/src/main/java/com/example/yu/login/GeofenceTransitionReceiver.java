@@ -36,8 +36,15 @@ public class GeofenceTransitionReceiver extends BroadcastReceiver {
     private static final int LOCATION_REQUEST_CODE = 100;
 
     private int mId = 1;
+    private OnTripEndListener callback;
 
     private boolean gpsOn = false;
+
+    // Interface for adding trip
+    public interface OnTripEndListener {
+        public void onTripEnd(boolean end);
+    }
+
     @Override
     public void onReceive(Context context, Intent intent) {
         Bundle extras = intent.getExtras();
@@ -49,7 +56,7 @@ public class GeofenceTransitionReceiver extends BroadcastReceiver {
 
         if (extras.getString(GEOFENCE_TRANSITION_TYPE).equals(Geofence.GEOFENCE_TRANSITION_EXIT)) {
             stopGpsService(context);
-
+            callback.onTripEnd(true);
             if (gpsOn) {
                 saveTrip();
             }

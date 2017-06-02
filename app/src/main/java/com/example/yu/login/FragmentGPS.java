@@ -3,13 +3,11 @@ package com.example.yu.login;
 import android.Manifest;
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -24,10 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import com.example.yu.login.data.model.Trip;
-
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -39,15 +34,13 @@ import static com.google.android.gms.wearable.DataMap.TAG;
  * Created by Quan on 2/26/2017.
  */
 
-
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentGPS extends Fragment {
-
+public class FragmentGPS extends Fragment implements
+        GeofenceTransitionReceiver.OnTripEndListener {
 
     private static final int LOCATION_REQUEST_CODE = 100;
-
     private ToggleButton gpsButton;
     private TextView textView;
     private TextView distance;
@@ -55,7 +48,7 @@ public class FragmentGPS extends Fragment {
     private ImageView imageView;
     private BroadcastReceiver broadcastReceiver;
     private float totalDistance = 0;
-    private OnTripEndListener callback;
+    private OnAddTripListener callback;
 
 
     private boolean gpsOn = false; // to decide whether or not to account for miles.
@@ -67,9 +60,19 @@ public class FragmentGPS extends Fragment {
         // Required empty public constructor
     }
 
-    // Interface for adding vechicles
-    public interface OnTripEndListener {
-        public void onTripEnd(String miles, String state, String date, int vehicleId);
+    @Override
+    public void onTripEnd(boolean end) {
+        if (end) {
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+            int currVehId = sharedPreferences.getInt("vehicleId", -1);
+            Log.e(TAG, "Vehicle ID: " + currVehId);
+            callback.onAddTrip(String.valueOf(totalDistance), "WA", unixToPDT(System.currentTimeMillis()), currVehId);
+        }
+    }
+
+    // Interface for adding trip
+    public interface OnAddTripListener {
+        public void onAddTrip(String miles, String state, String date, int vehicleId);
     }
 
     @Override
@@ -103,17 +106,6 @@ public class FragmentGPS extends Fragment {
                         totalDistance += (float) intent.getExtras().get("distance");
                         distance.setText(String.valueOf(totalDistance));
                         speed.setText(intent.getExtras().get("speed") + " mph");
-                        callback = (OnTripEndListener) context;
-
-                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-                        int currVehId = sharedPreferences.getInt("vehicleId", -1);
-                        Log.e(TAG, "Vehicle ID: " + currVehId);
-                        Calendar c = Calendar.getInstance();
-                        System.out.println("Current time => " + c.getTime());
-                        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
-                        String formattedDate = df.format(c.getTime());
-                        Trip trip = new Trip(String.valueOf(totalDistance), "OR", formattedDate, currVehId);
-                        insertTrip(trip);
                     }
                 }
             };
@@ -126,7 +118,7 @@ public class FragmentGPS extends Fragment {
         super.onAttach(context);
 
         try {
-            callback = (OnTripEndListener) context;
+            callback = (OnAddTripListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement OnTripEndListener!");
         }
@@ -208,19 +200,6 @@ public class FragmentGPS extends Fragment {
         return formattedDate;
     }
 
-    public void insertTrip(Trip trip) {
-        // Create a content values instance (kind of like a map)
-        ContentValues values = new ContentValues();
-        values.put(Trip.KEY_VehicleId, trip.getVehicleId());
-        values.put(Trip.KEY_TripId, trip.getTripId());
-        values.put(Trip.KEY_Date, trip.getDate());
-        values.put(Trip.KEY_Miles, trip.getMiles());
-        values.put(Trip.KEY_State, trip.getState());
-        Log.e(TAG, "Content values: " + values.toString());
-        // Insert the content values into the chosen table (Vehicle)
-        long result = db.insertOrThrow("Trip", null, values);
-
-    }
 
 }
 

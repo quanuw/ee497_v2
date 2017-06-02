@@ -24,13 +24,15 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.yu.login.data.DBHelper;
+import com.example.yu.login.data.model.Trip;
 import com.example.yu.login.data.model.Vehicle;
+import com.example.yu.login.data.repo.TripRepo;
 import com.example.yu.login.data.repo.VehicleRepo;
 
 public class MenuActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener,
-        AddVehicleFragment.OnAddVehicleListener
-        FragmentGPS.OnTripEndListener {
+        AddVehicleFragment.OnAddVehicleListener,
+        FragmentGPS.OnAddTripListener {
 
     private final static String TAG = "MENUACTIVITY";
     static final int PICK_IMAGE_REQUEST = 1;  // The request code
@@ -221,8 +223,40 @@ public class MenuActivity extends AppCompatActivity implements
         // Error Code : 1 (SQLITE_ERROR)
 
         long result = db.insertOrThrow("Vehicle", null, values);
-
     }
 
+    @Override
+    public void onAddTrip(String miles, String state, String date, int vehicleId) {
+            //create a vehicle object to store values
+            Trip trip = new Trip();
+            trip.setMiles(miles);
+            trip.setState(state);
+            trip.setDate(date);
+            trip.setVehicleId(vehicleId);
+            String mileTest = trip.getMiles();
+            String stateTest = trip.getState();
+            String dateTest = trip.getDate();
+            int idTest = trip.getVehicleId();
+            //create a user repo to insert user into table
+            Log.e(TAG, "    TRIP INFO: " + mileTest + ", " + stateTest + ", " + dateTest + ", " + idTest);
+            TripRepo tripRepo = new TripRepo();
+            //insert trip
+            insertTrip(trip);
+                Toast.makeText(this, "ADD TRIP!!!!", Toast.LENGTH_LONG).show();
+            }
+
+    public void insertTrip(Trip trip) {
+            // Create a content values instance (kind of like a map)
+            ContentValues values = new ContentValues();
+            values.put(Trip.KEY_VehicleId, trip.getVehicleId());
+            values.put(Trip.KEY_TripId, trip.getTripId());
+            values.put(Trip.KEY_Date, trip.getDate());
+            values.put(Trip.KEY_Miles, trip.getMiles());
+            values.put(Trip.KEY_State, trip.getState());
+            Log.e(TAG, "Content values: " + values.toString());
+            // Insert the content values into the chosen table (Vehicle)
+            long result = db.insertOrThrow("Trip", null, values);
+
+            }
 
 }
