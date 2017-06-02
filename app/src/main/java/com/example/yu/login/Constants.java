@@ -38,7 +38,7 @@ public class Constants {
         LANDMARKS.put("Trader Joe's", new LatLng(47.662706, -122.317748));
 
         // EE Buiulding's
-        LANDMARKS.put("EE Building", new LatLng(47.656457, -122.318575));
+        LANDMARKS.put("EE Building", new LatLng(47.653261, -122.305837));
 
 
     }
