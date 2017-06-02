@@ -282,7 +282,7 @@ public class MainActivity extends AppCompatActivity implements
             Toast.makeText(this, "User could not be registered", Toast.LENGTH_LONG).show();
             return;
         } else {
-            System.out.println("userID is " + Integer.toString(currentUserId));
+            Log.e(TAG, "userId: " + Integer.toString(currentUserId));
         }
 
         Toast.makeText(this, "REGISTER USER!", Toast.LENGTH_LONG).show();
