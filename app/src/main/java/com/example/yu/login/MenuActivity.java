@@ -29,12 +29,14 @@ import com.example.yu.login.data.repo.VehicleRepo;
 
 public class MenuActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener,
-        AddVehicleFragment.OnAddVehicleListener {
+        AddVehicleFragment.OnAddVehicleListener
+        FragmentGPS.OnTripEndListener {
 
     private final static String TAG = "MENUACTIVITY";
     static final int PICK_IMAGE_REQUEST = 1;  // The request code
 
     private static DBHelper dbHelper;
+
     private SQLiteDatabase db;
 
     @Override
@@ -221,4 +223,6 @@ public class MenuActivity extends AppCompatActivity implements
         long result = db.insertOrThrow("Vehicle", null, values);
 
     }
+
+
 }

@@ -7,10 +7,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -25,6 +27,7 @@ import android.widget.ToggleButton;
 import com.example.yu.login.data.model.Trip;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -52,7 +55,8 @@ public class FragmentGPS extends Fragment {
     private ImageView imageView;
     private BroadcastReceiver broadcastReceiver;
     private float totalDistance = 0;
-    private SQLiteDatabase db;
+    private OnTripEndListener callback;
+
 
     private boolean gpsOn = false; // to decide whether or not to account for miles.
 
@@ -61,6 +65,11 @@ public class FragmentGPS extends Fragment {
 
     public FragmentGPS() {
         // Required empty public constructor
+    }
+
+    // Interface for adding vechicles
+    public interface OnTripEndListener {
+        public void onTripEnd(String miles, String state, String date, int vehicleId);
     }
 
     @Override
@@ -94,13 +103,33 @@ public class FragmentGPS extends Fragment {
                         totalDistance += (float) intent.getExtras().get("distance");
                         distance.setText(String.valueOf(totalDistance));
                         speed.setText(intent.getExtras().get("speed") + " mph");
-                        Trip trip = new Trip(String.valueOf(totalDistance), "WA", "June 27th, 2017", 1);
+                        callback = (OnTripEndListener) context;
+
+                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+                        int currVehId = sharedPreferences.getInt("vehicleId", -1);
+                        Log.e(TAG, "Vehicle ID: " + currVehId);
+                        Calendar c = Calendar.getInstance();
+                        System.out.println("Current time => " + c.getTime());
+                        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+                        String formattedDate = df.format(c.getTime());
+                        Trip trip = new Trip(String.valueOf(totalDistance), "OR", formattedDate, currVehId);
                         insertTrip(trip);
                     }
                 }
             };
         }
         getActivity().registerReceiver(broadcastReceiver, new IntentFilter("location_update"));
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            callback = (OnTripEndListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement OnTripEndListener!");
+        }
     }
 
     // pre:

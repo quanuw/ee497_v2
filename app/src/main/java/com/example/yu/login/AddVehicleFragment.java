@@ -81,7 +81,7 @@ public class AddVehicleFragment extends Fragment {
                 String year = vehicleYear.getText().toString();
                 String vin = vehicleVIN.getText().toString();
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-                int currUserId = sharedPreferences.getInt("userId", 1);
+                int currUserId = sharedPreferences.getInt("userId", -1);
                 Log.e(TAG, "UserId: " + currUserId);
                 // Simple validation. Only checks empty fields.
                 if (model.equals("") || make.equals("") || year.equals("") || vin.equals("")) {
