@@ -1,11 +1,13 @@
 package com.example.yu.login;
 
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 
 import com.example.yu.login.data.DBHelper;
 import com.example.yu.login.data.model.Vehicle;
@@ -39,7 +41,8 @@ public class SettingsActivity extends PreferenceActivity{
             super.onCreate(savedInstanceState);
             db = dbHelper.getWritableDatabase();
 
-            int userId = 5;
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+            int userId = sharedPreferences.getInt("userId", 1);
 
             // Get vehicles associated with user's id
             String[] projection = {Vehicle.KEY_VehicleId, Vehicle.KEY_Make};
