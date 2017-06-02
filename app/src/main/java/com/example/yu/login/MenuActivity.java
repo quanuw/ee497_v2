@@ -242,8 +242,8 @@ public class MenuActivity extends AppCompatActivity implements
             TripRepo tripRepo = new TripRepo();
             //insert trip
             insertTrip(trip);
-                Toast.makeText(this, "ADD TRIP!!!!", Toast.LENGTH_LONG).show();
-            }
+            Toast.makeText(this, "ADD TRIP!!!!", Toast.LENGTH_LONG).show();
+    }
 
     public void insertTrip(Trip trip) {
             // Create a content values instance (kind of like a map)
