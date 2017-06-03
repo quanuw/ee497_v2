@@ -66,7 +66,6 @@ public class FragmentGPS extends Fragment implements
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
             int currVehId = sharedPreferences.getInt("vehicleId", -1);
             Log.e(TAG, "Vehicle ID: " + currVehId);
-            //hardcoded teh vehicle id until select vehicle works
             callback.onAddTrip(String.valueOf(totalDistance), "WA", unixToPDT(System.currentTimeMillis()), 1);
         }
     }

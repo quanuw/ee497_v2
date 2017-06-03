@@ -48,18 +48,17 @@ public class GeofenceTransitionReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Bundle extras = intent.getExtras();
-
+//switched!!!!!
         if (extras.getString(GEOFENCE_TRANSITION_TYPE).equals(Geofence.GEOFENCE_TRANSITION_ENTER)) {
-           startGpsService(context);
-            gpsOn = true;
-        }
-
-        if (extras.getString(GEOFENCE_TRANSITION_TYPE).equals(Geofence.GEOFENCE_TRANSITION_EXIT)) {
-            stopGpsService(context);
+           stopGpsService(context);
             if (gpsOn) {
                 callback.onTripEnd(true);
                 gpsOn = false;
-            }
+            }        }
+
+        if (extras.getString(GEOFENCE_TRANSITION_TYPE).equals(Geofence.GEOFENCE_TRANSITION_EXIT)) {
+            startGpsService(context);
+            gpsOn = true;
         }
         String details = extras.getString(GEOFENCE_TRANSITION_DETAILS);
         sendNotification(context, details);
