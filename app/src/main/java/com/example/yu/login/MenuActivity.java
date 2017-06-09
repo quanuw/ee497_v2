@@ -130,13 +130,12 @@ public class MenuActivity extends AppCompatActivity implements
             // Decide which fragment to load into activity
             case R.id.nav_camera:
                 // Handle the camera action
-                FragmentCammar Cammar = new FragmentCammar();
+                CameraFragment cameraFragment = new CameraFragment();
                 FragmentManager manager = getSupportFragmentManager();
-                manager.beginTransaction().replace(R.id.content_menu, Cammar).commit();
+                manager.beginTransaction().replace(R.id.content_menu, cameraFragment).commit();
                 drawer.closeDrawer(GravityCompat.START);
                 return true;
             case R.id.nav_gps:
-                // Go directly to app settings
                 Intent intent = new Intent();
                 intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                 Uri uri = Uri.fromParts("package", getPackageName(), null);
@@ -145,7 +144,8 @@ public class MenuActivity extends AppCompatActivity implements
                 drawer.closeDrawer(GravityCompat.START);
                 return true;
             case R.id.nav_manage:
-                FragmentGPS gpsFragment = new FragmentGPS();
+                // Go directly to app settings
+                GPSFragment gpsFragment = new GPSFragment();
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.content_menu, gpsFragment).commit();
                 drawer.closeDrawer(GravityCompat.START);
@@ -164,7 +164,6 @@ public class MenuActivity extends AppCompatActivity implements
         }
     }
 
-    // TODO: 5/12/17
     // Interface method for adding vehicle to db.
     // This is where you should insert the vehicle information into the db.
     @Override
@@ -189,36 +188,17 @@ public class MenuActivity extends AppCompatActivity implements
         VehicleRepo vehicleRepo = new VehicleRepo();
         //insert vehicle
         insertVehicle(vehicle);
-        Toast.makeText(this, "ADD VEHICLE!!!!", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "ADDED VEHICLE", Toast.LENGTH_LONG).show();
     }
 
     public void insertVehicle(Vehicle vehicle) {
-        // Get a database manager
-//        SQLiteDatabase writable = DatabaseManager.getInstance().openDatabase();
-//        Log.e(TAG, "table string: " + writable.toString());
-        // Create a content values instance (kind of like a map)
         ContentValues values = new ContentValues();
-//        values.put(Vehicle.KEY_UserId, vehicle.getUserID());
-        // TODO: 5/24/17
-        // Must get user's  current id
-        // If id is 0 then insert will fail since there is no user with id of 0
-        // So hardcode to 1 for now
         values.put(Vehicle.KEY_UserId, vehicle.getUserID());
         values.put(Vehicle.KEY_VehicleIdNum, vehicle.getVehicleIdNum());
-        //values.put(Vehicle.KEY_VehicleId, vehicle.getVehicleId());
         values.put(Vehicle.KEY_Make, vehicle.getMake());
         values.put(Vehicle.KEY_Model, vehicle.getModel());
         values.put(Vehicle.KEY_Year, vehicle.getYear());
         Log.e(TAG, "Content values: " + values.toString());
-        // Insert the content values into the chosen table (Vehicle)
-        // TODO: 5/17/17
-        // Can't insert into vehicle table
-        // android.database.sqlite.SQLiteException: foreign key mismatch -
-        // "Vehicle" referencing "User" (code 1): , while compiling:
-        // INSERT INTO Vehicle(UserId,Model,Make,VehicleIdNum,Year) VALUES (?,?,?,?,?)
-        // Error Code : 1 (SQLITE_ERROR)
-
-        long result = db.insertOrThrow("Vehicle", null, values);
-
+        db.insertOrThrow("Vehicle", null, values);
     }
 }

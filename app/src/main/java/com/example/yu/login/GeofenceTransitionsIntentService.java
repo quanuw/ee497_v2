@@ -64,9 +64,6 @@ public class GeofenceTransitionsIntentService extends IntentService {
         sendBroadcast(broadcastIntent); // Send a broadcast intent to auto gps control
         sendNotification(description);
 
-
-
-        Log.v(TAG, "in onHandleIntent");
     }
 
     private static String getGeofenceTransitionDetails(GeofencingEvent event) {
@@ -89,7 +86,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
 
         Intent notificationIntent = new Intent(getApplicationContext(), MenuActivity.class);
 
-        // Get a PendingIntent containing the entire back stack.
+        // Get a PendingIntent containing the entire back stack
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addParentStack(MainActivity.class).addNextIntent(notificationIntent);
         PendingIntent notificationPendingIntent =
@@ -98,7 +95,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
         // Get a notification builder that's compatible with platform versions >= 4
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
-        // Define the notification settings.
+        // Define the notification settings
         builder.setColor(Color.RED)
                 .setContentTitle(notificationDetails)
                 .setContentText("Click notification to return to App")
@@ -106,7 +103,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
                 .setAutoCancel(true)
                 .setSmallIcon(android.R.drawable.alert_light_frame);
 
-        // Fire and notify the built Notification.
+        // Fire and notify the built Notification
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0, builder.build());

@@ -8,6 +8,7 @@ import android.preference.ListPreference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.example.yu.login.data.DBHelper;
 import com.example.yu.login.data.model.Vehicle;
@@ -42,7 +43,11 @@ public class SettingsActivity extends PreferenceActivity{
             db = dbHelper.getWritableDatabase();
 
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-            int userId = sharedPreferences.getInt("userId", 1);
+            int userId = sharedPreferences.getInt("userId", -1);
+            if (userId == -1) {
+                Log.e(TAG, "Error failed to get userId");
+                return;
+            }
 
             // Get vehicles associated with user's id
             String[] projection = {Vehicle.KEY_VehicleId, Vehicle.KEY_Make};
@@ -52,8 +57,6 @@ public class SettingsActivity extends PreferenceActivity{
             Cursor cursor = db.query(Vehicle.TABLE, projection, selection, selectionArgs, null, null, sortOrder);
             ArrayList<String> entriesList = new ArrayList<>();
             ArrayList<String> entryValuesList = new ArrayList<>();
-
-            // Display the fragment as the main content.
 
             // Load db data into ArrayList
             cursor.moveToFirst();
@@ -77,13 +80,7 @@ public class SettingsActivity extends PreferenceActivity{
             addPreferencesFromResource(R.xml.preferences);
 
             ListPreference vehiclePrefs = (ListPreference) findPreference("vehiclePref");
-            // Log.e(TAG, "entriesSize: " + entries.length + " entryValuesSize: " + entryValues.length);
-            // Update list vehicle preference
-            // if (vehiclePrefs == null) {
-            //     Log.e(TAG, "vehiclePrefs is NULL!");
-            // }
 
-            // Set entries and entry values in vehicle list preference
             vehiclePrefs.setEntries(entries);
             vehiclePrefs.setEntryValues(entryValues);
         }
@@ -95,10 +92,5 @@ public class SettingsActivity extends PreferenceActivity{
         }
 
     }
-
-
-
-    // TODO: 4/26/17
-    // Should extend from a baseclass to avoid repeating this menu code
 
 }

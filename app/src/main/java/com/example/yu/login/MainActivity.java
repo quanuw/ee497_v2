@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements
                 .build();
     }
 
-    // for apiclient interface
+    // For apiclient interface
     @Override
     protected void onStart() {
         super.onStart();
@@ -164,7 +164,6 @@ public class MainActivity extends AppCompatActivity implements
                     getGeofencingRequest(),
                     getGeofencePendingIntent()
             ).setResultCallback(this); // Result processed in onResult().
-//            Log.i(TAG, "GEOFENCES ADDED!");
         } catch (SecurityException securityException) {
             // Catch exception generated if the app does not use ACCESS_FINE_LOCATION permission.
         }
@@ -207,9 +206,6 @@ public class MainActivity extends AppCompatActivity implements
                     "Geofences can't be added",
                     Toast.LENGTH_SHORT
             ).show();
-            //Get the status code for the error and log it using a user-friendly message.
-//            String errorMessage = GeofenceErrorMessages.getErrorString(this,
-//                    status.getStatusCode());
         }
     }
     public static Context getContext(){
@@ -231,34 +227,36 @@ public class MainActivity extends AppCompatActivity implements
         String usernameStr = username.getText().toString();
         String passwordStr = password.getText().toString();
 
-        // check fields
+        // Check fields
         if (firstNameStr.equals("") || lastNameStr.equals("") || emailStr.equals("") ||
                 usernameStr.equals("") || passwordStr.equals("")) {
             Toast.makeText(this, "Please fill out all fields!", Toast.LENGTH_LONG).show();
             return;
         }
-        // check email
+        // Check email
         if (!isValidEmailAddress(emailStr)) {
             Toast.makeText(this, emailStr + " is not valid.", Toast.LENGTH_LONG).show();
             return;
         }
-        // check dob
+        // Check dob
         if (dob.equals("")) {
             Toast.makeText(this, "Please enter a date of birth.", Toast.LENGTH_LONG).show();
             return;
         }
 
+        // Check username existence
         if (checkUserExist(usernameStr)) {
             Toast.makeText(this, "Username already exists", Toast.LENGTH_LONG).show();
             return;
         }
 
+        // Check email existence
         if (checkEmailExist(emailStr)) {
             Toast.makeText(this, "Email already registered.", Toast.LENGTH_LONG).show();
             return;
         }
 
-        //create a user object to store values
+        // Create a user object to store values
         User user = new User();
 
         user.setFirstName(firstNameStr);
@@ -268,15 +266,14 @@ public class MainActivity extends AppCompatActivity implements
         user.setLoginName(usernameStr);
         user.setLoginPW(passwordStr);
 
-        //create a user repo to insert user into table
-//        UserRepo userRepo = new UserRepo();
-//        currentUserId = userRepo.insertUser(user);
+        // Create a user repo to insert user into table
+        // UserRepo userRepo = new UserRepo();
+        // currentUserId = userRepo.insertUser(user);
         currentUserId = insertUser(user);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("userId", currentUserId);
         editor.commit();
-
 
         if (currentUserId == -1) {
             Toast.makeText(this, "User could not be registered", Toast.LENGTH_LONG).show();
@@ -286,7 +283,7 @@ public class MainActivity extends AppCompatActivity implements
         }
 
         Toast.makeText(this, "REGISTER USER!", Toast.LENGTH_LONG).show();
-        //this will be the userID of the person logged in
+        // This will be the userID of the person logged in
         // Go to menu activity if registration is successful.
         Intent menuIntent = new Intent(MainActivity.this, MenuActivity.class);
         startActivity(menuIntent);
@@ -301,11 +298,10 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onLogin(String username, String password) {
         // Check for credentials before making intent
-
-//        if (!LoginFragment.checkCredentials(username, password)) {
-//            Toast.makeText(this, "Username and password don't match!", Toast.LENGTH_LONG).show();
-//            return;
-//        }
+        if (!LoginFragment.checkCredentials(username, password)) {
+            Toast.makeText(this, "Username and password don't match!", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         Intent loginIntent  = new Intent(this, MenuActivity.class);
         startActivity(loginIntent);
@@ -326,8 +322,6 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     public boolean checkUserExist(String username) {
-
-        // TODO: 5/12/17
         // Read from the database
         // Define a projection that specifies which columns from the database
         // you will actually use after this query
@@ -359,17 +353,6 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     public boolean checkEmailExist(String email) {
-
-//        // Get a database manager
-//        DatabaseManager databaseManager = new DatabaseManager();
-//
-//        // Open the database to write
-//        SQLiteDatabase writable = databaseManager.openDatabase();
-
-        // TODO: 5/12/17
-        // Read from the database
-        // Define a projection that specifies which columns from the database
-        // you will actually use after this query
         String[] projection = { User.KEY_Email };
 
         // Filter results WHERE "LoginName" = "Current registration name"
@@ -397,9 +380,6 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     public int insertUser(User user) {
-        //open database
-//        SQLiteDatabase writable = DatabaseManager.getInstance().openDatabase();
-
         // Create a content values instance (kind of like a map)
         ContentValues values = new ContentValues();
         values.put(User.KEY_LoginName, user.getLoginName());
@@ -411,9 +391,6 @@ public class MainActivity extends AppCompatActivity implements
 
         // Insert the content values into the chosen table (User)
         int result = (int)db.insert("User", null, values);
-//        writable.close();
-//        DatabaseManager.getInstance().closeDatabase();
-        //will return the User ID and if it is -1, an issue occurred while inserting
         return result;
     }
 }

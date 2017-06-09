@@ -35,9 +35,8 @@ public class GeofenceTransitionReceiver extends BroadcastReceiver {
     public static final String Tag = "GeofenceTransitionReceiver";
     private static final int LOCATION_REQUEST_CODE = 100;
 
-    private int mId = 1;
-
     private boolean gpsOn = false;
+
     @Override
     public void onReceive(Context context, Intent intent) {
         Bundle extras = intent.getExtras();
@@ -76,9 +75,9 @@ public class GeofenceTransitionReceiver extends BroadcastReceiver {
     // TODO: 5/6/17
     // Must get trip data
     private void saveTrip() {
-        String miles = String.valueOf(0);
-        String state = "N/A";
-        String date = FragmentGPS.unixToPDT(System.currentTimeMillis());
+        String miles = "";
+        String state = "";
+        String date = GPSFragment.unixToPDT(System.currentTimeMillis());
         String vehicle = "";
 
         // Get a database manager
@@ -119,7 +118,7 @@ public class GeofenceTransitionReceiver extends BroadcastReceiver {
 
 
 
-        // Define the notification settings.
+        // Define the notification settings
         builder.setColor(Color.RED)
                 .setContentTitle(notificationDetails)
                 .setContentText("Click notification to return to App")
@@ -127,7 +126,7 @@ public class GeofenceTransitionReceiver extends BroadcastReceiver {
                 .setAutoCancel(true)
                 .setSmallIcon(android.R.drawable.alert_light_frame);
 
-        // Fire and notify the built Notification.
+        // Fire and notify the built Notification
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0, builder.build());

@@ -40,7 +40,7 @@ import static com.google.android.gms.wearable.DataMap.TAG;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentGPS extends Fragment {
+public class GPSFragment extends Fragment {
 
 
     private static final int LOCATION_REQUEST_CODE = 100;
@@ -59,7 +59,7 @@ public class FragmentGPS extends Fragment {
     // query list of vehicles from db and store the vehicle user chooses.
     private String myVechicle = "";   // keep track of which vehicle the user is in.
 
-    public FragmentGPS() {
+    public GPSFragment() {
         // Required empty public constructor
     }
 
@@ -74,7 +74,6 @@ public class FragmentGPS extends Fragment {
         if (!runtime_permissions()) {
             Log.d(TAG, "Ask for permissions");
         }
-        //The heart and mind of headless fragment is below line. It will keep the fragment alive during configuration change when activities and   //subsequent fragments are "put to death" and recreated
         setRetainInstance(true);
 
         return rootview;

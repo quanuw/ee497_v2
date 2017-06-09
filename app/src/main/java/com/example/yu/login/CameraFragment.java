@@ -28,12 +28,12 @@ import static android.app.Activity.RESULT_OK;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentCammar extends Fragment {
+public class CameraFragment extends Fragment {
 
     private static final String TAG = "Camera";
     private static final int REQUEST_IMAGE_CAPTURE = 1;
 
-    public FragmentCammar() {
+    public CameraFragment() {
         // Required empty public constructor
     }
 
@@ -60,7 +60,6 @@ public class FragmentCammar extends Fragment {
 
 
         // Take picture
-        // TODO: Picture is being saved upside down.
         click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,7 +70,6 @@ public class FragmentCammar extends Fragment {
                     try {
                         String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()); //include timestamp
 
-//                        File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
                         File dir = getActivity().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
                         if (!dir.exists()) {
                             dir.mkdirs(); //make Documents directory if doesn't otherwise exist
@@ -89,7 +87,7 @@ public class FragmentCammar extends Fragment {
                         pictureFileUri = FileProvider.getUriForFile(getActivity(), BuildConfig.APPLICATION_ID, file);
                         Log.v(TAG, "Uri: "+pictureFileUri);
 
-                        //for sharing the media (produces a Uri the Messenger has permissions for)
+                        // For sharing the media (produces a Uri the Messenger has permissions for)
                         MediaScannerConnection.scanFile(getActivity(), new String[] { file.toString() }, null,
                                 new MediaScannerConnection.OnScanCompletedListener() {
                                     public void onScanCompleted(String path, Uri uri) {
