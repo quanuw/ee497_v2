@@ -54,7 +54,8 @@ public class GeofenceTransitionReceiver extends BroadcastReceiver {
             if (gpsOn) {
                 callback.onTripEnd(true);
                 gpsOn = false;
-            }        }
+            }
+        }
 
         if (extras.getString(GEOFENCE_TRANSITION_TYPE).equals(Geofence.GEOFENCE_TRANSITION_EXIT)) {
             startGpsService(context);
